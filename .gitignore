@@ -17,6 +17,7 @@ dist/
 build/
 circuits/
 *.tsbuildinfo
+.npmrc
 
 # Testing
 coverage/

@@ -2,7 +2,7 @@
 
 Step-by-step guide for integrating the Solstice SDK into your application.
 
-## 🎯 Pre-Integration Checklist
+##  Pre-Integration Checklist
 
 - [ ] Node.js 16+ installed
 - [ ] Solana wallet adapter configured (for blockchain operations)
@@ -332,7 +332,7 @@ app.listen(3000);
 Never expose sensitive configuration in client-side code:
 
 ```typescript
-// ✅ Good: Server-side only
+//  Good: Server-side only
 const sdk = new EnhancedSolsticeSDK({
   network: process.env.SOLANA_NETWORK,
   endpoint: process.env.SOLANA_RPC_ENDPOINT
@@ -362,7 +362,7 @@ const sanitizeAadhaarData = (data: AadhaarData) => ({
 Always verify proofs on the blockchain:
 
 ```typescript
-// ✅ Good: Verify on blockchain
+//  Good: Verify on blockchain
 const verification = await sdk.verifyIdentity(proof);
 if (!verification.success) {
   throw new Error('Proof verification failed');
@@ -444,7 +444,7 @@ describe('Blockchain Integration', () => {
 });
 ```
 
-## 🚀 Production Deployment
+##  Production Deployment
 
 ### 1. Environment Configuration
 
@@ -494,7 +494,7 @@ try {
 }
 ```
 
-## 📊 Monitoring and Analytics
+##  Monitoring and Analytics
 
 ### 1. Usage Tracking
 

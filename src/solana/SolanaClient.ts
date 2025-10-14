@@ -113,7 +113,7 @@ export class SolanaClient {
         })
         .rpc();
 
-      console.log('✅ Identity registered:', tx);
+      console.log(' Identity registered:', tx);
       return tx;
 
     } catch (error) {
@@ -158,7 +158,7 @@ export class SolanaClient {
         })
         .rpc();
 
-      console.log('✅ Identity verified:', tx);
+      console.log(' Identity verified:', tx);
 
       return {
         verified: true,
@@ -266,7 +266,7 @@ export class SolanaClient {
         })
         .rpc();
 
-      console.log('✅ Session created:', tx);
+      console.log(' Session created:', tx);
 
       return {
         sessionId,
@@ -308,7 +308,7 @@ export class SolanaClient {
         })
         .rpc();
 
-      console.log('✅ Session closed:', tx);
+      console.log(' Session closed:', tx);
       return tx;
 
     } catch (error) {
@@ -348,7 +348,7 @@ export class SolanaClient {
         })
         .rpc();
 
-      console.log('✅ Identity updated:', tx);
+      console.log(' Identity updated:', tx);
       return tx;
 
     } catch (error) {
@@ -397,7 +397,7 @@ export class SolanaClient {
       }
 
       const signature = await this.sendTransaction(tx);
-      console.log('✅ Batch verification completed:', signature);
+      console.log(' Batch verification completed:', signature);
       return signature;
 
     } catch (error) {

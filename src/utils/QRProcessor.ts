@@ -265,7 +265,7 @@ export class QRProcessor {
       console.warn('Failed to process some QR codes:', failed);
     }
     
-    console.log(`✅ Successfully processed ${successful.length}/${qrCodes.length} QR codes`);
+    console.log(` Successfully processed ${successful.length}/${qrCodes.length} QR codes`);
     return successful;
   }
 

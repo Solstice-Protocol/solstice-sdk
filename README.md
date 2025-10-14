@@ -14,7 +14,7 @@ Zero-Knowledge Identity Verification SDK for Solana using India's Aadhaar infras
 
 
 
-## 🚀 Quick Start## 🌟 Overview
+##  Quick Start## 🌟 Overview
 
 
 
@@ -26,13 +26,13 @@ npm install @solsticeprotocol/sdk
 
 
 
-```javascript- 🔐 **Privacy-First**: All proof generation happens client-side
+```javascript-  **Privacy-First**: All proof generation happens client-side
 
 import { EnhancedSolsticeSDK } from '@solsticeprotocol/sdk';- ⚡ **High Performance**: 5-second proof generation, sub-second verification
 
 - 🗜️ **Compressed**: 256-byte proofs with Light Protocol compression
 
-const sdk = new EnhancedSolsticeSDK({- 🎯 **Three Proof Types**: Age, nationality, and uniqueness verification
+const sdk = new EnhancedSolsticeSDK({-  **Three Proof Types**: Age, nationality, and uniqueness verification
 
   network: 'devnet',- 🔗 **Solana Native**: Built for the Solana ecosystem
 
@@ -42,7 +42,7 @@ const sdk = new EnhancedSolsticeSDK({- 🎯 **Three Proof Types**: Age, national
 
 
 
-await sdk.initialize();## 🚀 Installation
+await sdk.initialize();##  Installation
 
 const aadhaarData = await sdk.processQRCode(qrCodeData);
 
@@ -56,7 +56,7 @@ const proof = await sdk.generateAgeProof(aadhaarData, { threshold: 18 });```bash
 
 ```
 
-- **🔐 Zero-Knowledge Proofs**: Generate privacy-preserving identity proofs using Groth16 SNARKs
+- ** Zero-Knowledge Proofs**: Generate privacy-preserving identity proofs using Groth16 SNARKs
 
 - **📱 Aadhaar Integration**: Process India's mAadhaar QR codes with UIDAI signature validation## 📋 Prerequisites
 
@@ -86,7 +86,7 @@ const proof = await sdk.generateAgeProof(aadhaarData, { threshold: 18 });```bash
 
 
 
-## 🎯 Use Cases// Initialize SDK
+##  Use Cases// Initialize SDK
 
 const sdk = new SolsticeSDK({
 
@@ -268,7 +268,7 @@ const isValid = Testing.validateQRFormat(qrCodeData);- `qrData`: mAadhaar QR cod
 
 - `qrData`: mAadhaar QR code data  
 
-## 📊 Performance- `params.allowedCountries`: Array of allowed country codes
+##  Performance- `params.allowedCountries`: Array of allowed country codes
 
 - `params.includeAge?`: Include age verification
 
@@ -336,7 +336,7 @@ interface SolsticeConfig {
 | Devnet | `https://api.devnet.solana.com` | `8jrTVUyvHrL5WTWyDoa6PTJRhh3MwbvLZXeGT81YjJjz` |
 | Mainnet | `https://api.mainnet-beta.solana.com` | TBD |
 
-## 🎯 Use Cases
+##  Use Cases
 
 ### DeFi Applications
 ```typescript
@@ -369,7 +369,7 @@ const isAdult = await verifyAge(wallet, qrData, 21);
 const isUnique = await verifyUniqueness(wallet, qrData, 'game-server');
 ```
 
-## 🔐 Security & Privacy
+##  Security & Privacy
 
 ### Privacy Guarantees
 - **Zero-Knowledge**: Proofs reveal nothing beyond the statement being proven
@@ -447,7 +447,7 @@ try {
 }
 ```
 
-## 📊 Performance
+##  Performance
 
 | Operation | Time | Size | Cost |
 |-----------|------|------|------|

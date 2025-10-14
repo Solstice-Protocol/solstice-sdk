@@ -95,7 +95,7 @@ Blockchain interaction layer for Solana operations.
 - Program-derived address (PDA) management
 - Compressed account operations
 
-## 🔐 Cryptographic Architecture
+##  Cryptographic Architecture
 
 ### Zero-Knowledge Proof System
 
@@ -237,7 +237,7 @@ interface ProofData {
 3. **UMD (index.umd.min.js)**: Browser global variable
 4. **TypeScript (index.d.ts)**: Type definitions
 
-## 🚀 Performance Architecture
+##  Performance Architecture
 
 ### Optimization Strategies
 
@@ -390,7 +390,7 @@ User Scans QR Code
 └─────────────────┘
 ```
 
-## 📊 Monitoring Architecture
+##  Monitoring Architecture
 
 ### 1. Error Tracking
 - Structured error logging

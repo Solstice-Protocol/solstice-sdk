@@ -29,11 +29,11 @@ export async function verifyUserAgeForDeFi(
 
     // Step 1: Initialize SDK
     await sdk.initialize();
-    console.log('✅ SDK initialized');
+    console.log(' SDK initialized');
 
     // Step 2: Connect wallet
     await sdk.connect(walletAdapter);
-    console.log('✅ Wallet connected');
+    console.log(' Wallet connected');
 
     // Step 3: Check if identity exists
     const identityStatus = await sdk.getIdentityStatus();
@@ -41,23 +41,23 @@ export async function verifyUserAgeForDeFi(
     if (!identityStatus.exists) {
       console.log('📝 Registering new identity...');
       await sdk.registerIdentity(qrData);
-      console.log('✅ Identity registered');
+      console.log(' Identity registered');
     }
 
     // Step 4: Generate age proof
-    console.log(`🔐 Generating age proof for ${minimumAge}+ verification...`);
+    console.log(` Generating age proof for ${minimumAge}+ verification...`);
     const ageProof = await sdk.generateAgeProofWithQR(qrData, {
       threshold: minimumAge,
       includeNationality: false
     });
-    console.log('✅ Age proof generated');
+    console.log(' Age proof generated');
 
     // Step 5: Verify proof on-chain
     console.log('⛓️ Verifying proof on Solana blockchain...');
     const verification = await sdk.verifyIdentity(ageProof);
     
     if (verification.verified) {
-      console.log('✅ Age verification successful!');
+      console.log(' Age verification successful!');
       console.log(`📋 Transaction: ${verification.signature}`);
       return true;
     } else {
@@ -98,14 +98,14 @@ export async function onboardUserToDeFi(
     }
 
     // Create authenticated session
-    console.log('🔐 Creating user session...');
+    console.log(' Creating user session...');
     const session = await sdk.createSession({
       duration: 3600, // 1 hour
       requiredAttributes: ['age'],
       metadata: userMetadata
     });
 
-    console.log('✅ DeFi onboarding complete!');
+    console.log(' DeFi onboarding complete!');
     return {
       success: true,
       sessionId: session.sessionId
@@ -146,7 +146,7 @@ export const DeFiAgeVerificationExample = {
 
     if (result.success) {
       // Grant access to DeFi features
-      console.log('🎉 User verified! Session ID:', result.sessionId);
+      console.log(' User verified! Session ID:', result.sessionId);
       // Navigate to DeFi dashboard
     } else {
       // Show error message

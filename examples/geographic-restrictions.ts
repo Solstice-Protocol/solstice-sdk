@@ -42,7 +42,7 @@ export async function verifyGeographicCompliance(
     }
 
     // Generate nationality proof
-    console.log('🔐 Generating nationality proof...');
+    console.log(' Generating nationality proof...');
     const nationalityProof = await sdk.generateNationalityProofWithQR(qrData, {
       allowedCountries,
       includeAge: false
@@ -52,7 +52,7 @@ export async function verifyGeographicCompliance(
     const verification = await sdk.verifyIdentity(nationalityProof);
 
     if (verification.verified) {
-      console.log('✅ Geographic compliance verified');
+      console.log(' Geographic compliance verified');
       return {
         allowed: true,
         userCountry: 'IN' // In real implementation, extract from proof
@@ -203,7 +203,7 @@ export async function verifyDAOCitizenship(
 
     // Verify all proofs on-chain
     const txSignature = await sdk.batchVerify(proofs.proofs);
-    console.log('✅ DAO verification complete:', txSignature);
+    console.log(' DAO verification complete:', txSignature);
 
     // Create DAO session
     const session = await sdk.createSession({

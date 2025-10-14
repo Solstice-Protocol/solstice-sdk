@@ -40,14 +40,14 @@ export async function onboardUserToDeFi(
     verificationTime: number;
   };
 }> {
-  console.log('🚀 Starting enhanced DeFi onboarding...');
+  console.log(' Starting enhanced DeFi onboarding...');
   const startTime = Date.now();
 
   try {
     // Step 1: Initialize SDK and connect wallet
     await sdk.initialize();
     await sdk.connect(walletAdapter);
-    console.log('✅ SDK initialized and wallet connected');
+    console.log(' SDK initialized and wallet connected');
 
     // Step 2: Complete verification workflow
     const requirements = {
@@ -80,7 +80,7 @@ export async function onboardUserToDeFi(
 
     const totalTime = Date.now() - startTime;
 
-    console.log('🎉 DeFi onboarding completed successfully!');
+    console.log(' DeFi onboarding completed successfully!');
 
     return {
       success: true,
@@ -229,7 +229,7 @@ export async function batchOnboardUsers(
 
   const totalTime = Date.now() - startTime;
 
-  console.log(`✅ Batch onboarding completed: ${successful.length}/${userQRCodes.length} successful`);
+  console.log(` Batch onboarding completed: ${successful.length}/${userQRCodes.length} successful`);
 
   return {
     successful,

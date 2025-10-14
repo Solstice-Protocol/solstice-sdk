@@ -182,13 +182,13 @@ const IdentityVerification: React.FC = () => {
               <h2 className="text-xl font-semibold mb-4">Step 3: Zero-Knowledge Proofs</h2>
               <div className="space-y-2">
                 {proofs.age && (
-                  <div className="text-green-600">✅ Age Proof (18+) Generated</div>
+                  <div className="text-green-600"> Age Proof (18+) Generated</div>
                 )}
                 {proofs.nationality && (
-                  <div className="text-green-600">✅ Nationality Proof Generated</div>
+                  <div className="text-green-600"> Nationality Proof Generated</div>
                 )}
                 {proofs.uniqueness && (
-                  <div className="text-green-600">✅ Uniqueness Proof Generated</div>
+                  <div className="text-green-600"> Uniqueness Proof Generated</div>
                 )}
               </div>
               <button

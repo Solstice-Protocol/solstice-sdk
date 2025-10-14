@@ -59,7 +59,7 @@ export class EnhancedProofGenerator {
       
       // Initialize Poseidon hash function
       this.poseidon = await buildPoseidon();
-      console.log('✅ Poseidon hash function loaded');
+      console.log(' Poseidon hash function loaded');
       
       // Preload all circuits in parallel
       const circuitPromises = Object.keys(this.config).map(async (circuitName) => {
@@ -67,14 +67,14 @@ export class EnhancedProofGenerator {
       });
       
       await Promise.all(circuitPromises);
-      console.log('✅ All circuits loaded successfully');
+      console.log(' All circuits loaded successfully');
       
       // Initialize proof cache from IndexedDB if available
       if (typeof window !== 'undefined' && window.indexedDB) {
         await this.initializeProofCache();
       }
       
-      console.log('🚀 Enhanced ProofGenerator initialized');
+      console.log(' Enhanced ProofGenerator initialized');
     } catch (error) {
       throw new CircuitLoadError(`Failed to initialize Enhanced ProofGenerator: ${error}`);
     }
@@ -108,7 +108,7 @@ export class EnhancedProofGenerator {
       const zkeyBuffer = await zkeyResponse.arrayBuffer();
       this.zkeyCache.set(circuitName, zkeyBuffer);
       
-      console.log(`✅ ${circuitName} circuit loaded successfully`);
+      console.log(` ${circuitName} circuit loaded successfully`);
     } catch (error) {
       throw new CircuitLoadError(`Failed to load ${circuitName} circuit: ${error}`);
     }
@@ -145,11 +145,11 @@ export class EnhancedProofGenerator {
     const cacheKey = this.generateCacheKey('age', aadhaarData, params);
     const cachedProof = this.proofCache.get(cacheKey);
     if (cachedProof && cachedProof.expiresAt > Date.now()) {
-      console.log('🎯 Using cached age proof');
+      console.log(' Using cached age proof');
       return cachedProof.proofData;
     }
 
-    console.log('🔐 Generating age proof with snarkjs...');
+    console.log(' Generating age proof with snarkjs...');
     
     try {
       const nonce = params.nonce || generateNonce();
@@ -198,7 +198,7 @@ export class EnhancedProofGenerator {
       // Cache the proof
       await this.cacheProof(cacheKey, proofData);
 
-      console.log('✅ Age proof generated and cached successfully');
+      console.log(' Age proof generated and cached successfully');
       return proofData;
 
     } catch (error) {
@@ -219,7 +219,7 @@ export class EnhancedProofGenerator {
     const cacheKey = this.generateCacheKey('nationality', aadhaarData, params);
     const cachedProof = this.proofCache.get(cacheKey);
     if (cachedProof && cachedProof.expiresAt > Date.now()) {
-      console.log('🎯 Using cached nationality proof');
+      console.log(' Using cached nationality proof');
       return cachedProof.proofData;
     }
 
@@ -277,7 +277,7 @@ export class EnhancedProofGenerator {
       // Cache the proof
       await this.cacheProof(cacheKey, proofData);
 
-      console.log('✅ Nationality proof generated and cached successfully');
+      console.log(' Nationality proof generated and cached successfully');
       return proofData;
 
     } catch (error) {
@@ -296,7 +296,7 @@ export class EnhancedProofGenerator {
     const cacheKey = this.generateCacheKey('uniqueness', aadhaarData, params);
     const cachedProof = this.proofCache.get(cacheKey);
     if (cachedProof && cachedProof.expiresAt > Date.now()) {
-      console.log('🎯 Using cached uniqueness proof');
+      console.log(' Using cached uniqueness proof');
       return cachedProof.proofData;
     }
 
@@ -355,7 +355,7 @@ export class EnhancedProofGenerator {
       // Cache the proof
       await this.cacheProof(cacheKey, proofData);
 
-      console.log('✅ Uniqueness proof generated and cached successfully');
+      console.log(' Uniqueness proof generated and cached successfully');
       return proofData;
 
     } catch (error) {
@@ -395,7 +395,7 @@ export class EnhancedProofGenerator {
         );
 
         const endTime = Date.now();
-        console.log(`✅ ${circuitName} proof generated in ${endTime - startTime}ms`);
+        console.log(` ${circuitName} proof generated in ${endTime - startTime}ms`);
 
         clearTimeout(timeoutId);
         resolve({ proof, publicSignals });
@@ -507,7 +507,7 @@ export class EnhancedProofGenerator {
     await Promise.all(proofPromises);
 
     const endTime = Date.now();
-    console.log(`✅ Batch proofs generated in ${endTime - startTime}ms`);
+    console.log(` Batch proofs generated in ${endTime - startTime}ms`);
 
     return results;
   }

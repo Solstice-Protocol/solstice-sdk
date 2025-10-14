@@ -53,7 +53,7 @@ export class EnhancedSolsticeSDK {
     this.qrProcessor = new QRProcessor();
 
     if (this.config.debug) {
-      console.log('🚀 Enhanced Solstice SDK initialized with config:', {
+      console.log(' Enhanced Solstice SDK initialized with config:', {
         network: this.config.network,
         endpoint: this.config.endpoint,
         programId: this.config.programId.toString()
@@ -76,7 +76,7 @@ export class EnhancedSolsticeSDK {
       await this.proofGenerator.initialize();
       
       this.isInitialized = true;
-      console.log('✅ Enhanced Solstice SDK initialized successfully');
+      console.log(' Enhanced Solstice SDK initialized successfully');
 
     } catch (error) {
       throw new SolsticeError(`SDK initialization failed: ${error}`);
@@ -151,7 +151,7 @@ export class EnhancedSolsticeSDK {
       );
 
       if (this.config.debug) {
-        console.log('✅ Identity registered:', {
+        console.log(' Identity registered:', {
           user: aadhaarData.name,
           txSignature,
           commitment: identityCommitment.slice(0, 16) + '...'
@@ -244,7 +244,7 @@ export class EnhancedSolsticeSDK {
     const totalTime = Date.now() - startTime;
     
     if (this.config.debug) {
-      console.log(`✅ All proofs generated in ${totalTime}ms`);
+      console.log(` All proofs generated in ${totalTime}ms`);
     }
 
     return { aadhaarData, proofs, totalTime };
@@ -262,7 +262,7 @@ export class EnhancedSolsticeSDK {
       const result = await this.solanaClient.verifyIdentity(proofData);
 
       if (this.config.debug) {
-        console.log('✅ Proof verified on-chain:', {
+        console.log(' Proof verified on-chain:', {
           attributeType: proofData.attributeType,
           signature: result.signature,
           verified: result.verified
@@ -356,7 +356,7 @@ export class EnhancedSolsticeSDK {
 
       const totalTime = Date.now() - startTime;
 
-      console.log(`✅ Verification workflow completed in ${totalTime}ms`);
+      console.log(` Verification workflow completed in ${totalTime}ms`);
 
       return {
         aadhaarData,

@@ -35,12 +35,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Shaurya2k06/SolsticeProtocol.git"
+    "url": "git+https://github.com/Solstice-Protocol/sdk.git"
   },
   "bugs": {
-    "url": "https://github.com/Shaurya2k06/SolsticeProtocol/issues"
+    "url": "https://github.com/Solstice-Protocol/sdk/issues"
   },
-  "homepage": "https://github.com/Shaurya2k06/SolsticeProtocol#readme",
+  "homepage": "https://github.com/Solstice-Protocol/sdk#readme",
   "dependencies": {
     "@coral-xyz/anchor": "^0.29.0",
     "@solana/wallet-adapter-base": ">=0.9.0",

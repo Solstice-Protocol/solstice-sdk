@@ -80,7 +80,7 @@ export class ProofGenerator {
   ): Promise<ProofData> {
     validateAgeThreshold(params.threshold);
 
-    console.log('🔐 Generating age proof...');
+    console.log(' Generating age proof...');
     
     try {
       const circuit = await this.getCircuit('age');
@@ -115,7 +115,7 @@ export class ProofGenerator {
         PROOF_TIMEOUTS.age
       );
 
-      console.log('✅ Age proof generated successfully');
+      console.log(' Age proof generated successfully');
 
       return {
         proof,
@@ -177,7 +177,7 @@ export class ProofGenerator {
         PROOF_TIMEOUTS.nationality
       );
 
-      console.log('✅ Nationality proof generated successfully');
+      console.log(' Nationality proof generated successfully');
 
       return {
         proof,
@@ -241,7 +241,7 @@ export class ProofGenerator {
         PROOF_TIMEOUTS.uniqueness
       );
 
-      console.log('✅ Uniqueness proof generated successfully');
+      console.log(' Uniqueness proof generated successfully');
 
       return {
         proof,

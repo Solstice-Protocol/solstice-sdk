@@ -10,7 +10,7 @@ Welcome to the Solstice SDK documentation. This SDK provides zero-knowledge iden
 - [**Architecture**](./architecture.md) - Technical architecture and design decisions
 - [**Integration Guide**](./integration.md) - Step-by-step integration instructions
 
-## 🚀 Quick Installation
+##  Quick Installation
 
 ```bash
 npm install @solsticeprotocol/sdk

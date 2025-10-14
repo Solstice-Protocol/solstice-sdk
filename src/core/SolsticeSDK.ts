@@ -58,7 +58,7 @@ export class SolsticeSDK {
     this.solanaClient = new SolanaClient(this.config.endpoint, this.config.programId);
 
     if (this.config.debug) {
-      console.log('🚀 Solstice SDK initialized with config:', {
+      console.log(' Solstice SDK initialized with config:', {
         network: this.config.network,
         endpoint: this.config.endpoint,
         programId: this.config.programId.toString()
@@ -81,7 +81,7 @@ export class SolsticeSDK {
       await this.proofGenerator.initialize();
       
       this.isInitialized = true;
-      console.log('✅ Solstice SDK initialized successfully');
+      console.log(' Solstice SDK initialized successfully');
 
     } catch (error) {
       throw new SolsticeError(`SDK initialization failed: ${error}`);
@@ -133,7 +133,7 @@ export class SolsticeSDK {
       );
 
       if (this.config.debug) {
-        console.log('✅ Identity registered:', {
+        console.log(' Identity registered:', {
           user: aadhaarData.name,
           txSignature,
           commitment: identityCommitment.slice(0, 16) + '...'
@@ -165,7 +165,7 @@ export class SolsticeSDK {
       );
 
       if (this.config.debug) {
-        console.log('✅ Identity updated:', txSignature);
+        console.log(' Identity updated:', txSignature);
       }
 
       return txSignature;

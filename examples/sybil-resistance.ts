@@ -42,7 +42,7 @@ export async function verifyUniqueVoter(
     }
 
     // Generate uniqueness proof for this specific proposal
-    console.log('🔐 Generating uniqueness proof...');
+    console.log(' Generating uniqueness proof...');
     const uniquenessProof = await sdk.generateUniquenessProofWithQR(qrData, {
       daoId: daoId,
       epochId: `proposal-${proposalId}`,
@@ -53,7 +53,7 @@ export async function verifyUniqueVoter(
     const verification = await sdk.verifyIdentity(uniquenessProof);
 
     if (verification.verified) {
-      console.log('✅ Unique voter verified');
+      console.log(' Unique voter verified');
       return {
         canVote: true,
         nullifierHash: uniquenessProof.publicSignals[0] // First public signal is nullifier hash
@@ -140,7 +140,7 @@ export async function participateInGovernance(
     }
 
     // Generate all required proofs
-    console.log('🔐 Generating governance proofs...');
+    console.log(' Generating governance proofs...');
     const proofs = await sdk.batchGenerate(qrData, proofRequests);
 
     if (proofs.errors && proofs.errors.length > 0) {
@@ -165,7 +165,7 @@ export async function participateInGovernance(
       }
     });
 
-    console.log('✅ Governance participation verified');
+    console.log(' Governance participation verified');
     console.log(`📋 Verification TX: ${txSignature}`);
     console.log(`🗳️ Vote: ${proposal.vote} on proposal ${proposal.id}`);
 
@@ -311,7 +311,7 @@ export async function verifyAirdropEligibility(
     const allProofs = [uniquenessProof, ...additionalProofs];
     const txSignature = await sdk.batchVerify(allProofs);
 
-    console.log('✅ Airdrop eligibility verified');
+    console.log(' Airdrop eligibility verified');
     console.log(`🎁 Eligible for ${airdropConfig.maxClaim} tokens`);
 
     return {
