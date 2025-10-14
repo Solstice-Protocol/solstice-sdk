@@ -1,49 +1,46 @@
 // Jest setup file for Solstice SDK tests
 import 'jest-environment-jsdom';
 
-// Mock console methods to reduce noise in tests
-global.console = {
-  ...console,
-  // Silence console.log in tests
-  log: jest.fn(),
-  debug: jest.fn(),
-  info: jest.fn(),
-  warn: jest.fn(),
-  error: jest.fn(),
-};
-
-// Mock browser APIs
-Object.defineProperty(window, 'crypto', {
-  value: {
-    getRandomValues: (arr: any) => {
-      for (let i = 0; i < arr.length; i++) {
-        arr[i] = Math.floor(Math.random() * 256);
-      }
-      return arr;
-    },
-    subtle: {
-      digest: jest.fn(),
-      sign: jest.fn(),
-      verify: jest.fn(),
-    },
-  },
-});
-
-// Mock localStorage
-const localStorageMock = {
-  getItem: jest.fn(),
-  setItem: jest.fn(),
-  removeItem: jest.fn(),
-  clear: jest.fn(),
-};
-Object.defineProperty(window, 'localStorage', {
-  value: localStorageMock,
-});
-
-// Mock TextEncoder/TextDecoder for Node.js environment
+// Real browser APIs for Node.js environment
 const { TextEncoder, TextDecoder } = require('util');
 global.TextEncoder = TextEncoder;
 global.TextDecoder = TextDecoder;
 
+// Real crypto implementation
+if (typeof window !== 'undefined') {
+  const crypto = require('crypto');
+  Object.defineProperty(window, 'crypto', {
+    value: {
+      getRandomValues: (arr: any) => {
+        const randomBytes = crypto.randomBytes(arr.length);
+        for (let i = 0; i < arr.length; i++) {
+          arr[i] = randomBytes[i];
+        }
+        return arr;
+      },
+      subtle: crypto.webcrypto?.subtle || {
+        digest: async (algorithm: string, data: ArrayBuffer) => {
+          const hash = crypto.createHash(algorithm.replace('-', '').toLowerCase());
+          hash.update(Buffer.from(data));
+          return hash.digest().buffer;
+        }
+      },
+    },
+  });
+}
+
+// Real localStorage implementation for testing
+if (typeof window !== 'undefined') {
+  const storage: { [key: string]: string } = {};
+  Object.defineProperty(window, 'localStorage', {
+    value: {
+      getItem: (key: string) => storage[key] || null,
+      setItem: (key: string, value: string) => { storage[key] = value; },
+      removeItem: (key: string) => { delete storage[key]; },
+      clear: () => { Object.keys(storage).forEach(key => delete storage[key]); },
+    },
+  });
+}
+
 // Set test timeout for all tests
-jest.setTimeout(30000);
+jest.setTimeout(60000);

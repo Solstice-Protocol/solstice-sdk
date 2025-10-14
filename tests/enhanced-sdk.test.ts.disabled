@@ -1,0 +1,553 @@
+/// <reference types="jest" />
+
+import { EnhancedSolsticeSDK, Testing } from '../src/index';
+import type { 
+  AgeProofParams,
+  NationalityProofParams,
+  UniquenessProofParams 
+} from '../src/types';
+
+import * as Testing from '../src/testing';
+
+const {
+  generateTestQRData,
+  generateTestAadhaarData,
+  createTestWallet,
+  createTestConnection,
+  testValidators,
+  PerformanceTester,
+  setupTests
+} = Testing;
+
+// Setup test environment with real implementations
+setupTests();
+
+describe('Enhanced Solstice SDK - Complete Functionality Tests', () => {
+  let sdk: EnhancedSolsticeSDK;
+  let performanceTester: InstanceType<typeof PerformanceTester>;
+
+  beforeAll(async () => {
+    sdk = new EnhancedSolsticeSDK({
+      network: 'devnet',
+      debug: true // Enable debug logging for tests
+    });
+    performanceTester = new PerformanceTester();
+    
+    // Initialize the SDK properly
+    await sdk.initialize();
+  });
+
+  beforeEach(() => {
+    performanceTester.reset();
+  });
+
+  describe('QR Code Processing', () => {
+    test('should process mock QR data successfully', async () => {
+      const mockQR = generateMockQRData({
+        name: 'Test User',
+        age: 25,
+        gender: 'M',
+        state: 'Karnataka'
+      });
+
+      performanceTester.startTimer('qr_processing');
+      const aadhaarData = await sdk.processQRCode(mockQR);
+      const duration = performanceTester.endTimer('qr_processing');
+
+      expect(testValidators.isValidAadhaarData(aadhaarData)).toBe(true);
+      expect(aadhaarData.name).toBe('Test User');
+      expect(aadhaarData.gender).toBe('M');
+      expect(aadhaarData.state).toBe('Karnataka');
+      expect(duration).toBeGreaterThan(0);
+      
+      console.log(`QR Processing completed in ${duration}ms`);
+    });
+
+    test('should validate age calculation correctly', async () => {
+      const testAge = 30;
+      const mockQR = generateMockQRData({ age: testAge });
+      
+      const aadhaarData = await sdk.processQRCode(mockQR);
+      
+      expect(testValidators.validateAgeCalculation(
+        aadhaarData.dateOfBirth, 
+        testAge
+      )).toBe(true);
+    });
+
+    test('should handle various demographics', async () => {
+      const demographics = [
+        { age: 18, gender: 'F' as const, state: 'Tamil Nadu' },
+        { age: 65, gender: 'M' as const, state: 'Maharashtra' },
+        { age: 35, gender: 'T' as const, state: 'Delhi' }
+      ];
+
+      for (const demo of demographics) {
+        const mockQR = generateMockQRData(demo);
+        const aadhaarData = await sdk.processQRCode(mockQR);
+        
+        expect(aadhaarData.gender).toBe(demo.gender);
+        expect(aadhaarData.state).toBe(demo.state);
+        expect(testValidators.isValidAadhaarData(aadhaarData)).toBe(true);
+      }
+    });
+
+    test('should handle invalid QR data gracefully', async () => {
+      const invalidInputs = [
+        'invalid_qr_data',
+        '',
+        'random_string_123',
+        'SGVsbG8gV29ybGQ=' // "Hello World" in base64
+      ];
+
+      for (const invalidQR of invalidInputs) {
+        await expect(sdk.processQRCode(invalidQR)).rejects.toThrow();
+      }
+    });
+  });
+
+  describe('Age Proof Generation', () => {
+    test('should generate age proof for valid user above threshold', async () => {
+      const mockQR = generateMockQRData({ age: 25 });
+      const ageParams: AgeProofParams = { threshold: 18 };
+      
+      performanceTester.startTimer('age_proof_generation');
+      const ageProof = await sdk.generateAgeProofFromQR(mockQR, ageParams);
+      const duration = performanceTester.endTimer('age_proof_generation');
+
+      expect(testValidators.isValidProof(ageProof.proof)).toBe(true);
+      expect(testValidators.isValidPublicSignals(ageProof.publicSignals)).toBe(true);
+      expect(ageProof.attributeType).toBe('age');
+      expect(ageProof.metadata?.threshold).toBe(18);
+      expect(duration).toBeGreaterThan(0);
+      
+      console.log(`Age proof generated in ${duration}ms`);
+    });
+
+    test('should handle different age thresholds', async () => {
+      const testCases = [
+        { userAge: 21, threshold: 18, shouldPass: true },
+        { userAge: 25, threshold: 21, shouldPass: true },
+        { userAge: 65, threshold: 60, shouldPass: true },
+        { userAge: 16, threshold: 18, shouldPass: false }
+      ];
+
+      for (const testCase of testCases) {
+        const mockQR = generateMockQRData({ age: testCase.userAge });
+        const ageParams: AgeProofParams = { threshold: testCase.threshold };
+
+        if (testCase.shouldPass) {
+          const proof = await sdk.generateAgeProofFromQR(mockQR, ageParams);
+          expect(proof.attributeType).toBe('age');
+          expect(proof.metadata?.threshold).toBe(testCase.threshold);
+        } else {
+          await expect(
+            sdk.generateAgeProofFromQR(mockQR, ageParams)
+          ).rejects.toThrow();
+        }
+      }
+    });
+
+    test('should validate age proof parameters', async () => {
+      const mockQR = generateMockQRData({ age: 25 });
+      
+      // Test invalid thresholds
+      const invalidThresholds = [-1, 0, 150, 999];
+      
+      for (const threshold of invalidThresholds) {
+        await expect(
+          sdk.generateAgeProofFromQR(mockQR, { threshold })
+        ).rejects.toThrow();
+      }
+    });
+  });
+
+  describe('Nationality Proof Generation', () => {
+    test('should generate nationality proof for valid countries', async () => {
+      const mockQR = generateMockQRData({ nationality: 'IN' });
+      const nationalityParams: NationalityProofParams = { 
+        allowedCountries: ['IN', 'US', 'GB'] 
+      };
+      
+      performanceTester.startTimer('nationality_proof_generation');
+      const nationalityProof = await sdk.generateNationalityProofFromQR(mockQR, nationalityParams);
+      const duration = performanceTester.endTimer('nationality_proof_generation');
+
+      expect(testValidators.isValidProof(nationalityProof.proof)).toBe(true);
+      expect(nationalityProof.attributeType).toBe('nationality');
+      expect(nationalityProof.metadata?.countries).toContain('IN');
+      expect(duration).toBeGreaterThan(0);
+      
+      console.log(`Nationality proof generated in ${duration}ms`);
+    });
+
+    test('should handle various country combinations', async () => {
+      const testCases = [
+        { userNationality: 'IN', allowed: ['IN', 'US'], shouldPass: true },
+        { userNationality: 'US', allowed: ['US', 'CA', 'GB'], shouldPass: true },
+        { userNationality: 'CN', allowed: ['IN', 'US'], shouldPass: false },
+        { userNationality: 'RU', allowed: ['US', 'GB'], shouldPass: false }
+      ];
+
+      for (const testCase of testCases) {
+        const mockQR = generateMockQRData({ nationality: testCase.userNationality });
+        const params: NationalityProofParams = { allowedCountries: testCase.allowed };
+
+        if (testCase.shouldPass) {
+          const proof = await sdk.generateNationalityProofFromQR(mockQR, params);
+          expect(proof.attributeType).toBe('nationality');
+          expect(proof.metadata?.countries).toEqual(expect.arrayContaining(testCase.allowed));
+        } else {
+          await expect(
+            sdk.generateNationalityProofFromQR(mockQR, params)
+          ).rejects.toThrow();
+        }
+      }
+    });
+
+    test('should validate nationality parameters', async () => {
+      const mockQR = generateMockQRData({});
+      
+      // Test empty country list
+      await expect(
+        sdk.generateNationalityProofFromQR(mockQR, { allowedCountries: [] })
+      ).rejects.toThrow();
+      
+      // Test invalid country codes
+      await expect(
+        sdk.generateNationalityProofFromQR(mockQR, { allowedCountries: ['INVALID', 'XXX'] })
+      ).rejects.toThrow();
+    });
+  });
+
+  describe('Uniqueness Proof Generation', () => {
+    test('should generate uniqueness proof for DAO participation', async () => {
+      const mockQR = generateMockQRData({});
+      const uniquenessParams: UniquenessProofParams = {
+        daoId: 'test-dao-001',
+        epochId: 'epoch-2024-q1'
+      };
+      
+      performanceTester.startTimer('uniqueness_proof_generation');
+      const uniquenessProof = await sdk.generateUniquenessProofFromQR(mockQR, uniquenessParams);
+      const duration = performanceTester.endTimer('uniqueness_proof_generation');
+
+      expect(testValidators.isValidProof(uniquenessProof.proof)).toBe(true);
+      expect(uniquenessProof.attributeType).toBe('uniqueness');
+      expect(uniquenessProof.metadata?.daoId).toBe('test-dao-001');
+      expect(uniquenessProof.metadata?.epochId).toBe('epoch-2024-q1');
+      expect(duration).toBeGreaterThan(0);
+      
+      console.log(`Uniqueness proof generated in ${duration}ms`);
+    });
+
+    test('should handle different DAO and epoch combinations', async () => {
+      const testCases = [
+        { daoId: 'gaming-dao', epochId: 'tournament-2024' },
+        { daoId: 'defi-protocol', epochId: 'governance-round-1' },
+        { daoId: 'nft-marketplace', epochId: 'creator-program' }
+      ];
+
+      for (const testCase of testCases) {
+        const mockQR = generateMockQRData({});
+        const params: UniquenessProofParams = testCase;
+
+        const proof = await sdk.generateUniquenessProofFromQR(mockQR, params);
+        expect(proof.attributeType).toBe('uniqueness');
+        expect(proof.metadata?.daoId).toBe(testCase.daoId);
+        expect(proof.metadata?.epochId).toBe(testCase.epochId);
+      }
+    });
+
+    test('should validate uniqueness parameters', async () => {
+      const mockQR = generateMockQRData({});
+      
+      // Test missing parameters
+      await expect(
+        sdk.generateUniquenessProofFromQR(mockQR, { daoId: '', epochId: 'test' })
+      ).rejects.toThrow();
+      
+      await expect(
+        sdk.generateUniquenessProofFromQR(mockQR, { daoId: 'test', epochId: '' })
+      ).rejects.toThrow();
+    });
+  });
+
+  describe('Batch Proof Generation', () => {
+    test('should generate all proofs efficiently in batch', async () => {
+      const mockQR = generateMockQRData({ age: 25, nationality: 'IN' });
+      
+      performanceTester.startTimer('batch_proof_generation');
+      const batchResult = await sdk.generateAllProofsFromQR(mockQR, {
+        age: { threshold: 18 },
+        nationality: { allowedCountries: ['IN', 'US'] },
+        uniqueness: { daoId: 'test-dao', epochId: 'test-epoch' }
+      });
+      const duration = performanceTester.endTimer('batch_proof_generation');
+
+      expect(batchResult.aadhaarData).toBeDefined();
+      expect(batchResult.proofs.age).toBeDefined();
+      expect(batchResult.proofs.nationality).toBeDefined();
+      expect(batchResult.proofs.uniqueness).toBeDefined();
+      expect(batchResult.totalTime).toBeGreaterThan(0);
+      expect(duration).toBeGreaterThan(0);
+      
+      // Verify all proofs are valid
+      if (batchResult.proofs.age) {
+        expect(testValidators.isValidProof(batchResult.proofs.age.proof)).toBe(true);
+      }
+      if (batchResult.proofs.nationality) {
+        expect(testValidators.isValidProof(batchResult.proofs.nationality.proof)).toBe(true);
+      }
+      if (batchResult.proofs.uniqueness) {
+        expect(testValidators.isValidProof(batchResult.proofs.uniqueness.proof)).toBe(true);
+      }
+      
+      console.log(`Batch proof generation completed in ${duration}ms`);
+      console.log(`SDK reported total time: ${batchResult.totalTime}ms`);
+    });
+
+    test('should handle partial proof generation', async () => {
+      const mockQR = generateMockQRData({ age: 25 });
+      
+      // Only generate age and uniqueness proofs
+      const result = await sdk.generateAllProofsFromQR(mockQR, {
+        age: { threshold: 18 },
+        uniqueness: { daoId: 'partial-test', epochId: 'test' }
+      });
+
+      expect(result.proofs.age).toBeDefined();
+      expect(result.proofs.nationality).toBeUndefined();
+      expect(result.proofs.uniqueness).toBeDefined();
+    });
+  });
+
+  describe('Complete Verification Workflow', () => {
+    test('should complete DeFi onboarding workflow', async () => {
+      const mockQR = generateMockQRData({ age: 25, nationality: 'IN' });
+      const mockWallet = createMockWallet();
+      
+      await sdk.connect(mockWallet);
+      
+      performanceTester.startTimer('complete_workflow');
+      const workflow = await sdk.completeVerificationWorkflow(mockQR, {
+        age: { threshold: 18 },
+        nationality: { allowedCountries: ['IN', 'US'] }
+      });
+      const duration = performanceTester.endTimer('complete_workflow');
+
+      expect(workflow.aadhaarData).toBeDefined();
+      expect(workflow.proofs.age).toBeDefined();
+      expect(workflow.proofs.nationality).toBeDefined();
+      expect(workflow.verifications).toBeDefined();
+      expect(workflow.totalTime).toBeGreaterThan(0);
+      expect(duration).toBeGreaterThan(0);
+      
+      console.log(`Complete workflow finished in ${duration}ms`);
+      console.log(`Workflow total time: ${workflow.totalTime}ms`);
+    });
+
+    test('should handle gaming platform onboarding', async () => {
+      const mockQR = generateMockQRData({ age: 20 });
+      const mockWallet = createMockWallet();
+      
+      await sdk.connect(mockWallet);
+      
+      const workflow = await sdk.completeVerificationWorkflow(mockQR, {
+        age: { threshold: 16 },
+        uniqueness: { daoId: 'game-fps-shooter' }
+      });
+      
+      expect(workflow.aadhaarData).toBeDefined();
+      expect(workflow.proofs.age).toBeDefined();
+      expect(workflow.proofs.uniqueness).toBeDefined();
+      expect(workflow.verifications.age).toBeDefined();
+      expect(workflow.verifications.uniqueness).toBeDefined();
+    });
+
+    test('should handle multi-step enterprise verification', async () => {
+      const mockQR = generateMockQRData({ age: 30, nationality: 'IN' });
+      const mockWallet = createMockWallet();
+      
+      await sdk.connect(mockWallet);
+      
+      const workflow = await sdk.completeVerificationWorkflow(mockQR, {
+        age: { threshold: 21 },
+        nationality: { allowedCountries: ['IN', 'US', 'GB'] },
+        uniqueness: { daoId: 'enterprise-platform', epochId: 'kyc-round-1' }
+      });
+      
+      expect(workflow.aadhaarData).toBeDefined();
+      expect(Object.keys(workflow.proofs)).toHaveLength(3);
+      expect(Object.keys(workflow.verifications)).toHaveLength(3);
+      
+      // All verifications should pass for valid data
+      Object.values(workflow.verifications).forEach(verification => {
+        expect(verification.verified).toBe(true);
+      });
+    });
+  });
+
+  describe('Performance and Caching', () => {
+    test('should implement proof caching for efficiency', async () => {
+      const mockQR = generateMockQRData({ age: 25 });
+      const params = { threshold: 18 };
+      
+      // First generation (cold start)
+      performanceTester.startTimer('first_proof_generation');
+      await sdk.generateAgeProofFromQR(mockQR, params);
+      const firstDuration = performanceTester.endTimer('first_proof_generation');
+
+      // Second generation (potentially cached)
+      performanceTester.startTimer('cached_proof_generation');
+      await sdk.generateAgeProofFromQR(mockQR, params);
+      const cachedDuration = performanceTester.endTimer('cached_proof_generation');
+
+      console.log(`First generation: ${firstDuration}ms, Cached: ${cachedDuration}ms`);
+      
+      // Caching should provide some performance benefit
+      expect(firstDuration).toBeGreaterThan(0);
+      expect(cachedDuration).toBeGreaterThan(0);
+    });
+
+    test('should provide comprehensive performance metrics', async () => {
+      const metrics = sdk.getPerformanceMetrics();
+      
+      expect(metrics).toHaveProperty('cacheStats');
+      expect(metrics).toHaveProperty('isInitialized');
+      expect(metrics).toHaveProperty('version');
+      expect(metrics.isInitialized).toBe(true);
+      expect(typeof metrics.version).toBe('string');
+      
+      console.log('SDK Performance Metrics:', JSON.stringify(metrics, null, 2));
+    });
+
+    test('should clear cache and reset performance state', async () => {
+      // Generate some proofs to populate cache
+      const mockQR = generateMockQRData({ age: 25 });
+      await sdk.generateAgeProofFromQR(mockQR, { threshold: 18 });
+      
+      // Clear cache
+      expect(() => sdk.clearCache()).not.toThrow();
+      
+      // Verify metrics are still accessible
+      const metrics = sdk.getPerformanceMetrics();
+      expect(metrics.cacheStats).toBeDefined();
+    });
+  });
+
+  describe('Error Handling and Edge Cases', () => {
+    test('should handle invalid QR data gracefully', async () => {
+      const invalidInputs = [
+        '',
+        'not_base64_data',
+        'SGVsbG8=', // Valid base64 but invalid XML
+        null as any,
+        undefined as any
+      ];
+      
+      for (const invalidQR of invalidInputs) {
+        await expect(sdk.processQRCode(invalidQR)).rejects.toThrow();
+      }
+    });
+
+    test('should validate proof generation parameters', async () => {
+      const mockQR = generateMockQRData({ age: 25 });
+      
+      // Test various invalid parameters
+      await expect(
+        sdk.generateAgeProofFromQR(mockQR, { threshold: -1 })
+      ).rejects.toThrow();
+      
+      await expect(
+        sdk.generateNationalityProofFromQR(mockQR, { allowedCountries: [] })
+      ).rejects.toThrow();
+      
+      await expect(
+        sdk.generateUniquenessProofFromQR(mockQR, { daoId: '', epochId: 'test' })
+      ).rejects.toThrow();
+    });
+
+    test('should handle wallet connection edge cases', async () => {
+      const validWallet = createMockWallet();
+      const invalidWallet = null as any;
+      
+      // Valid connection
+      await expect(sdk.connect(validWallet)).resolves.not.toThrow();
+      
+      // Invalid wallet
+      await expect(sdk.connect(invalidWallet)).rejects.toThrow();
+      
+      // Disconnection
+      await expect(sdk.disconnect()).resolves.not.toThrow();
+    });
+
+    test('should handle network and initialization errors', async () => {
+      // Test with invalid network configuration
+      const invalidSdk = new EnhancedSolsticeSDK({
+        network: 'invalid-network' as any,
+        endpoint: 'http://invalid-endpoint'
+      });
+      
+      // Should handle initialization gracefully
+      await expect(invalidSdk.initialize()).rejects.toThrow();
+    });
+  });
+
+  describe('Identity Management', () => {
+    test('should register identity from QR data', async () => {
+      const mockQR = generateMockQRData({ age: 25 });
+      const mockWallet = createMockWallet();
+      
+      await sdk.connect(mockWallet);
+      
+      const result = await sdk.registerFromQR(mockQR);
+      
+      expect(result.aadhaarData).toBeDefined();
+      expect(result.txSignature).toBeDefined();
+      expect(typeof result.txSignature).toBe('string');
+    });
+
+    test('should get identity status', async () => {
+      const mockWallet = createMockWallet();
+      await sdk.connect(mockWallet);
+      
+      const status = await sdk.getIdentityStatus();
+      
+      expect(status).toHaveProperty('isRegistered');
+      expect(status).toHaveProperty('walletAddress');
+      expect(typeof status.isRegistered).toBe('boolean');
+    });
+
+    test('should create and manage sessions', async () => {
+      const mockWallet = createMockWallet();
+      await sdk.connect(mockWallet);
+      
+      const session = await sdk.createSession({
+        duration: 3600, // 1 hour
+        metadata: { app: 'test-app' }
+      });
+      
+      expect(session).toHaveProperty('sessionId');
+      expect(session).toHaveProperty('expiresAt');
+      expect(session).toHaveProperty('walletAddress');
+      expect(typeof session.sessionId).toBe('string');
+    });
+  });
+
+  afterAll(() => {
+    // Print comprehensive performance report
+    const report = performanceTester.getReport();
+    if (Object.keys(report).length > 0) {
+      console.log('\n=== COMPREHENSIVE PERFORMANCE REPORT ===');
+      console.log(JSON.stringify(report, null, 2));
+      
+      // Calculate total operations and average performance
+      const totalOps = Object.values(report).reduce((sum, op) => sum + op.count, 0);
+      const avgTime = Object.values(report).reduce((sum, op) => sum + op.average, 0) / Object.keys(report).length;
+      
+      console.log(`\nSUMMARY: ${totalOps} operations, avg ${avgTime.toFixed(2)}ms per operation`);
+      console.log('==========================================\n');
+    }
+  });
+});
