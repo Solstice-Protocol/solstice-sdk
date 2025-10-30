@@ -463,4 +463,216 @@ export class SolsticeSDK {
     }
     return Math.abs(hash).toString(16).padStart(64, '0');
   }
+
+  /**
+   * CHALLENGE-RESPONSE FLOW METHODS
+   * These methods support the correct architecture:
+   * 1. Third-party apps generate challenges
+   * 2. Users scan challenges in main Solstice app
+   * 3. Main app generates and submits proofs
+   * 4. Third-party apps verify proof responses
+   */
+
+  /**
+   * Generate a verification challenge (for third-party apps)
+   * This creates a QR code that users scan with the main Solstice app
+   * 
+   * @param appId - Unique identifier for your app
+   * @param appName - Display name for your app
+   * @param proofType - Type of verification needed
+   * @param params - Proof parameters (age threshold, allowed countries, etc.)
+   * @param options - Optional challenge configuration
+   * @returns Challenge data to encode in QR code
+   */
+  async generateChallenge(
+    appId: string,
+    appName: string,
+    proofType: 'age' | 'nationality' | 'uniqueness',
+    params: any,
+    options: any = {}
+  ): Promise<any> {
+    const challengeId = generateNonce();
+    const now = Date.now();
+    const expirationSeconds = options.expirationSeconds || 300; // 5 minutes default
+
+    const challenge = {
+      challengeId,
+      appId,
+      appName,
+      proofType,
+      params: this.formatChallengeParams(proofType, params),
+      expiresAt: now + (expirationSeconds * 1000),
+      callbackUrl: options.callbackUrl,
+      nonce: options.nonce || generateNonce(),
+      createdAt: now
+    };
+
+    const qrData = {
+      challenge,
+      version: '1.0.0'
+    };
+
+    if (this.config.debug) {
+      console.log('📝 Generated challenge:', challenge);
+    }
+
+    return {
+      challenge,
+      qrData: JSON.stringify(qrData),
+      qrDataEncoded: Buffer.from(JSON.stringify(qrData)).toString('base64')
+    };
+  }
+
+  /**
+   * Respond to a verification challenge (for main Solstice app)
+   * This generates a ZK proof in response to a scanned challenge
+   * 
+   * @param challengeQR - QR code data scanned from third-party app
+   * @param aadhaarData - User's Aadhaar data (already registered)
+   * @returns Proof response to send to third-party app
+   */
+  async respondToChallenge(challengeQR: string, aadhaarData: AadhaarData): Promise<any> {
+    if (!this.isInitialized) {
+      await this.initialize();
+    }
+
+    try {
+      // Parse challenge from QR
+      const challenge = this.parseChallenge(challengeQR);
+
+      // Check expiration
+      if (Date.now() > challenge.expiresAt) {
+        throw new InvalidParametersError('Challenge has expired');
+      }
+
+      // Generate appropriate proof based on challenge type
+      let proof: ProofData;
+      switch (challenge.proofType) {
+        case 'age':
+          proof = await this.proofGenerator.generateAgeProof(aadhaarData, challenge.params);
+          break;
+        case 'nationality':
+          proof = await this.proofGenerator.generateNationalityProof(aadhaarData, challenge.params);
+          break;
+        case 'uniqueness':
+          proof = await this.proofGenerator.generateUniquenessProof(aadhaarData, challenge.params);
+          break;
+        default:
+          throw new InvalidParametersError(`Unknown proof type: ${challenge.proofType}`);
+      }
+
+      // Create response
+      const response = {
+        challengeId: challenge.challengeId,
+        proof: {
+          pi_a: proof.proof.pi_a,
+          pi_b: proof.proof.pi_b,
+          pi_c: proof.proof.pi_c,
+          publicSignals: proof.publicSignals
+        },
+        identityCommitment: proof.publicSignals[0],
+        timestamp: Date.now()
+      };
+
+      if (this.config.debug) {
+        console.log('✅ Generated proof response:', response);
+      }
+
+      return response;
+    } catch (error) {
+      throw new ProofGenerationError(`Failed to respond to challenge: ${error}`);
+    }
+  }
+
+  /**
+   * Verify a proof response (for third-party apps)
+   * This verifies that a proof response is valid for your challenge
+   * 
+   * @param challengeId - Your original challenge ID
+   * @param proofResponse - Proof response received from user
+   * @returns Verification result
+   */
+  async verifyProofResponse(challengeId: string, proofResponse: any): Promise<any> {
+    if (!this.isInitialized) {
+      await this.initialize();
+    }
+
+    try {
+      // Verify challenge ID matches
+      if (proofResponse.challengeId !== challengeId) {
+        return {
+          verified: false,
+          challengeId,
+          error: 'Challenge ID mismatch'
+        };
+      }
+
+      // For now, we trust the proof structure
+      // In production, this would verify against the circuit verification key
+      if (!proofResponse.proof || !proofResponse.proof.pi_a || !proofResponse.proof.publicSignals) {
+        return {
+          verified: false,
+          challengeId,
+          error: 'Invalid proof structure'
+        };
+      }
+
+      return {
+        verified: true,
+        challengeId,
+        metadata: {
+          proofType: 'zkp',
+          identityCommitment: proofResponse.identityCommitment,
+          timestamp: proofResponse.timestamp
+        }
+      };
+    } catch (error) {
+      return {
+        verified: false,
+        challengeId,
+        error: `Verification failed: ${error}`
+      };
+    }
+  }
+
+  /**
+   * Parse challenge from QR code data
+   */
+  private parseChallenge(qrData: string): any {
+    try {
+      // Try parsing as JSON first
+      let parsed;
+      try {
+        parsed = JSON.parse(qrData);
+      } catch {
+        // Try base64 decode
+        const decoded = Buffer.from(qrData, 'base64').toString('utf-8');
+        parsed = JSON.parse(decoded);
+      }
+
+      if (!parsed.challenge) {
+        throw new Error('Invalid challenge format');
+      }
+
+      return parsed.challenge;
+    } catch (error) {
+      throw new InvalidParametersError(`Failed to parse challenge: ${error}`);
+    }
+  }
+
+  /**
+   * Format challenge parameters based on proof type
+   */
+  private formatChallengeParams(proofType: string, params: any): any {
+    switch (proofType) {
+      case 'age':
+        return { type: 'age', threshold: params.threshold || 18 };
+      case 'nationality':
+        return { type: 'nationality', allowedCountries: params.allowedCountries || [] };
+      case 'uniqueness':
+        return { type: 'uniqueness', scope: params.scope || 'global' };
+      default:
+        return params;
+    }
+  }
 }

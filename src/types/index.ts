@@ -195,3 +195,6 @@ export interface BatchProofResult {
   signatures?: string[];
   errors?: string[];
 }
+
+// Export challenge-response types
+export * from './challenge';

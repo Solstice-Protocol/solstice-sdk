@@ -1,4 +1,4 @@
-import snarkjs from 'snarkjs';
+import * as snarkjs from 'snarkjs';
 import { buildPoseidon } from 'circomlibjs';
 import { 
   ProofData, 

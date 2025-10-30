@@ -310,9 +310,6 @@ export class ProofGenerator {
       }
 
       // Real circuit loading implementation
-      const fs = require('fs');
-      const path = require('path');
-      
       const circuit = {
         wasmPath: circuitConfig.wasmPath,
         zkeyPath: circuitConfig.zkeyPath,
@@ -325,16 +322,21 @@ export class ProofGenerator {
         zkeyExists: false
       };
       
-      // Check if circuit files actually exist
-      try {
-        circuit.wasmExists = fs.existsSync(path.resolve(circuitConfig.wasmPath));
-        circuit.zkeyExists = fs.existsSync(path.resolve(circuitConfig.zkeyPath));
-      } catch (error) {
-        console.log(`Circuit files not found for ${circuitType} (development mode)`);
+      // Check if circuit files actually exist (Node.js environment only)
+      const isBrowser = typeof window !== 'undefined';
+      if (!isBrowser) {
+        try {
+          const fs = require('fs');
+          const path = require('path');
+          circuit.wasmExists = fs.existsSync(path.resolve(circuitConfig.wasmPath));
+          circuit.zkeyExists = fs.existsSync(path.resolve(circuitConfig.zkeyPath));
+        } catch (error) {
+          console.log(`Circuit file check skipped for ${circuitType} (file system not available)`);
+        }
       }
 
       this.circuits.set(circuitType, circuit);
-      console.log(`🔧 Loaded ${circuitType} circuit (real implementation)`);
+      console.log(`✅ Loaded ${circuitType} circuit`);
     } catch (error) {
       throw new CircuitLoadError(`Failed to load ${circuitType} circuit: ${error}`);
     }
