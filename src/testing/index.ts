@@ -303,7 +303,9 @@ export class PerformanceTester {
 
   getMedianTime(operation: string): number {
     const times = this.metrics.get(operation) || [];
-    if (times.length === 0) return 0;
+    if (times.length === 0) {
+      return 0;
+    }
 
     const sorted = [...times].sort((a, b) => a - b);
     const mid = Math.floor(sorted.length / 2);
@@ -437,9 +439,12 @@ export const setupTests = () => {
               name,
               version: version || 1,
               createObjectStore: (storeName: string) => {
-                if (!databases[name]) databases[name] = {};
-                if (!databases[name][storeName])
+                if (!databases[name]) {
+                  databases[name] = {};
+                }
+                if (!databases[name][storeName]) {
                   databases[name][storeName] = {};
+                }
                 return {
                   name: storeName,
                   add: (value: any, key?: string) => {
@@ -464,21 +469,28 @@ export const setupTests = () => {
                 objectStore: (storeName: string) => ({
                   add: (value: any, key?: string) => {
                     const id = key || Date.now().toString();
-                    if (!databases[name]) databases[name] = {};
-                    if (!databases[name][storeName])
+                    if (!databases[name]) {
+                      databases[name] = {};
+                    }
+                    if (!databases[name][storeName]) {
                       databases[name][storeName] = {};
+                    }
                     databases[name][storeName][id] = value;
                     return Promise.resolve(id);
                   },
                   get: (key: string) => {
-                    if (!databases[name] || !databases[name][storeName])
+                    if (!databases[name] || !databases[name][storeName]) {
                       return Promise.resolve(undefined);
+                    }
                     return Promise.resolve(databases[name][storeName][key]);
                   },
                   put: (value: any, key: string) => {
-                    if (!databases[name]) databases[name] = {};
-                    if (!databases[name][storeName])
+                    if (!databases[name]) {
+                      databases[name] = {};
+                    }
+                    if (!databases[name][storeName]) {
                       databases[name][storeName] = {};
+                    }
                     databases[name][storeName][key] = value;
                     return Promise.resolve(key);
                   },

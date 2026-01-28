@@ -197,7 +197,9 @@ export class QRProcessor {
    * Format date from various Aadhaar formats to ISO format
    */
   private formatDate(dateStr: string): string {
-    if (!dateStr) return '';
+    if (!dateStr) {
+      return '';
+    }
 
     // Handle different date formats
     // DD/MM/YYYY, DD-MM-YYYY, YYYY-MM-DD

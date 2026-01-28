@@ -34,7 +34,7 @@ jobs:
   dependency-scan:
     name: Dependency Vulnerability Scan
     runs-on: ubuntu-latest
-    if: github.event.inputs.scan_type == 'dependencies' || github.event.inputs.scan_type == 'full' || github.event.inputs.scan_type == ''
+    if: always()
     
     steps:
       - name: Checkout code
@@ -93,7 +93,7 @@ jobs:
   code-security-scan:
     name: Code Security Scan
     runs-on: ubuntu-latest
-    if: github.event.inputs.scan_type == 'code' || github.event.inputs.scan_type == 'full' || github.event.inputs.scan_type == ''
+    if: always()
     
     permissions:
       actions: read
@@ -131,7 +131,7 @@ jobs:
   license-compliance:
     name: License Compliance Scan
     runs-on: ubuntu-latest
-    if: github.event.inputs.scan_type == 'compliance' || github.event.inputs.scan_type == 'full' || github.event.inputs.scan_type == ''
+    if: always()
     
     steps:
       - name: Checkout code
@@ -186,7 +186,7 @@ jobs:
   circuit-security:
     name: ZK Circuit Security Validation
     runs-on: ubuntu-latest
-    if: github.event.inputs.scan_type == 'full' || github.event.inputs.scan_type == ''
+    if: always()
     
     steps:
       - name: Checkout code
