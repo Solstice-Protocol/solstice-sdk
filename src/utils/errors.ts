@@ -19,7 +19,10 @@ export class SolsticeError extends Error {
  * Error thrown when proof generation fails
  */
 export class ProofGenerationError extends SolsticeError {
-  constructor(message: string, public readonly attributeType?: string) {
+  constructor(
+    message: string,
+    public readonly attributeType?: string
+  ) {
     super(message, ERROR_CODES.PROOF_GENERATION_FAILED);
     this.name = 'ProofGenerationError';
   }
@@ -29,7 +32,9 @@ export class ProofGenerationError extends SolsticeError {
  * Error thrown when wallet is not connected
  */
 export class WalletNotConnectedError extends SolsticeError {
-  constructor(message: string = 'Wallet not connected. Please connect your wallet first.') {
+  constructor(
+    message: string = 'Wallet not connected. Please connect your wallet first.'
+  ) {
     super(message, ERROR_CODES.WALLET_NOT_CONNECTED);
     this.name = 'WalletNotConnectedError';
   }
@@ -39,7 +44,10 @@ export class WalletNotConnectedError extends SolsticeError {
  * Error thrown when verification fails
  */
 export class VerificationError extends SolsticeError {
-  constructor(message: string, public readonly proofType?: string) {
+  constructor(
+    message: string,
+    public readonly proofType?: string
+  ) {
     super(message, ERROR_CODES.VERIFICATION_FAILED);
     this.name = 'VerificationError';
   }
@@ -49,7 +57,10 @@ export class VerificationError extends SolsticeError {
  * Error thrown when circuit loading fails
  */
 export class CircuitLoadError extends SolsticeError {
-  constructor(message: string, public readonly circuitType?: string) {
+  constructor(
+    message: string,
+    public readonly circuitType?: string
+  ) {
     super(message, ERROR_CODES.CIRCUIT_LOAD_FAILED);
     this.name = 'CircuitLoadError';
   }
@@ -79,7 +90,10 @@ export class InvalidParametersError extends SolsticeError {
  * Error thrown when network operations fail
  */
 export class NetworkError extends SolsticeError {
-  constructor(message: string, public readonly statusCode?: number) {
+  constructor(
+    message: string,
+    public readonly statusCode?: number
+  ) {
     super(message, ERROR_CODES.NETWORK_ERROR);
     this.name = 'NetworkError';
   }

@@ -1,6 +1,6 @@
 import { PublicKey } from '@solana/web3.js';
 import { WalletAdapter } from '@solana/wallet-adapter-base';
-import { 
+import {
   SolsticeConfig,
   ProofData,
   IdentityStatus,
@@ -10,21 +10,21 @@ import {
   UniquenessProofParams,
   SessionParams,
   VerificationResult,
-  AadhaarData
+  AadhaarData,
 } from '../types';
 import { EnhancedProofGenerator } from '../proofs/EnhancedProofGenerator';
 import { SolanaClient } from '../solana/SolanaClient';
 import { QRProcessor } from '../utils/QRProcessor';
-import { 
-  SOLSTICE_PROGRAM_ID, 
+import {
+  SOLSTICE_PROGRAM_ID,
   DEFAULT_RPC_ENDPOINTS,
-  SESSION_LIMITS 
+  SESSION_LIMITS,
 } from '../utils/constants';
 import {
   SolsticeError,
   WalletNotConnectedError,
   InvalidParametersError,
-  ProofGenerationError
+  ProofGenerationError,
 } from '../utils/errors';
 
 /**
@@ -44,19 +44,22 @@ export class EnhancedSolsticeSDK {
       programId: config.programId || SOLSTICE_PROGRAM_ID,
       network: config.network || 'devnet',
       circuitConfig: config.circuitConfig,
-      debug: config.debug || false
+      debug: config.debug || false,
     };
 
     // Initialize components
     this.proofGenerator = new EnhancedProofGenerator(this.config.circuitConfig);
-    this.solanaClient = new SolanaClient(this.config.endpoint, this.config.programId);
+    this.solanaClient = new SolanaClient(
+      this.config.endpoint,
+      this.config.programId
+    );
     this.qrProcessor = new QRProcessor();
 
     if (this.config.debug) {
       console.log(' Enhanced Solstice SDK initialized with config:', {
         network: this.config.network,
         endpoint: this.config.endpoint,
-        programId: this.config.programId.toString()
+        programId: this.config.programId.toString(),
       });
     }
   }
@@ -70,14 +73,13 @@ export class EnhancedSolsticeSDK {
     }
 
     try {
-      console.log('🔄 Initializing Enhanced Solstice SDK...');
-      
+      console.log(' Initializing Enhanced Solstice SDK...');
+
       // Initialize proof generator (loads real circuits)
       await this.proofGenerator.initialize();
-      
+
       this.isInitialized = true;
       console.log(' Enhanced Solstice SDK initialized successfully');
-
     } catch (error) {
       throw new SolsticeError(`SDK initialization failed: ${error}`);
     }
@@ -92,7 +94,7 @@ export class EnhancedSolsticeSDK {
     }
 
     await this.solanaClient.connect(wallet);
-    
+
     if (this.config.debug) {
       const balance = await this.solanaClient.getBalance();
       console.log(`💰 Wallet connected. Balance: ${balance} SOL`);
@@ -116,13 +118,14 @@ export class EnhancedSolsticeSDK {
 
     try {
       const aadhaarData = await this.qrProcessor.processQRCode(qrData);
-      
+
       if (this.config.debug) {
-        const completeness = this.qrProcessor.validateDataCompleteness(aadhaarData);
+        const completeness =
+          this.qrProcessor.validateDataCompleteness(aadhaarData);
         console.log('📋 QR Code processed:', {
           name: aadhaarData.name,
           completeness: `${completeness.score}%`,
-          missingFields: completeness.missingFields
+          missingFields: completeness.missingFields,
         });
       }
 
@@ -142,8 +145,9 @@ export class EnhancedSolsticeSDK {
 
     try {
       // Generate identity commitment and merkle root using real cryptography
-      const { identityCommitment, merkleRoot } = await this.generateIdentityCommitment(aadhaarData);
-      
+      const { identityCommitment, merkleRoot } =
+        await this.generateIdentityCommitment(aadhaarData);
+
       // Register on blockchain
       const txSignature = await this.solanaClient.registerIdentity(
         identityCommitment,
@@ -154,12 +158,11 @@ export class EnhancedSolsticeSDK {
         console.log(' Identity registered:', {
           user: aadhaarData.name,
           txSignature,
-          commitment: identityCommitment.slice(0, 16) + '...'
+          commitment: identityCommitment.slice(0, 16) + '...',
         });
       }
 
       return txSignature;
-
     } catch (error) {
       throw new SolsticeError(`Identity registration failed: ${error}`);
     }
@@ -172,11 +175,11 @@ export class EnhancedSolsticeSDK {
     aadhaarData: AadhaarData;
     txSignature: string;
   }> {
-    console.log('🔄 Processing QR and registering identity...');
-    
+    console.log(' Processing QR and registering identity...');
+
     const aadhaarData = await this.processQRCode(qrData);
     const txSignature = await this.registerIdentity(aadhaarData);
-    
+
     return { aadhaarData, txSignature };
   }
 
@@ -232,17 +235,20 @@ export class EnhancedSolsticeSDK {
     };
     totalTime: number;
   }> {
-    console.log('🔄 Generating all proofs from QR code...');
+    console.log(' Generating all proofs from QR code...');
     const startTime = Date.now();
 
     // Process QR code once
     const aadhaarData = await this.processQRCode(qrData);
-    
+
     // Generate all requested proofs in parallel
-    const proofs = await this.proofGenerator.generateBatchProofs(aadhaarData, params);
-    
+    const proofs = await this.proofGenerator.generateBatchProofs(
+      aadhaarData,
+      params
+    );
+
     const totalTime = Date.now() - startTime;
-    
+
     if (this.config.debug) {
       console.log(` All proofs generated in ${totalTime}ms`);
     }
@@ -265,7 +271,7 @@ export class EnhancedSolsticeSDK {
         console.log(' Proof verified on-chain:', {
           attributeType: proofData.attributeType,
           signature: result.signature,
-          verified: result.verified
+          verified: result.verified,
         });
       }
 
@@ -298,8 +304,9 @@ export class EnhancedSolsticeSDK {
     }
 
     // Generate session ID if not provided
-    const sessionId = params.sessionId || Math.random().toString(36).substring(2, 15);
-    
+    const sessionId =
+      params.sessionId || Math.random().toString(36).substring(2, 15);
+
     return this.solanaClient.createSession(sessionId, params.duration);
   }
 
@@ -320,20 +327,23 @@ export class EnhancedSolsticeSDK {
     session?: SessionData;
     totalTime: number;
   }> {
-    console.log('🔄 Starting complete verification workflow...');
+    console.log(' Starting complete verification workflow...');
     const startTime = Date.now();
 
     try {
       // Step 1: Generate all required proofs
-      const { aadhaarData, proofs } = await this.generateAllProofsFromQR(qrData, {
-        age: requirements.age,
-        nationality: requirements.nationality,
-        uniqueness: requirements.uniqueness
-      });
+      const { aadhaarData, proofs } = await this.generateAllProofsFromQR(
+        qrData,
+        {
+          age: requirements.age,
+          nationality: requirements.nationality,
+          uniqueness: requirements.uniqueness,
+        }
+      );
 
       // Step 2: Verify all proofs on-chain
       const verifications: { [key: string]: VerificationResult } = {};
-      
+
       for (const [type, proof] of Object.entries(proofs)) {
         if (proof) {
           verifications[type] = await this.verifyIdentity(proof);
@@ -342,15 +352,15 @@ export class EnhancedSolsticeSDK {
 
       // Step 3: Create session if all verifications passed
       let session: SessionData | undefined;
-      const allVerified = Object.values(verifications).every(v => v.verified);
-      
+      const allVerified = Object.values(verifications).every((v) => v.verified);
+
       if (allVerified) {
         session = await this.createSession({
           duration: SESSION_LIMITS.DEFAULT_DURATION,
           metadata: {
             verifiedAttributes: Object.keys(verifications),
-            timestamp: Date.now()
-          }
+            timestamp: Date.now(),
+          },
         });
       }
 
@@ -363,9 +373,8 @@ export class EnhancedSolsticeSDK {
         proofs,
         verifications,
         session,
-        totalTime
+        totalTime,
       };
-
     } catch (error) {
       throw new SolsticeError(`Verification workflow failed: ${error}`);
     }
@@ -380,12 +389,13 @@ export class EnhancedSolsticeSDK {
   }> {
     // This would use the same Poseidon hash as the proof generator
     // For now, using a simplified approach
-    const demographicHash = this.qrProcessor.generateDemographicHash(aadhaarData);
+    const demographicHash =
+      this.qrProcessor.generateDemographicHash(aadhaarData);
     const locationHash = this.qrProcessor.generateLocationHash(aadhaarData);
-    
+
     return {
       identityCommitment: demographicHash,
-      merkleRoot: locationHash
+      merkleRoot: locationHash,
     };
   }
 
@@ -394,10 +404,14 @@ export class EnhancedSolsticeSDK {
    */
   private getAttributeTypeBitmap(attributeType: string): number {
     switch (attributeType) {
-      case 'age': return 1;
-      case 'nationality': return 2;
-      case 'uniqueness': return 4;
-      default: return 0;
+      case 'age':
+        return 1;
+      case 'nationality':
+        return 2;
+      case 'uniqueness':
+        return 4;
+      default:
+        return 0;
     }
   }
 
@@ -412,7 +426,7 @@ export class EnhancedSolsticeSDK {
     return {
       cacheStats: this.proofGenerator.getCacheStats(),
       isInitialized: this.isInitialized,
-      version: '1.0.0'
+      version: '1.0.0',
     };
   }
 

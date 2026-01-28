@@ -25,7 +25,7 @@ export async function verifyUserAgeForDeFi(
   minimumAge: number = 18
 ): Promise<boolean> {
   try {
-    console.log('🔄 Starting DeFi age verification...');
+    console.log(' Starting DeFi age verification...');
 
     // Step 1: Initialize SDK
     await sdk.initialize();
@@ -37,7 +37,7 @@ export async function verifyUserAgeForDeFi(
 
     // Step 3: Check if identity exists
     const identityStatus = await sdk.getIdentityStatus();
-    
+
     if (!identityStatus.exists) {
       console.log('📝 Registering new identity...');
       await sdk.registerIdentity(qrData);
@@ -55,18 +55,18 @@ export async function verifyUserAgeForDeFi(
     // Step 5: Verify proof on-chain
     console.log('⛓️ Verifying proof on Solana blockchain...');
     const verification = await sdk.verifyIdentity(ageProof);
-    
+
     if (verification.verified) {
       console.log(' Age verification successful!');
       console.log(`📋 Transaction: ${verification.signature}`);
       return true;
     } else {
-      console.log('❌ Age verification failed:', verification.error);
+      console.log(' Age verification failed:', verification.error);
       return false;
     }
 
   } catch (error) {
-    console.error('❌ DeFi age verification error:', error);
+    console.error(' DeFi age verification error:', error);
     return false;
   }
 }
@@ -89,7 +89,7 @@ export async function onboardUserToDeFi(
   try {
     // Verify age first
     const isAgeVerified = await verifyUserAgeForDeFi(walletAdapter, qrData, 18);
-    
+
     if (!isAgeVerified) {
       return {
         success: false,

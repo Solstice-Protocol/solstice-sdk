@@ -9,7 +9,7 @@ Step-by-step guide for integrating the Solstice SDK into your application.
 - [ ] Basic understanding of zero-knowledge proofs
 - [ ] Access to Aadhaar mAadhaar QR codes for testing
 
-## 📦 Installation
+##  Installation
 
 ### NPM Installation
 
@@ -25,7 +25,7 @@ For web applications, you'll also need:
 npm install @solana/wallet-adapter-base @solana/wallet-adapter-phantom @solana/web3.js
 ```
 
-## 🏗️ Project Setup
+##  Project Setup
 
 ### 1. Environment Configuration
 
@@ -71,7 +71,7 @@ Ensure your `tsconfig.json` includes proper module resolution:
 }
 ```
 
-## 🔧 Framework-Specific Integration
+##  Framework-Specific Integration
 
 ### React Integration
 
@@ -325,7 +325,7 @@ app.post('/api/process-qr', requireSDK, async (req, res) => {
 app.listen(3000);
 ```
 
-## 🔒 Security Best Practices
+##  Security Best Practices
 
 ### 1. Environment Variables
 
@@ -338,7 +338,7 @@ const sdk = new EnhancedSolsticeSDK({
   endpoint: process.env.SOLANA_RPC_ENDPOINT
 });
 
-// ❌ Bad: Client-side exposure
+//  Bad: Client-side exposure
 const sdk = new EnhancedSolsticeSDK({
   network: 'mainnet',
   endpoint: 'https://api.mainnet-beta.solana.com'
@@ -368,7 +368,7 @@ if (!verification.success) {
   throw new Error('Proof verification failed');
 }
 
-// ❌ Bad: Trust client-side verification only
+//  Bad: Trust client-side verification only
 if (proof.publicSignals.length > 0) {
   // This can be faked
 }
@@ -546,7 +546,7 @@ const proof = await measurePerformance('generate_age_proof', () =>
 );
 ```
 
-## 🆘 Troubleshooting
+##  Troubleshooting
 
 ### Common Issues
 

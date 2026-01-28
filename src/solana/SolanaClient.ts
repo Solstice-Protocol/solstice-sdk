@@ -6,7 +6,7 @@ import {
   SystemProgram,
   SYSVAR_RENT_PUBKEY,
   SYSVAR_CLOCK_PUBKEY,
-  Keypair
+  Keypair,
 } from '@solana/web3.js';
 import { WalletAdapter } from '@solana/wallet-adapter-base';
 import { Program, AnchorProvider, BN, web3 } from '@coral-xyz/anchor';
@@ -14,13 +14,13 @@ import {
   IdentityStatus,
   ProofData,
   SessionData,
-  VerificationResult
+  VerificationResult,
 } from '../types';
 import {
   WalletNotConnectedError,
   VerificationError,
   IdentityNotFoundError,
-  NetworkError
+  NetworkError,
 } from '../utils/errors';
 import { ATTRIBUTE_TYPES } from '../utils/constants';
 import { formatProofForVerification, retry } from '../utils/helpers';
@@ -48,14 +48,12 @@ export class SolanaClient {
     }
 
     this.wallet = wallet;
-    
+
     // Initialize Anchor provider and program
-    const provider = new AnchorProvider(
-      this.connection,
-      wallet as any,
-      { commitment: 'confirmed' }
-    );
-    
+    const provider = new AnchorProvider(this.connection, wallet as any, {
+      commitment: 'confirmed',
+    });
+
     // Load program IDL (in real implementation, this would be loaded from the blockchain)
     const idl = await this.loadProgramIDL();
     this.program = new Program(idl, this.programId, provider);
@@ -69,7 +67,7 @@ export class SolanaClient {
   async disconnect(): Promise<void> {
     this.wallet = null;
     this.program = null;
-    console.log('🔌 Disconnected from Solana wallet');
+    console.log(' Disconnected from Solana wallet');
   }
 
   /**
@@ -86,10 +84,7 @@ export class SolanaClient {
     try {
       // Derive PDA for identity account
       const [identityPda] = PublicKey.findProgramAddressSync(
-        [
-          Buffer.from('identity'),
-          this.wallet.publicKey.toBuffer()
-        ],
+        [Buffer.from('identity'), this.wallet.publicKey.toBuffer()],
         this.programId
       );
 
@@ -109,13 +104,12 @@ export class SolanaClient {
           registry: registryPda,
           user: this.wallet.publicKey,
           systemProgram: SystemProgram.programId,
-          rent: SYSVAR_RENT_PUBKEY
+          rent: SYSVAR_RENT_PUBKEY,
         })
         .rpc();
 
       console.log(' Identity registered:', tx);
       return tx;
-
     } catch (error) {
       throw new NetworkError(`Failed to register identity: ${error}`);
     }
@@ -131,19 +125,20 @@ export class SolanaClient {
 
     try {
       // Format proof for blockchain verification
-      const { proof, publicInputs } = formatProofForVerification(proofData.proof);
+      const { proof, publicInputs } = formatProofForVerification(
+        proofData.proof
+      );
 
       // Derive PDA for identity account
       const [identityPda] = PublicKey.findProgramAddressSync(
-        [
-          Buffer.from('identity'),
-          this.wallet.publicKey.toBuffer()
-        ],
+        [Buffer.from('identity'), this.wallet.publicKey.toBuffer()],
         this.programId
       );
 
       // Get attribute type as bitmap
-      const attributeType = this.getAttributeTypeBitmap(proofData.attributeType);
+      const attributeType = this.getAttributeTypeBitmap(
+        proofData.attributeType
+      );
 
       const tx = await this.program.methods
         .verifyIdentity(
@@ -154,7 +149,7 @@ export class SolanaClient {
         .accounts({
           identity: identityPda,
           user: this.wallet.publicKey,
-          clock: SYSVAR_CLOCK_PUBKEY
+          clock: SYSVAR_CLOCK_PUBKEY,
         })
         .rpc();
 
@@ -163,15 +158,14 @@ export class SolanaClient {
       return {
         verified: true,
         signature: tx,
-        timestamp: Date.now()
+        timestamp: Date.now(),
       };
-
     } catch (error) {
       console.error('Verification failed:', error);
       return {
         verified: false,
         error: `Verification failed: ${error}`,
-        timestamp: Date.now()
+        timestamp: Date.now(),
       };
     }
   }
@@ -187,27 +181,33 @@ export class SolanaClient {
     try {
       // Derive PDA for identity account
       const [identityPda] = PublicKey.findProgramAddressSync(
-        [
-          Buffer.from('identity'),
-          this.wallet.publicKey.toBuffer()
-        ],
+        [Buffer.from('identity'), this.wallet.publicKey.toBuffer()],
         this.programId
       );
 
-      const identityAccount = await this.program.account.identity.fetch(identityPda) as any;
+      const identityAccount = (await this.program.account.identity.fetch(
+        identityPda
+      )) as any;
 
       return {
         exists: true,
         isVerified: Boolean(identityAccount.isVerified),
         owner: identityAccount.owner as PublicKey,
-        identityCommitment: Buffer.from(identityAccount.identityCommitment || []).toString('hex'),
-        merkleRoot: Buffer.from(identityAccount.merkleRoot || []).toString('hex'),
+        identityCommitment: Buffer.from(
+          identityAccount.identityCommitment || []
+        ).toString('hex'),
+        merkleRoot: Buffer.from(identityAccount.merkleRoot || []).toString(
+          'hex'
+        ),
         attributesVerified: Number(identityAccount.attributesVerified || 0),
-        verificationTimestamp: identityAccount.verificationTimestamp?.toNumber?.() || 0
+        verificationTimestamp:
+          identityAccount.verificationTimestamp?.toNumber?.() || 0,
       };
-
     } catch (error) {
-      if (error instanceof Error && error.message?.includes('Account does not exist')) {
+      if (
+        error instanceof Error &&
+        error.message?.includes('Account does not exist')
+      ) {
         return {
           exists: false,
           isVerified: false,
@@ -215,7 +215,7 @@ export class SolanaClient {
           identityCommitment: '',
           merkleRoot: '',
           attributesVerified: 0,
-          verificationTimestamp: 0
+          verificationTimestamp: 0,
         };
       }
       throw new IdentityNotFoundError(`Failed to fetch identity: ${error}`);
@@ -225,7 +225,10 @@ export class SolanaClient {
   /**
    * Create authentication session
    */
-  async createSession(sessionId: string, duration: number): Promise<SessionData> {
+  async createSession(
+    sessionId: string,
+    duration: number
+  ): Promise<SessionData> {
     if (!this.wallet?.publicKey || !this.program) {
       throw new WalletNotConnectedError();
     }
@@ -236,17 +239,14 @@ export class SolanaClient {
         [
           Buffer.from('session'),
           this.wallet.publicKey.toBuffer(),
-          Buffer.from(sessionId, 'hex')
+          Buffer.from(sessionId, 'hex'),
         ],
         this.programId
       );
 
       // Derive PDA for identity account
       const [identityPda] = PublicKey.findProgramAddressSync(
-        [
-          Buffer.from('identity'),
-          this.wallet.publicKey.toBuffer()
-        ],
+        [Buffer.from('identity'), this.wallet.publicKey.toBuffer()],
         this.programId
       );
 
@@ -262,7 +262,7 @@ export class SolanaClient {
           identity: identityPda,
           user: this.wallet.publicKey,
           systemProgram: SystemProgram.programId,
-          clock: SYSVAR_CLOCK_PUBKEY
+          clock: SYSVAR_CLOCK_PUBKEY,
         })
         .rpc();
 
@@ -273,9 +273,8 @@ export class SolanaClient {
         user: this.wallet.publicKey,
         createdAt: Math.floor(Date.now() / 1000),
         expiresAt: expiryTimestamp,
-        isActive: true
+        isActive: true,
       };
-
     } catch (error) {
       throw new NetworkError(`Failed to create session: ${error}`);
     }
@@ -295,7 +294,7 @@ export class SolanaClient {
         [
           Buffer.from('session'),
           this.wallet.publicKey.toBuffer(),
-          Buffer.from(sessionId, 'hex')
+          Buffer.from(sessionId, 'hex'),
         ],
         this.programId
       );
@@ -304,13 +303,12 @@ export class SolanaClient {
         .closeSession()
         .accounts({
           session: sessionPda,
-          user: this.wallet.publicKey
+          user: this.wallet.publicKey,
         })
         .rpc();
 
       console.log(' Session closed:', tx);
       return tx;
-
     } catch (error) {
       throw new NetworkError(`Failed to close session: ${error}`);
     }
@@ -330,10 +328,7 @@ export class SolanaClient {
     try {
       // Derive PDA for identity account
       const [identityPda] = PublicKey.findProgramAddressSync(
-        [
-          Buffer.from('identity'),
-          this.wallet.publicKey.toBuffer()
-        ],
+        [Buffer.from('identity'), this.wallet.publicKey.toBuffer()],
         this.programId
       );
 
@@ -344,13 +339,12 @@ export class SolanaClient {
         )
         .accounts({
           identity: identityPda,
-          user: this.wallet.publicKey
+          user: this.wallet.publicKey,
         })
         .rpc();
 
       console.log(' Identity updated:', tx);
       return tx;
-
     } catch (error) {
       throw new NetworkError(`Failed to update identity: ${error}`);
     }
@@ -368,15 +362,16 @@ export class SolanaClient {
       const tx = new Transaction();
 
       for (const proofData of proofs) {
-        const { proof, publicInputs } = formatProofForVerification(proofData.proof);
-        const attributeType = this.getAttributeTypeBitmap(proofData.attributeType);
+        const { proof, publicInputs } = formatProofForVerification(
+          proofData.proof
+        );
+        const attributeType = this.getAttributeTypeBitmap(
+          proofData.attributeType
+        );
 
         // Derive PDA for identity account
         const [identityPda] = PublicKey.findProgramAddressSync(
-          [
-            Buffer.from('identity'),
-            this.wallet.publicKey.toBuffer()
-          ],
+          [Buffer.from('identity'), this.wallet.publicKey.toBuffer()],
           this.programId
         );
 
@@ -389,7 +384,7 @@ export class SolanaClient {
           .accounts({
             identity: identityPda,
             user: this.wallet.publicKey,
-            clock: SYSVAR_CLOCK_PUBKEY
+            clock: SYSVAR_CLOCK_PUBKEY,
           })
           .instruction();
 
@@ -399,7 +394,6 @@ export class SolanaClient {
       const signature = await this.sendTransaction(tx);
       console.log(' Batch verification completed:', signature);
       return signature;
-
     } catch (error) {
       throw new VerificationError(`Batch verification failed: ${error}`);
     }
@@ -478,63 +472,63 @@ export class SolanaClient {
     // This is a simplified IDL structure
     // In real implementation, this would be fetched from the blockchain or bundled
     return {
-      version: "0.1.0",
-      name: "solstice_contracts",
+      version: '0.1.0',
+      name: 'solstice_contracts',
       instructions: [
         {
-          name: "initialize",
+          name: 'initialize',
           accounts: [
-            { name: "registry", isMut: true, isSigner: false },
-            { name: "authority", isMut: true, isSigner: true },
-            { name: "systemProgram", isMut: false, isSigner: false }
+            { name: 'registry', isMut: true, isSigner: false },
+            { name: 'authority', isMut: true, isSigner: true },
+            { name: 'systemProgram', isMut: false, isSigner: false },
           ],
-          args: []
+          args: [],
         },
         {
-          name: "registerIdentity",
+          name: 'registerIdentity',
           accounts: [
-            { name: "identity", isMut: true, isSigner: false },
-            { name: "registry", isMut: true, isSigner: false },
-            { name: "user", isMut: true, isSigner: true },
-            { name: "systemProgram", isMut: false, isSigner: false },
-            { name: "rent", isMut: false, isSigner: false }
+            { name: 'identity', isMut: true, isSigner: false },
+            { name: 'registry', isMut: true, isSigner: false },
+            { name: 'user', isMut: true, isSigner: true },
+            { name: 'systemProgram', isMut: false, isSigner: false },
+            { name: 'rent', isMut: false, isSigner: false },
           ],
           args: [
-            { name: "identityCommitment", type: { array: ["u8", 32] } },
-            { name: "merkleRoot", type: { array: ["u8", 32] } }
-          ]
+            { name: 'identityCommitment', type: { array: ['u8', 32] } },
+            { name: 'merkleRoot', type: { array: ['u8', 32] } },
+          ],
         },
         {
-          name: "verifyIdentity",
+          name: 'verifyIdentity',
           accounts: [
-            { name: "identity", isMut: true, isSigner: false },
-            { name: "user", isMut: false, isSigner: true },
-            { name: "clock", isMut: false, isSigner: false }
+            { name: 'identity', isMut: true, isSigner: false },
+            { name: 'user', isMut: false, isSigner: true },
+            { name: 'clock', isMut: false, isSigner: false },
           ],
           args: [
-            { name: "proof", type: { vec: "u8" } },
-            { name: "publicInputs", type: { vec: "u8" } },
-            { name: "attributeType", type: "u8" }
-          ]
-        }
+            { name: 'proof', type: { vec: 'u8' } },
+            { name: 'publicInputs', type: { vec: 'u8' } },
+            { name: 'attributeType', type: 'u8' },
+          ],
+        },
       ],
       accounts: [
         {
-          name: "identity",
+          name: 'identity',
           type: {
-            kind: "struct",
+            kind: 'struct',
             fields: [
-              { name: "owner", type: "publicKey" },
-              { name: "identityCommitment", type: { array: ["u8", 32] } },
-              { name: "merkleRoot", type: { array: ["u8", 32] } },
-              { name: "isVerified", type: "bool" },
-              { name: "verificationTimestamp", type: "i64" },
-              { name: "attributesVerified", type: "u8" },
-              { name: "bump", type: "u8" }
-            ]
-          }
-        }
-      ]
+              { name: 'owner', type: 'publicKey' },
+              { name: 'identityCommitment', type: { array: ['u8', 32] } },
+              { name: 'merkleRoot', type: { array: ['u8', 32] } },
+              { name: 'isVerified', type: 'bool' },
+              { name: 'verificationTimestamp', type: 'i64' },
+              { name: 'attributesVerified', type: 'u8' },
+              { name: 'bump', type: 'u8' },
+            ],
+          },
+        },
+      ],
     };
   }
 }

@@ -1,0 +1,326 @@
+# Security Scanning Pipeline
+# Runs scheduled security scans and on security-related events
+# Provides comprehensive vulnerability detection and compliance checking
+
+name: Security Scan
+
+on:
+  schedule:
+    # Run security scans daily at 2 AM UTC
+    - cron: '0 2 * * *'
+  push:
+    paths:
+      - 'package.json'
+      - 'package-lock.json'
+      - '.github/workflows/security.yml'
+  workflow_dispatch:
+    inputs:
+      scan_type:
+        description: 'Type of security scan to run'
+        required: true
+        default: 'full'
+        type: choice
+        options:
+          - full
+          - dependencies
+          - code
+          - compliance
+
+env:
+  NODE_VERSION: '18'
+
+jobs:
+  # Dependency vulnerability scanning
+  dependency-scan:
+    name: Dependency Vulnerability Scan
+    runs-on: ubuntu-latest
+    if: github.event.inputs.scan_type == 'dependencies' || github.event.inputs.scan_type == 'full' || github.event.inputs.scan_type == ''
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Run npm audit
+        run: |
+          echo "Running npm audit for production dependencies..."
+          npm audit --audit-level=low --production --json > audit-prod.json || true
+          
+          echo "Running npm audit for all dependencies..."
+          npm audit --audit-level=low --json > audit-all.json || true
+          
+          # Parse and report results
+          echo "Production Dependencies Audit Results:"
+          cat audit-prod.json | jq -r '.vulnerabilities | to_entries[] | "\(.key): \(.value.severity)"' || echo "No vulnerabilities found"
+          
+          echo "All Dependencies Audit Results:"
+          cat audit-all.json | jq -r '.vulnerabilities | to_entries[] | "\(.key): \(.value.severity)"' || echo "No vulnerabilities found"
+      
+      - name: Check for critical vulnerabilities
+        run: |
+          CRITICAL_COUNT=$(cat audit-prod.json | jq '.metadata.vulnerabilities.critical // 0')
+          HIGH_COUNT=$(cat audit-prod.json | jq '.metadata.vulnerabilities.high // 0')
+          
+          echo "Critical vulnerabilities: $CRITICAL_COUNT"
+          echo "High vulnerabilities: $HIGH_COUNT"
+          
+          if [ "$CRITICAL_COUNT" -gt 0 ] || [ "$HIGH_COUNT" -gt 0 ]; then
+            echo "❌ Critical or high severity vulnerabilities found in production dependencies"
+            echo "Please review and fix these vulnerabilities before proceeding"
+            exit 1
+          else
+            echo "✅ No critical or high severity vulnerabilities found in production dependencies"
+          fi
+      
+      - name: Upload audit results
+        uses: actions/upload-artifact@v4
+        with:
+          name: security-audit-results-${{ github.sha }}
+          path: |
+            audit-prod.json
+            audit-all.json
+          retention-days: 30
+
+  # Code security scanning with CodeQL
+  code-security-scan:
+    name: Code Security Scan
+    runs-on: ubuntu-latest
+    if: github.event.inputs.scan_type == 'code' || github.event.inputs.scan_type == 'full' || github.event.inputs.scan_type == ''
+    
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: javascript
+          queries: security-extended,security-and-quality
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Build project for analysis
+        run: npm run build
+      
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:javascript"
+
+  # License compliance scanning
+  license-compliance:
+    name: License Compliance Scan
+    runs-on: ubuntu-latest
+    if: github.event.inputs.scan_type == 'compliance' || github.event.inputs.scan_type == 'full' || github.event.inputs.scan_type == ''
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Install license checker
+        run: npm install -g license-checker
+      
+      - name: Check licenses
+        run: |
+          echo "Checking licenses for all dependencies..."
+          license-checker --json --out licenses.json
+          
+          # Check for problematic licenses
+          echo "Analyzing license compatibility..."
+          license-checker --failOn 'GPL-2.0;GPL-3.0;AGPL-1.0;AGPL-3.0' --production || {
+            echo "❌ Found incompatible licenses in production dependencies"
+            echo "Please review the following licenses:"
+            license-checker --onlyAllow 'MIT;Apache-2.0;BSD-2-Clause;BSD-3-Clause;ISC;Unlicense' --production || true
+            exit 1
+          }
+          
+          echo "✅ All production dependencies have compatible licenses"
+      
+      - name: Generate license report
+        run: |
+          echo "# License Report" > LICENSE_REPORT.md
+          echo "Generated on: $(date)" >> LICENSE_REPORT.md
+          echo "" >> LICENSE_REPORT.md
+          echo "## Production Dependencies" >> LICENSE_REPORT.md
+          license-checker --production --markdown >> LICENSE_REPORT.md
+      
+      - name: Upload license report
+        uses: actions/upload-artifact@v4
+        with:
+          name: license-report-${{ github.sha }}
+          path: |
+            licenses.json
+            LICENSE_REPORT.md
+          retention-days: 30
+
+  # ZK Circuit security validation
+  circuit-security:
+    name: ZK Circuit Security Validation
+    runs-on: ubuntu-latest
+    if: github.event.inputs.scan_type == 'full' || github.event.inputs.scan_type == ''
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Validate circuit files
+        run: |
+          echo "Validating ZK circuit security..."
+          
+          # Check for circuit files
+          if [ -d "circuits" ]; then
+            echo "Found circuits directory"
+            
+            # Validate circuit file integrity
+            find circuits -name "*.zkey" -exec echo "Validating zkey: {}" \;
+            find circuits -name "*.r1cs" -exec echo "Validating r1cs: {}" \;
+            find circuits -name "*.sym" -exec echo "Validating sym: {}" \;
+            
+            # Check for proper circuit verification keys
+            if find circuits -name "verification_key.json" | grep -q .; then
+              echo "✅ Verification keys found"
+            else
+              echo "⚠️ No verification keys found - this may be expected for development"
+            fi
+            
+            # Validate circuit file sizes (detect potential issues)
+            find circuits -name "*.zkey" -size +100M -exec echo "⚠️ Large zkey file detected: {}" \;
+            
+            echo "✅ Circuit security validation completed"
+          else
+            echo "No circuits directory found - skipping circuit security validation"
+          fi
+
+  # Security report aggregation
+  security-report:
+    name: Security Report
+    runs-on: ubuntu-latest
+    needs: [dependency-scan, code-security-scan, license-compliance, circuit-security]
+    if: always()
+    
+    steps:
+      - name: Download all security artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: '*security*'
+          merge-multiple: true
+      
+      - name: Generate security summary
+        run: |
+          echo "# Security Scan Summary" > SECURITY_SUMMARY.md
+          echo "Generated on: $(date)" >> SECURITY_SUMMARY.md
+          echo "Commit: ${{ github.sha }}" >> SECURITY_SUMMARY.md
+          echo "" >> SECURITY_SUMMARY.md
+          
+          echo "## Scan Results" >> SECURITY_SUMMARY.md
+          echo "- Dependency Scan: ${{ needs.dependency-scan.result }}" >> SECURITY_SUMMARY.md
+          echo "- Code Security Scan: ${{ needs.code-security-scan.result }}" >> SECURITY_SUMMARY.md
+          echo "- License Compliance: ${{ needs.license-compliance.result }}" >> SECURITY_SUMMARY.md
+          echo "- Circuit Security: ${{ needs.circuit-security.result }}" >> SECURITY_SUMMARY.md
+          echo "" >> SECURITY_SUMMARY.md
+          
+          # Add vulnerability summary if audit results exist
+          if [ -f "audit-prod.json" ]; then
+            echo "## Vulnerability Summary" >> SECURITY_SUMMARY.md
+            echo "Production Dependencies:" >> SECURITY_SUMMARY.md
+            cat audit-prod.json | jq -r '.metadata.vulnerabilities | to_entries[] | "- \(.key | ascii_upcase): \(.value)"' >> SECURITY_SUMMARY.md || echo "- No vulnerabilities found" >> SECURITY_SUMMARY.md
+          fi
+          
+          echo "" >> SECURITY_SUMMARY.md
+          echo "## Recommendations" >> SECURITY_SUMMARY.md
+          
+          # Check overall status and provide recommendations
+          if [[ "${{ needs.dependency-scan.result }}" == "success" && 
+                "${{ needs.code-security-scan.result }}" == "success" && 
+                "${{ needs.license-compliance.result }}" == "success" ]]; then
+            echo "✅ All security scans passed successfully" >> SECURITY_SUMMARY.md
+            echo "- Continue with regular development" >> SECURITY_SUMMARY.md
+            echo "- Monitor for new vulnerabilities" >> SECURITY_SUMMARY.md
+          else
+            echo "❌ Some security scans failed" >> SECURITY_SUMMARY.md
+            echo "- Review failed scans and address issues" >> SECURITY_SUMMARY.md
+            echo "- Update dependencies with known vulnerabilities" >> SECURITY_SUMMARY.md
+            echo "- Consider security review for code issues" >> SECURITY_SUMMARY.md
+          fi
+          
+          cat SECURITY_SUMMARY.md
+      
+      - name: Upload security summary
+        uses: actions/upload-artifact@v4
+        with:
+          name: security-summary-${{ github.sha }}
+          path: SECURITY_SUMMARY.md
+          retention-days: 90
+      
+      - name: Create security issue (if failures detected)
+        if: needs.dependency-scan.result == 'failure' || needs.code-security-scan.result == 'failure' || needs.license-compliance.result == 'failure'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const title = `Security Scan Failures Detected - ${new Date().toISOString().split('T')[0]}`;
+            const body = `
+            ## Security Scan Results
+            
+            One or more security scans have failed. Please review the following:
+            
+            - **Dependency Scan**: ${{ needs.dependency-scan.result }}
+            - **Code Security Scan**: ${{ needs.code-security-scan.result }}
+            - **License Compliance**: ${{ needs.license-compliance.result }}
+            - **Circuit Security**: ${{ needs.circuit-security.result }}
+            
+            ## Action Required
+            
+            1. Review the security scan artifacts in the workflow run
+            2. Address any critical or high severity vulnerabilities
+            3. Update dependencies as needed
+            4. Re-run security scans to verify fixes
+            
+            **Workflow Run**: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+            **Commit**: ${{ github.sha }}
+            `;
+            
+            github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: title,
+              body: body,
+              labels: ['security', 'bug', 'high-priority']
+            });

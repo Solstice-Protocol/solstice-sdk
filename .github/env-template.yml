@@ -1,0 +1,221 @@
+# Environment Variables Template
+# This file documents all environment variables used in the CI/CD pipeline
+# Copy this to your repository secrets and environment variables
+
+# Required Repository Secrets
+# These must be configured in GitHub repository settings > Secrets and variables > Actions
+
+secrets:
+  # NPM Publishing
+  NPM_TOKEN:
+    description: "NPM authentication token for publishing packages"
+    required: true
+    scope: "repository"
+    usage: "Used in release.yml workflow for npm publish"
+    how_to_get: |
+      1. Login to npmjs.com
+      2. Go to Access Tokens in your account settings
+      3. Generate a new token with "Automation" type
+      4. Copy the token and add it as NPM_TOKEN secret
+  
+  # GitHub Token (automatically provided)
+  GITHUB_TOKEN:
+    description: "GitHub token for API access and releases"
+    required: true
+    scope: "automatic"
+    usage: "Automatically provided by GitHub Actions"
+    note: "No manual configuration needed"
+  
+  # Optional: Slack Notifications
+  SLACK_WEBHOOK_URL:
+    description: "Slack webhook URL for notifications"
+    required: false
+    scope: "repository"
+    usage: "Used for sending pipeline notifications to Slack"
+    how_to_get: |
+      1. Go to your Slack workspace
+      2. Create a new app or use existing one
+      3. Enable Incoming Webhooks
+      4. Create a webhook for your desired channel
+      5. Copy the webhook URL
+  
+  # Optional: Discord Notifications
+  DISCORD_WEBHOOK_URL:
+    description: "Discord webhook URL for notifications"
+    required: false
+    scope: "repository"
+    usage: "Used for sending pipeline notifications to Discord"
+    how_to_get: |
+      1. Go to your Discord server settings
+      2. Navigate to Integrations > Webhooks
+      3. Create a new webhook
+      4. Copy the webhook URL
+  
+  # Optional: CodeCov Token
+  CODECOV_TOKEN:
+    description: "CodeCov token for coverage reporting"
+    required: false
+    scope: "repository"
+    usage: "Used for uploading test coverage reports"
+    how_to_get: |
+      1. Sign up at codecov.io
+      2. Connect your GitHub repository
+      3. Copy the repository token
+      4. Add as CODECOV_TOKEN secret
+
+# Environment Variables
+# These can be set at repository or environment level
+
+variables:
+  # Pipeline Configuration
+  NODE_VERSION_MATRIX:
+    description: "JSON array of Node.js versions to test"
+    default: "[16, 18, 20]"
+    scope: "repository"
+    type: "string"
+  
+  COVERAGE_THRESHOLD:
+    description: "Minimum code coverage percentage required"
+    default: "80"
+    scope: "repository"
+    type: "number"
+  
+  SECURITY_SEVERITY_THRESHOLD:
+    description: "Security vulnerability severity threshold"
+    default: "high"
+    scope: "repository"
+    type: "string"
+    options: ["low", "medium", "high", "critical"]
+  
+  # Build Configuration
+  BUILD_TIMEOUT_MINUTES:
+    description: "Maximum time allowed for build processes"
+    default: "30"
+    scope: "repository"
+    type: "number"
+  
+  TEST_TIMEOUT_MINUTES:
+    description: "Maximum time allowed for test execution"
+    default: "45"
+    scope: "repository"
+    type: "number"
+  
+  # Registry Configuration
+  REGISTRY_URL:
+    description: "NPM registry URL for package publishing"
+    default: "https://registry.npmjs.org"
+    scope: "repository"
+    type: "string"
+  
+  # Documentation Configuration
+  DOCS_DEPLOY_TARGET:
+    description: "Target for documentation deployment"
+    default: "github-pages"
+    scope: "repository"
+    type: "string"
+    options: ["github-pages", "netlify", "vercel", "custom"]
+
+# Environment-Specific Variables
+# These are set per environment (staging, production, etc.)
+
+environments:
+  staging:
+    variables:
+      ENVIRONMENT_NAME:
+        description: "Name of the deployment environment"
+        value: "staging"
+      
+      DEPLOY_URL:
+        description: "Base URL for staging deployments"
+        value: "https://staging.solsticeprotocol.com"
+      
+      DEBUG_MODE:
+        description: "Enable debug mode for staging"
+        value: "true"
+  
+  production:
+    variables:
+      ENVIRONMENT_NAME:
+        description: "Name of the deployment environment"
+        value: "production"
+      
+      DEPLOY_URL:
+        description: "Base URL for production deployments"
+        value: "https://solsticeprotocol.com"
+      
+      DEBUG_MODE:
+        description: "Disable debug mode for production"
+        value: "false"
+      
+      MONITORING_ENABLED:
+        description: "Enable monitoring and analytics"
+        value: "true"
+
+# Setup Instructions
+setup_instructions: |
+  1. Repository Secrets Setup:
+     - Go to your GitHub repository
+     - Navigate to Settings > Secrets and variables > Actions
+     - Click "New repository secret"
+     - Add each required secret from the list above
+  
+  2. Environment Variables Setup:
+     - In the same section, go to "Variables" tab
+     - Click "New repository variable"
+     - Add each variable with appropriate values
+  
+  3. Environment-Specific Setup:
+     - Go to Settings > Environments
+     - Create "staging" and "production" environments
+     - Add environment-specific variables and secrets
+     - Configure protection rules as needed
+  
+  4. Verification:
+     - Run the CI workflow to verify all secrets are working
+     - Check that builds, tests, and deployments complete successfully
+     - Verify notifications are sent to configured channels
+
+# Security Best Practices
+security_notes: |
+  - Never commit secrets or tokens to the repository
+  - Use environment-specific secrets for different deployment targets
+  - Regularly rotate authentication tokens
+  - Use least-privilege access for all tokens
+  - Monitor secret usage in workflow logs
+  - Enable secret scanning in repository settings
+  - Use environment protection rules for production deployments
+
+# Troubleshooting Common Issues
+troubleshooting:
+  npm_publish_fails:
+    issue: "NPM publish fails with authentication error"
+    solution: |
+      1. Verify NPM_TOKEN is correctly set in repository secrets
+      2. Ensure the token has publish permissions
+      3. Check that the token hasn't expired
+      4. Verify the package name doesn't conflict with existing packages
+  
+  github_pages_deploy_fails:
+    issue: "GitHub Pages deployment fails"
+    solution: |
+      1. Enable GitHub Pages in repository settings
+      2. Set source to "GitHub Actions"
+      3. Ensure GITHUB_TOKEN has pages write permissions
+      4. Check that the docs directory contains valid HTML
+  
+  security_scan_fails:
+    issue: "Security scans fail or timeout"
+    solution: |
+      1. Check if CodeQL analysis is enabled for the repository
+      2. Verify the repository is not too large for analysis
+      3. Check for syntax errors in source code
+      4. Review security scan logs for specific errors
+  
+  test_failures:
+    issue: "Tests fail in CI but pass locally"
+    solution: |
+      1. Check Node.js version compatibility
+      2. Verify all dependencies are properly installed
+      3. Check for environment-specific issues
+      4. Review test timeout settings
+      5. Check for race conditions in parallel tests

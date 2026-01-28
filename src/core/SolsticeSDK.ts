@@ -1,6 +1,6 @@
 import { PublicKey } from '@solana/web3.js';
 import { WalletAdapter } from '@solana/wallet-adapter-base';
-import { 
+import {
   SolsticeConfig,
   ProofData,
   IdentityStatus,
@@ -12,26 +12,26 @@ import {
   VerificationResult,
   BatchProofRequest,
   BatchProofResult,
-  AadhaarData
+  AadhaarData,
 } from '../types';
 import { ProofGenerator } from '../proofs/ProofGenerator';
 import { SolanaClient } from '../solana/SolanaClient';
-import { 
-  SOLSTICE_PROGRAM_ID, 
+import {
+  SOLSTICE_PROGRAM_ID,
   DEFAULT_RPC_ENDPOINTS,
-  SESSION_LIMITS 
+  SESSION_LIMITS,
 } from '../utils/constants';
 import {
   SolsticeError,
   WalletNotConnectedError,
   InvalidParametersError,
-  ProofGenerationError
+  ProofGenerationError,
 } from '../utils/errors';
 import {
   parseAadhaarQR,
   validateQRData,
   generateNonce,
-  chunk
+  chunk,
 } from '../utils/helpers';
 
 /**
@@ -50,18 +50,21 @@ export class SolsticeSDK {
       programId: config.programId || SOLSTICE_PROGRAM_ID,
       network: config.network || 'devnet',
       circuitConfig: config.circuitConfig,
-      debug: config.debug || false
+      debug: config.debug || false,
     };
 
     // Initialize components
     this.proofGenerator = new ProofGenerator(this.config.circuitConfig);
-    this.solanaClient = new SolanaClient(this.config.endpoint, this.config.programId);
+    this.solanaClient = new SolanaClient(
+      this.config.endpoint,
+      this.config.programId
+    );
 
     if (this.config.debug) {
       console.log(' Solstice SDK initialized with config:', {
         network: this.config.network,
         endpoint: this.config.endpoint,
-        programId: this.config.programId.toString()
+        programId: this.config.programId.toString(),
       });
     }
   }
@@ -75,14 +78,13 @@ export class SolsticeSDK {
     }
 
     try {
-      console.log('🔄 Initializing Solstice SDK...');
-      
+      console.log(' Initializing Solstice SDK...');
+
       // Initialize proof generator (loads circuits)
       await this.proofGenerator.initialize();
-      
+
       this.isInitialized = true;
       console.log(' Solstice SDK initialized successfully');
-
     } catch (error) {
       throw new SolsticeError(`SDK initialization failed: ${error}`);
     }
@@ -97,7 +99,7 @@ export class SolsticeSDK {
     }
 
     await this.solanaClient.connect(wallet);
-    
+
     if (this.config.debug) {
       const balance = await this.solanaClient.getBalance();
       console.log(`💰 Wallet connected. Balance: ${balance} SOL`);
@@ -122,10 +124,11 @@ export class SolsticeSDK {
     try {
       // Parse QR data
       const aadhaarData = parseAadhaarQR(qrData);
-      
+
       // Generate identity commitment and merkle root
-      const { identityCommitment, merkleRoot } = this.generateIdentityCommitment(aadhaarData);
-      
+      const { identityCommitment, merkleRoot } =
+        this.generateIdentityCommitment(aadhaarData);
+
       // Register on blockchain
       const txSignature = await this.solanaClient.registerIdentity(
         identityCommitment,
@@ -136,12 +139,11 @@ export class SolsticeSDK {
         console.log(' Identity registered:', {
           user: aadhaarData.name,
           txSignature,
-          commitment: identityCommitment.slice(0, 16) + '...'
+          commitment: identityCommitment.slice(0, 16) + '...',
         });
       }
 
       return txSignature;
-
     } catch (error) {
       throw new SolsticeError(`Identity registration failed: ${error}`);
     }
@@ -157,8 +159,9 @@ export class SolsticeSDK {
 
     try {
       const aadhaarData = parseAadhaarQR(newQrData);
-      const { identityCommitment, merkleRoot } = this.generateIdentityCommitment(aadhaarData);
-      
+      const { identityCommitment, merkleRoot } =
+        this.generateIdentityCommitment(aadhaarData);
+
       const txSignature = await this.solanaClient.updateIdentity(
         identityCommitment,
         merkleRoot
@@ -169,7 +172,6 @@ export class SolsticeSDK {
       }
 
       return txSignature;
-
     } catch (error) {
       throw new SolsticeError(`Identity update failed: ${error}`);
     }
@@ -200,7 +202,10 @@ export class SolsticeSDK {
   /**
    * Generate age proof with QR data
    */
-  async generateAgeProofWithQR(qrData: string, params: AgeProofParams): Promise<ProofData> {
+  async generateAgeProofWithQR(
+    qrData: string,
+    params: AgeProofParams
+  ): Promise<ProofData> {
     if (!this.isInitialized) {
       await this.initialize();
     }
@@ -213,7 +218,10 @@ export class SolsticeSDK {
       const aadhaarData = parseAadhaarQR(qrData);
       return await this.proofGenerator.generateAgeProof(aadhaarData, params);
     } catch (error) {
-      throw new ProofGenerationError(`Age proof generation failed: ${error}`, 'age');
+      throw new ProofGenerationError(
+        `Age proof generation failed: ${error}`,
+        'age'
+      );
     }
   }
 
@@ -221,7 +229,7 @@ export class SolsticeSDK {
    * Generate nationality proof with QR data
    */
   async generateNationalityProofWithQR(
-    qrData: string, 
+    qrData: string,
     params: NationalityProofParams
   ): Promise<ProofData> {
     if (!this.isInitialized) {
@@ -234,9 +242,15 @@ export class SolsticeSDK {
 
     try {
       const aadhaarData = parseAadhaarQR(qrData);
-      return await this.proofGenerator.generateNationalityProof(aadhaarData, params);
+      return await this.proofGenerator.generateNationalityProof(
+        aadhaarData,
+        params
+      );
     } catch (error) {
-      throw new ProofGenerationError(`Nationality proof generation failed: ${error}`, 'nationality');
+      throw new ProofGenerationError(
+        `Nationality proof generation failed: ${error}`,
+        'nationality'
+      );
     }
   }
 
@@ -257,9 +271,15 @@ export class SolsticeSDK {
 
     try {
       const aadhaarData = parseAadhaarQR(qrData);
-      return await this.proofGenerator.generateUniquenessProof(aadhaarData, params);
+      return await this.proofGenerator.generateUniquenessProof(
+        aadhaarData,
+        params
+      );
     } catch (error) {
-      throw new ProofGenerationError(`Uniqueness proof generation failed: ${error}`, 'uniqueness');
+      throw new ProofGenerationError(
+        `Uniqueness proof generation failed: ${error}`,
+        'uniqueness'
+      );
     }
   }
 
@@ -287,7 +307,7 @@ export class SolsticeSDK {
     try {
       // Generate proof
       const proof = await this.generateAgeProofWithQR(qrData, params);
-      
+
       // Verify if requested
       if (params.autoVerify) {
         const result = await this.verifyIdentity(proof);
@@ -297,14 +317,13 @@ export class SolsticeSDK {
       return {
         verified: true,
         proof,
-        timestamp: Date.now()
+        timestamp: Date.now(),
       };
-
     } catch (error) {
       return {
         verified: false,
         error: `Generation/verification failed: ${error}`,
-        timestamp: Date.now()
+        timestamp: Date.now(),
       };
     }
   }
@@ -314,7 +333,10 @@ export class SolsticeSDK {
    */
   async createSession(params: SessionParams): Promise<SessionData> {
     // Validate duration
-    if (params.duration < SESSION_LIMITS.MIN_DURATION || params.duration > SESSION_LIMITS.MAX_DURATION) {
+    if (
+      params.duration < SESSION_LIMITS.MIN_DURATION ||
+      params.duration > SESSION_LIMITS.MAX_DURATION
+    ) {
       throw new InvalidParametersError(
         `Session duration must be between ${SESSION_LIMITS.MIN_DURATION} and ${SESSION_LIMITS.MAX_DURATION} seconds`
       );
@@ -361,17 +383,17 @@ export class SolsticeSDK {
             switch (request.type) {
               case 'age':
                 return await this.proofGenerator.generateAgeProof(
-                  aadhaarData, 
+                  aadhaarData,
                   request.params as AgeProofParams
                 );
               case 'nationality':
                 return await this.proofGenerator.generateNationalityProof(
-                  aadhaarData, 
+                  aadhaarData,
                   request.params as NationalityProofParams
                 );
               case 'uniqueness':
                 return await this.proofGenerator.generateUniquenessProof(
-                  aadhaarData, 
+                  aadhaarData,
                   request.params as UniquenessProofParams
                 );
               default:
@@ -384,11 +406,10 @@ export class SolsticeSDK {
         });
 
         const chunkResults = await Promise.all(chunkPromises);
-        proofs.push(...chunkResults.filter(p => p !== null) as ProofData[]);
+        proofs.push(...(chunkResults.filter((p) => p !== null) as ProofData[]));
       }
 
       return { proofs, errors: errors.length > 0 ? errors : undefined };
-
     } catch (error) {
       throw new ProofGenerationError(`Batch generation failed: ${error}`);
     }
@@ -434,18 +455,18 @@ export class SolsticeSDK {
     const commitment = this.hashData([
       aadhaarData.referenceId,
       aadhaarData.name,
-      aadhaarData.dateOfBirth
+      aadhaarData.dateOfBirth,
     ]);
 
     const merkleRoot = this.hashData([
       commitment,
       aadhaarData.state || '',
-      aadhaarData.pincode || ''
+      aadhaarData.pincode || '',
     ]);
 
     return {
       identityCommitment: commitment,
-      merkleRoot: merkleRoot
+      merkleRoot: merkleRoot,
     };
   }
 
@@ -458,7 +479,7 @@ export class SolsticeSDK {
     let hash = 0;
     for (let i = 0; i < combined.length; i++) {
       const char = combined.charCodeAt(i);
-      hash = ((hash << 5) - hash) + char;
+      hash = (hash << 5) - hash + char;
       hash = hash & hash; // Convert to 32-bit integer
     }
     return Math.abs(hash).toString(16).padStart(64, '0');
@@ -476,7 +497,7 @@ export class SolsticeSDK {
   /**
    * Generate a verification challenge (for third-party apps)
    * This creates a QR code that users scan with the main Solstice app
-   * 
+   *
    * @param appId - Unique identifier for your app
    * @param appName - Display name for your app
    * @param proofType - Type of verification needed
@@ -501,15 +522,15 @@ export class SolsticeSDK {
       appName,
       proofType,
       params: this.formatChallengeParams(proofType, params),
-      expiresAt: now + (expirationSeconds * 1000),
+      expiresAt: now + expirationSeconds * 1000,
       callbackUrl: options.callbackUrl,
       nonce: options.nonce || generateNonce(),
-      createdAt: now
+      createdAt: now,
     };
 
     const qrData = {
       challenge,
-      version: '1.0.0'
+      version: '1.0.0',
     };
 
     if (this.config.debug) {
@@ -519,19 +540,22 @@ export class SolsticeSDK {
     return {
       challenge,
       qrData: JSON.stringify(qrData),
-      qrDataEncoded: Buffer.from(JSON.stringify(qrData)).toString('base64')
+      qrDataEncoded: Buffer.from(JSON.stringify(qrData)).toString('base64'),
     };
   }
 
   /**
    * Respond to a verification challenge (for main Solstice app)
    * This generates a ZK proof in response to a scanned challenge
-   * 
+   *
    * @param challengeQR - QR code data scanned from third-party app
    * @param aadhaarData - User's Aadhaar data (already registered)
    * @returns Proof response to send to third-party app
    */
-  async respondToChallenge(challengeQR: string, aadhaarData: AadhaarData): Promise<any> {
+  async respondToChallenge(
+    challengeQR: string,
+    aadhaarData: AadhaarData
+  ): Promise<any> {
     if (!this.isInitialized) {
       await this.initialize();
     }
@@ -549,16 +573,27 @@ export class SolsticeSDK {
       let proof: ProofData;
       switch (challenge.proofType) {
         case 'age':
-          proof = await this.proofGenerator.generateAgeProof(aadhaarData, challenge.params);
+          proof = await this.proofGenerator.generateAgeProof(
+            aadhaarData,
+            challenge.params
+          );
           break;
         case 'nationality':
-          proof = await this.proofGenerator.generateNationalityProof(aadhaarData, challenge.params);
+          proof = await this.proofGenerator.generateNationalityProof(
+            aadhaarData,
+            challenge.params
+          );
           break;
         case 'uniqueness':
-          proof = await this.proofGenerator.generateUniquenessProof(aadhaarData, challenge.params);
+          proof = await this.proofGenerator.generateUniquenessProof(
+            aadhaarData,
+            challenge.params
+          );
           break;
         default:
-          throw new InvalidParametersError(`Unknown proof type: ${challenge.proofType}`);
+          throw new InvalidParametersError(
+            `Unknown proof type: ${challenge.proofType}`
+          );
       }
 
       // Create response
@@ -568,31 +603,36 @@ export class SolsticeSDK {
           pi_a: proof.proof.pi_a,
           pi_b: proof.proof.pi_b,
           pi_c: proof.proof.pi_c,
-          publicSignals: proof.publicSignals
+          publicSignals: proof.publicSignals,
         },
         identityCommitment: proof.publicSignals[0],
-        timestamp: Date.now()
+        timestamp: Date.now(),
       };
 
       if (this.config.debug) {
-        console.log('✅ Generated proof response:', response);
+        console.log(' Generated proof response:', response);
       }
 
       return response;
     } catch (error) {
-      throw new ProofGenerationError(`Failed to respond to challenge: ${error}`);
+      throw new ProofGenerationError(
+        `Failed to respond to challenge: ${error}`
+      );
     }
   }
 
   /**
    * Verify a proof response (for third-party apps)
    * This verifies that a proof response is valid for your challenge
-   * 
+   *
    * @param challengeId - Your original challenge ID
    * @param proofResponse - Proof response received from user
    * @returns Verification result
    */
-  async verifyProofResponse(challengeId: string, proofResponse: any): Promise<any> {
+  async verifyProofResponse(
+    challengeId: string,
+    proofResponse: any
+  ): Promise<any> {
     if (!this.isInitialized) {
       await this.initialize();
     }
@@ -603,17 +643,21 @@ export class SolsticeSDK {
         return {
           verified: false,
           challengeId,
-          error: 'Challenge ID mismatch'
+          error: 'Challenge ID mismatch',
         };
       }
 
       // For now, we trust the proof structure
       // In production, this would verify against the circuit verification key
-      if (!proofResponse.proof || !proofResponse.proof.pi_a || !proofResponse.proof.publicSignals) {
+      if (
+        !proofResponse.proof ||
+        !proofResponse.proof.pi_a ||
+        !proofResponse.proof.publicSignals
+      ) {
         return {
           verified: false,
           challengeId,
-          error: 'Invalid proof structure'
+          error: 'Invalid proof structure',
         };
       }
 
@@ -623,14 +667,14 @@ export class SolsticeSDK {
         metadata: {
           proofType: 'zkp',
           identityCommitment: proofResponse.identityCommitment,
-          timestamp: proofResponse.timestamp
-        }
+          timestamp: proofResponse.timestamp,
+        },
       };
     } catch (error) {
       return {
         verified: false,
         challengeId,
-        error: `Verification failed: ${error}`
+        error: `Verification failed: ${error}`,
       };
     }
   }
@@ -668,7 +712,10 @@ export class SolsticeSDK {
       case 'age':
         return { type: 'age', threshold: params.threshold || 18 };
       case 'nationality':
-        return { type: 'nationality', allowedCountries: params.allowedCountries || [] };
+        return {
+          type: 'nationality',
+          allowedCountries: params.allowedCountries || [],
+        };
       case 'uniqueness':
         return { type: 'uniqueness', scope: params.scope || 'global' };
       default:

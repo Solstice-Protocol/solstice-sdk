@@ -1,0 +1,685 @@
+[0m[0m
+[0m[4m/Users/shaurya/Documents/Solstice/solstice-sdk/src/core/EnhancedSolsticeSDK.ts[24m[0m
+[0m    [2m1:10[22m  [31merror[39m    'PublicKey' is defined but never used                [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m    [2m1:10[22m  [31merror[39m    'PublicKey' is defined but never used                [2mno-unused-vars[22m[0m
+[0m   [2m13:14[22m  [31merror[39m    Missing trailing comma                               [2mcomma-dangle[22m[0m
+[0m   [2m21:17[22m  [31merror[39m    Missing trailing comma                               [2mcomma-dangle[22m[0m
+[0m   [2m25:3[22m   [31merror[39m    'WalletNotConnectedError' is defined but never used  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m   [2m25:3[22m   [31merror[39m    'WalletNotConnectedError' is defined but never used  [2mno-unused-vars[22m[0m
+[0m   [2m27:3[22m   [31merror[39m    'ProofGenerationError' is defined but never used     [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m   [2m27:3[22m   [31merror[39m    'ProofGenerationError' is defined but never used     [2mno-unused-vars[22m[0m
+[0m   [2m27:23[22m  [31merror[39m    Missing trailing comma                               [2mcomma-dangle[22m[0m
+[0m   [2m47:35[22m  [31merror[39m    Missing trailing comma                               [2mcomma-dangle[22m[0m
+[0m   [2m56:7[22m   [33mwarning[39m  Unexpected console statement                         [2mno-console[22m[0m
+[0m   [2m59:52[22m  [31merror[39m    Missing trailing comma                               [2mcomma-dangle[22m[0m
+[0m   [2m73:7[22m   [33mwarning[39m  Unexpected console statement                         [2mno-console[22m[0m
+[0m   [2m79:7[22m   [33mwarning[39m  Unexpected console statement                         [2mno-console[22m[0m
+[0m   [2m98:7[22m   [33mwarning[39m  Unexpected console statement                         [2mno-console[22m[0m
+[0m  [2m122:9[22m   [33mwarning[39m  Unexpected console statement                         [2mno-console[22m[0m
+[0m  [2m125:52[22m  [31merror[39m    Missing trailing comma                               [2mcomma-dangle[22m[0m
+[0m  [2m150:19[22m  [31merror[39m    Missing trailing comma                               [2mcomma-dangle[22m[0m
+[0m  [2m154:9[22m   [33mwarning[39m  Unexpected console statement                         [2mno-console[22m[0m
+[0m  [2m157:62[22m  [31merror[39m    Missing trailing comma                               [2mcomma-dangle[22m[0m
+[0m  [2m175:5[22m   [33mwarning[39m  Unexpected console statement                         [2mno-console[22m[0m
+[0m  [2m188:27[22m  [31merror[39m    Missing trailing comma                               [2mcomma-dangle[22m[0m
+[0m  [2m199:35[22m  [31merror[39m    Missing trailing comma                               [2mcomma-dangle[22m[0m
+[0m  [2m210:34[22m  [31merror[39m    Missing trailing comma                               [2mcomma-dangle[22m[0m
+[0m  [2m225:6[22m   [31merror[39m    Missing trailing comma                               [2mcomma-dangle[22m[0m
+[0m  [2m235:5[22m   [33mwarning[39m  Unexpected console statement                         [2mno-console[22m[0m
+[0m  [2m247:7[22m   [33mwarning[39m  Unexpected console statement                         [2mno-console[22m[0m
+[0m  [2m265:9[22m   [33mwarning[39m  Unexpected console statement                         [2mno-console[22m[0m
+[0m  [2m268:36[22m  [31merror[39m    Missing trailing comma                               [2mcomma-dangle[22m[0m
+[0m  [2m296:80[22m  [31merror[39m    Missing trailing comma                               [2mcomma-dangle[22m[0m
+[0m  [2m315:6[22m   [31merror[39m    Missing trailing comma                               [2mcomma-dangle[22m[0m
+[0m  [2m323:5[22m   [33mwarning[39m  Unexpected console statement                         [2mno-console[22m[0m
+[0m  [2m331:44[22m  [31merror[39m    Missing trailing comma                               [2mcomma-dangle[22m[0m
+[0m  [2m352:34[22m  [31merror[39m    Missing trailing comma                               [2mcomma-dangle[22m[0m
+[0m  [2m353:12[22m  [31merror[39m    Missing trailing comma                               [2mcomma-dangle[22m[0m
+[0m  [2m359:7[22m   [33mwarning[39m  Unexpected console statement                         [2mno-console[22m[0m
+[0m  [2m366:18[22m  [31merror[39m    Missing trailing comma                               [2mcomma-dangle[22m[0m
+[0m  [2m388:31[22m  [31merror[39m    Missing trailing comma                               [2mcomma-dangle[22m[0m
+[0m  [2m397:1[22m   [31merror[39m    Expected indentation of 4 spaces but found 6         [2mindent[22m[0m
+[0m  [2m398:1[22m   [31merror[39m    Expected indentation of 4 spaces but found 6         [2mindent[22m[0m
+[0m  [2m399:1[22m   [31merror[39m    Expected indentation of 4 spaces but found 6         [2mindent[22m[0m
+[0m  [2m400:1[22m   [31merror[39m    Expected indentation of 4 spaces but found 6         [2mindent[22m[0m
+[0m  [2m408:17[22m  [33mwarning[39m  Unexpected any. Specify a different type             [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m411:1[22m   [31merror[39m    Expected indentation of 4 spaces but found 2         [2mindent[22m[0m
+[0m  [2m415:23[22m  [31merror[39m    Missing trailing comma                               [2mcomma-dangle[22m[0m
+[0m  [2m424:5[22m   [33mwarning[39m  Unexpected console statement                         [2mno-console[22m[0m
+[0m  [2m426:2[22m   [31merror[39m    Newline required at end of file but not found        [2meol-last[22m[0m
+[0m[0m
+[0m[4m/Users/shaurya/Documents/Solstice/solstice-sdk/src/core/SolsticeSDK.ts[24m[0m
+[0m    [2m1:10[22m   [31merror[39m    'PublicKey' is defined but never used                                     [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m    [2m1:10[22m   [31merror[39m    'PublicKey' is defined but never used                                     [2mno-unused-vars[22m[0m
+[0m   [2m15:14[22m   [31merror[39m    Missing trailing comma                                                    [2mcomma-dangle[22m[0m
+[0m   [2m22:17[22m   [31merror[39m    Missing trailing comma                                                    [2mcomma-dangle[22m[0m
+[0m   [2m26:3[22m    [31merror[39m    'WalletNotConnectedError' is defined but never used                       [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m   [2m26:3[22m    [31merror[39m    'WalletNotConnectedError' is defined but never used                       [2mno-unused-vars[22m[0m
+[0m   [2m28:23[22m   [31merror[39m    Missing trailing comma                                                    [2mcomma-dangle[22m[0m
+[0m   [2m34:8[22m    [31merror[39m    Missing trailing comma                                                    [2mcomma-dangle[22m[0m
+[0m   [2m53:35[22m   [31merror[39m    Missing trailing comma                                                    [2mcomma-dangle[22m[0m
+[0m   [2m61:7[22m    [33mwarning[39m  Unexpected console statement                                              [2mno-console[22m[0m
+[0m   [2m64:52[22m   [31merror[39m    Missing trailing comma                                                    [2mcomma-dangle[22m[0m
+[0m   [2m78:7[22m    [33mwarning[39m  Unexpected console statement                                              [2mno-console[22m[0m
+[0m   [2m84:7[22m    [33mwarning[39m  Unexpected console statement                                              [2mno-console[22m[0m
+[0m  [2m103:7[22m    [33mwarning[39m  Unexpected console statement                                              [2mno-console[22m[0m
+[0m  [2m132:19[22m   [31merror[39m    Missing trailing comma                                                    [2mcomma-dangle[22m[0m
+[0m  [2m136:9[22m    [33mwarning[39m  Unexpected console statement                                              [2mno-console[22m[0m
+[0m  [2m139:62[22m   [31merror[39m    Missing trailing comma                                                    [2mcomma-dangle[22m[0m
+[0m  [2m164:19[22m   [31merror[39m    Missing trailing comma                                                    [2mcomma-dangle[22m[0m
+[0m  [2m168:9[22m    [33mwarning[39m  Unexpected console statement                                              [2mno-console[22m[0m
+[0m  [2m188:26[22m   [31merror[39m    'params' is defined but never used. Allowed unused args must match /^_/u  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m188:26[22m   [31merror[39m    'params' is defined but never used                                        [2mno-unused-vars[22m[0m
+[0m  [2m196:114[22m  [31merror[39m    Missing trailing comma                                                    [2mcomma-dangle[22m[0m
+[0m  [2m225:35[22m   [31merror[39m    Missing trailing comma                                                    [2mcomma-dangle[22m[0m
+[0m  [2m248:34[22m   [31merror[39m    Missing trailing comma                                                    [2mcomma-dangle[22m[0m
+[0m  [2m285:54[22m   [31merror[39m    Missing trailing comma                                                    [2mcomma-dangle[22m[0m
+[0m  [2m300:30[22m   [31merror[39m    Missing trailing comma                                                    [2mcomma-dangle[22m[0m
+[0m  [2m307:30[22m   [31merror[39m    Missing trailing comma                                                    [2mcomma-dangle[22m[0m
+[0m  [2m319:117[22m  [31merror[39m    Missing trailing comma                                                    [2mcomma-dangle[22m[0m
+[0m  [2m339:34[22m   [31merror[39m    Missing trailing comma                                                    [2mcomma-dangle[22m[0m
+[0m  [2m362:1[22m    [31merror[39m    Expected indentation of 12 spaces but found 14                            [2mindent[22m[0m
+[0m  [2m363:1[22m    [31merror[39m    Expected indentation of 14 spaces but found 16                            [2mindent[22m[0m
+[0m  [2m364:1[22m    [31merror[39m    Expected indentation of 16 spaces but found 18                            [2mindent[22m[0m
+[0m  [2m365:51[22m   [31merror[39m    Missing trailing comma                                                    [2mcomma-dangle[22m[0m
+[0m  [2m366:1[22m    [31merror[39m    Expected indentation of 14 spaces but found 16                            [2mindent[22m[0m
+[0m  [2m367:1[22m    [31merror[39m    Expected indentation of 12 spaces but found 14                            [2mindent[22m[0m
+[0m  [2m368:1[22m    [31merror[39m    Expected indentation of 14 spaces but found 16                            [2mindent[22m[0m
+[0m  [2m369:1[22m    [31merror[39m    Expected indentation of 16 spaces but found 18                            [2mindent[22m[0m
+[0m  [2m370:59[22m   [31merror[39m    Missing trailing comma                                                    [2mcomma-dangle[22m[0m
+[0m  [2m371:1[22m    [31merror[39m    Expected indentation of 14 spaces but found 16                            [2mindent[22m[0m
+[0m  [2m372:1[22m    [31merror[39m    Expected indentation of 12 spaces but found 14                            [2mindent[22m[0m
+[0m  [2m373:1[22m    [31merror[39m    Expected indentation of 14 spaces but found 16                            [2mindent[22m[0m
+[0m  [2m374:1[22m    [31merror[39m    Expected indentation of 16 spaces but found 18                            [2mindent[22m[0m
+[0m  [2m375:58[22m   [31merror[39m    Missing trailing comma                                                    [2mcomma-dangle[22m[0m
+[0m  [2m376:1[22m    [31merror[39m    Expected indentation of 14 spaces but found 16                            [2mindent[22m[0m
+[0m  [2m377:1[22m    [31merror[39m    Expected indentation of 12 spaces but found 14                            [2mindent[22m[0m
+[0m  [2m378:1[22m    [31merror[39m    Expected indentation of 14 spaces but found 16                            [2mindent[22m[0m
+[0m  [2m437:30[22m   [31merror[39m    Missing trailing comma                                                    [2mcomma-dangle[22m[0m
+[0m  [2m443:32[22m   [31merror[39m    Missing trailing comma                                                    [2mcomma-dangle[22m[0m
+[0m  [2m448:29[22m   [31merror[39m    Missing trailing comma                                                    [2mcomma-dangle[22m[0m
+[0m  [2m479:5[22m    [31merror[39m    Trailing spaces not allowed                                               [2mno-trailing-spaces[22m[0m
+[0m  [2m491:13[22m   [33mwarning[39m  Unexpected any. Specify a different type                                  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m492:14[22m   [33mwarning[39m  Unexpected any. Specify a different type                                  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m492:22[22m   [31merror[39m    Missing trailing comma                                                    [2mcomma-dangle[22m[0m
+[0m  [2m493:14[22m   [33mwarning[39m  Unexpected any. Specify a different type                                  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m507:21[22m   [31merror[39m    Missing trailing comma                                                    [2mcomma-dangle[22m[0m
+[0m  [2m512:23[22m   [31merror[39m    Missing trailing comma                                                    [2mcomma-dangle[22m[0m
+[0m  [2m516:7[22m    [33mwarning[39m  Unexpected console statement                                              [2mno-console[22m[0m
+[0m  [2m522:76[22m   [31merror[39m    Missing trailing comma                                                    [2mcomma-dangle[22m[0m
+[0m  [2m529:5[22m    [31merror[39m    Trailing spaces not allowed                                               [2mno-trailing-spaces[22m[0m
+[0m  [2m534:84[22m   [33mwarning[39m  Unexpected any. Specify a different type                                  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m551:1[22m    [31merror[39m    Expected indentation of 6 spaces but found 8                              [2mindent[22m[0m
+[0m  [2m552:1[22m    [31merror[39m    Expected indentation of 8 spaces but found 10                             [2mindent[22m[0m
+[0m  [2m553:1[22m    [31merror[39m    Expected indentation of 8 spaces but found 10                             [2mindent[22m[0m
+[0m  [2m554:1[22m    [31merror[39m    Expected indentation of 6 spaces but found 8                              [2mindent[22m[0m
+[0m  [2m555:1[22m    [31merror[39m    Expected indentation of 8 spaces but found 10                             [2mindent[22m[0m
+[0m  [2m556:1[22m    [31merror[39m    Expected indentation of 8 spaces but found 10                             [2mindent[22m[0m
+[0m  [2m557:1[22m    [31merror[39m    Expected indentation of 6 spaces but found 8                              [2mindent[22m[0m
+[0m  [2m558:1[22m    [31merror[39m    Expected indentation of 8 spaces but found 10                             [2mindent[22m[0m
+[0m  [2m559:1[22m    [31merror[39m    Expected indentation of 8 spaces but found 10                             [2mindent[22m[0m
+[0m  [2m560:1[22m    [31merror[39m    Expected indentation of 6 spaces but found 8                              [2mindent[22m[0m
+[0m  [2m561:1[22m    [31merror[39m    Expected indentation of 8 spaces but found 10                             [2mindent[22m[0m
+[0m  [2m571:45[22m   [31merror[39m    Missing trailing comma                                                    [2mcomma-dangle[22m[0m
+[0m  [2m574:30[22m   [31merror[39m    Missing trailing comma                                                    [2mcomma-dangle[22m[0m
+[0m  [2m578:9[22m    [33mwarning[39m  Unexpected console statement                                              [2mno-console[22m[0m
+[0m  [2m590:5[22m    [31merror[39m    Trailing spaces not allowed                                               [2mno-trailing-spaces[22m[0m
+[0m  [2m595:65[22m   [33mwarning[39m  Unexpected any. Specify a different type                                  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m595:79[22m   [33mwarning[39m  Unexpected any. Specify a different type                                  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m606:41[22m   [31merror[39m    Missing trailing comma                                                    [2mcomma-dangle[22m[0m
+[0m  [2m616:43[22m   [31merror[39m    Missing trailing comma                                                    [2mcomma-dangle[22m[0m
+[0m  [2m626:45[22m   [31merror[39m    Missing trailing comma                                                    [2mcomma-dangle[22m[0m
+[0m  [2m627:10[22m   [31merror[39m    Missing trailing comma                                                    [2mcomma-dangle[22m[0m
+[0m  [2m633:47[22m   [31merror[39m    Missing trailing comma                                                    [2mcomma-dangle[22m[0m
+[0m  [2m641:43[22m   [33mwarning[39m  Unexpected any. Specify a different type                                  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m666:60[22m   [33mwarning[39m  Unexpected any. Specify a different type                                  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m666:66[22m   [33mwarning[39m  Unexpected any. Specify a different type                                  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m668:1[22m    [31merror[39m    Expected indentation of 4 spaces but found 6                              [2mindent[22m[0m
+[0m  [2m669:1[22m    [31merror[39m    Expected indentation of 6 spaces but found 8                              [2mindent[22m[0m
+[0m  [2m670:1[22m    [31merror[39m    Expected indentation of 4 spaces but found 6                              [2mindent[22m[0m
+[0m  [2m671:1[22m    [31merror[39m    Expected indentation of 6 spaces but found 8                              [2mindent[22m[0m
+[0m  [2m672:1[22m    [31merror[39m    Expected indentation of 4 spaces but found 6                              [2mindent[22m[0m
+[0m  [2m673:1[22m    [31merror[39m    Expected indentation of 6 spaces but found 8                              [2mindent[22m[0m
+[0m  [2m674:1[22m    [31merror[39m    Expected indentation of 4 spaces but found 6                              [2mindent[22m[0m
+[0m  [2m675:1[22m    [31merror[39m    Expected indentation of 6 spaces but found 8                              [2mindent[22m[0m
+[0m  [2m678:2[22m    [31merror[39m    Newline required at end of file but not found                             [2meol-last[22m[0m
+[0m[0m
+[0m[4m/Users/shaurya/Documents/Solstice/solstice-sdk/src/index.ts[24m[0m
+[0m   [2m3:3[22m   [31merror[39m  Trailing spaces not allowed                    [2mno-trailing-spaces[22m[0m
+[0m  [2m27:13[22m  [31merror[39m  Missing trailing comma                         [2mcomma-dangle[22m[0m
+[0m  [2m37:21[22m  [31merror[39m  Missing trailing comma                         [2mcomma-dangle[22m[0m
+[0m  [2m44:9[22m   [31merror[39m  Trailing spaces not allowed                    [2mno-trailing-spaces[22m[0m
+[0m  [2m49:13[22m  [31merror[39m  Missing trailing comma                         [2mcomma-dangle[22m[0m
+[0m  [2m53:38[22m  [31merror[39m  Newline required at end of file but not found  [2meol-last[22m[0m
+[0m[0m
+[0m[4m/Users/shaurya/Documents/Solstice/solstice-sdk/src/proofs/EnhancedProofGenerator.ts[24m[0m
+[0m   [2m10:3[22m   [31merror[39m    'CircuitArtifacts' is defined but never used                                                                   [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m   [2m10:3[22m   [31merror[39m    'CircuitArtifacts' is defined but never used                                                                   [2mno-unused-vars[22m[0m
+[0m   [2m11:13[22m  [31merror[39m    Missing trailing comma                                                                                         [2mcomma-dangle[22m[0m
+[0m   [2m16:25[22m  [31merror[39m    Missing trailing comma                                                                                         [2mcomma-dangle[22m[0m
+[0m   [2m21:3[22m   [31merror[39m    'SUPPORTED_COUNTRIES' is defined but never used                                                                [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m   [2m21:3[22m   [31merror[39m    'SUPPORTED_COUNTRIES' is defined but never used                                                                [2mno-unused-vars[22m[0m
+[0m   [2m22:20[22m  [31merror[39m    Missing trailing comma                                                                                         [2mcomma-dangle[22m[0m
+[0m   [2m27:3[22m   [31merror[39m    'validateDaoId' is defined but never used                                                                      [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m   [2m27:3[22m   [31merror[39m    'validateDaoId' is defined but never used                                                                      [2mno-unused-vars[22m[0m
+[0m   [2m29:3[22m   [31merror[39m    'dateToTimestamp' is defined but never used                                                                    [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m   [2m29:3[22m   [31merror[39m    'dateToTimestamp' is defined but never used                                                                    [2mno-unused-vars[22m[0m
+[0m   [2m31:13[22m  [31merror[39m    Missing trailing comma                                                                                         [2mcomma-dangle[22m[0m
+[0m   [2m38:33[22m  [33mwarning[39m  Unexpected any. Specify a different type                                                                       [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m   [2m41:21[22m  [33mwarning[39m  Unexpected any. Specify a different type                                                                       [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m   [2m49:72[22m  [31merror[39m    Missing trailing comma                                                                                         [2mcomma-dangle[22m[0m
+[0m   [2m58:7[22m   [33mwarning[39m  Unexpected console statement                                                                                   [2mno-console[22m[0m
+[0m   [2m62:7[22m   [33mwarning[39m  Unexpected console statement                                                                                   [2mno-console[22m[0m
+[0m   [2m70:7[22m   [33mwarning[39m  Unexpected console statement                                                                                   [2mno-console[22m[0m
+[0m   [2m73:44[22m  [31merror[39m    'window' is not defined                                                                                        [2mno-undef[22m[0m
+[0m   [2m77:7[22m   [33mwarning[39m  Unexpected console statement                                                                                   [2mno-console[22m[0m
+[0m   [2m93:7[22m   [33mwarning[39m  Unexpected console statement                                                                                   [2mno-console[22m[0m
+[0m  [2m111:7[22m   [33mwarning[39m  Unexpected console statement                                                                                   [2mno-console[22m[0m
+[0m  [2m129:7[22m   [33mwarning[39m  Unexpected console statement                                                                                   [2mno-console[22m[0m
+[0m  [2m131:7[22m   [33mwarning[39m  Unexpected console statement                                                                                   [2mno-console[22m[0m
+[0m  [2m140:27[22m  [31merror[39m    Missing trailing comma                                                                                         [2mcomma-dangle[22m[0m
+[0m  [2m148:7[22m   [33mwarning[39m  Unexpected console statement                                                                                   [2mno-console[22m[0m
+[0m  [2m152:5[22m   [33mwarning[39m  Unexpected console statement                                                                                   [2mno-console[22m[0m
+[0m  [2m168:14[22m  [31merror[39m    Missing trailing comma                                                                                         [2mcomma-dangle[22m[0m
+[0m  [2m177:30[22m  [31merror[39m    Missing trailing comma                                                                                         [2mcomma-dangle[22m[0m
+[0m  [2m184:27[22m  [31merror[39m    Missing trailing comma                                                                                         [2mcomma-dangle[22m[0m
+[0m  [2m194:75[22m  [31merror[39m    Missing trailing comma                                                                                         [2mcomma-dangle[22m[0m
+[0m  [2m195:10[22m  [31merror[39m    Missing trailing comma                                                                                         [2mcomma-dangle[22m[0m
+[0m  [2m201:7[22m   [33mwarning[39m  Unexpected console statement                                                                                   [2mno-console[22m[0m
+[0m  [2m214:35[22m  [31merror[39m    Missing trailing comma                                                                                         [2mcomma-dangle[22m[0m
+[0m  [2m222:7[22m   [33mwarning[39m  Unexpected console statement                                                                                   [2mno-console[22m[0m
+[0m  [2m226:5[22m   [33mwarning[39m  Unexpected console statement                                                                                   [2mno-console[22m[0m
+[0m  [2m247:14[22m  [31merror[39m    Missing trailing comma                                                                                         [2mcomma-dangle[22m[0m
+[0m  [2m256:30[22m  [31merror[39m    Missing trailing comma                                                                                         [2mcomma-dangle[22m[0m
+[0m  [2m263:35[22m  [31merror[39m    Missing trailing comma                                                                                         [2mcomma-dangle[22m[0m
+[0m  [2m273:75[22m  [31merror[39m    Missing trailing comma                                                                                         [2mcomma-dangle[22m[0m
+[0m  [2m274:10[22m  [31merror[39m    Missing trailing comma                                                                                         [2mcomma-dangle[22m[0m
+[0m  [2m280:7[22m   [33mwarning[39m  Unexpected console statement                                                                                   [2mno-console[22m[0m
+[0m  [2m293:34[22m  [31merror[39m    Missing trailing comma                                                                                         [2mcomma-dangle[22m[0m
+[0m  [2m299:7[22m   [33mwarning[39m  Unexpected console statement                                                                                   [2mno-console[22m[0m
+[0m  [2m303:5[22m   [33mwarning[39m  Unexpected console statement                                                                                   [2mno-console[22m[0m
+[0m  [2m312:30[22m  [31merror[39m    Missing trailing comma                                                                                         [2mcomma-dangle[22m[0m
+[0m  [2m318:14[22m  [31merror[39m    Missing trailing comma                                                                                         [2mcomma-dangle[22m[0m
+[0m  [2m332:59[22m  [31merror[39m    Missing trailing comma                                                                                         [2mcomma-dangle[22m[0m
+[0m  [2m339:34[22m  [31merror[39m    Missing trailing comma                                                                                         [2mcomma-dangle[22m[0m
+[0m  [2m351:75[22m  [31merror[39m    Missing trailing comma                                                                                         [2mcomma-dangle[22m[0m
+[0m  [2m352:10[22m  [31merror[39m    Missing trailing comma                                                                                         [2mcomma-dangle[22m[0m
+[0m  [2m358:7[22m   [33mwarning[39m  Unexpected console statement                                                                                   [2mno-console[22m[0m
+[0m  [2m371:13[22m  [33mwarning[39m  Unexpected any. Specify a different type                                                                       [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m372:20[22m  [31merror[39m    Missing trailing comma                                                                                         [2mcomma-dangle[22m[0m
+[0m  [2m373:23[22m  [33mwarning[39m  Unexpected any. Specify a different type                                                                       [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m374:24[22m  [31merror[39m    Promise executor functions should not be async                                                                 [2mno-async-promise-executor[22m[0m
+[0m  [2m387:9[22m   [33mwarning[39m  Unexpected console statement                                                                                   [2mno-console[22m[0m
+[0m  [2m394:21[22m  [31merror[39m    Missing trailing comma                                                                                         [2mcomma-dangle[22m[0m
+[0m  [2m398:9[22m   [33mwarning[39m  Unexpected console statement                                                                                   [2mno-console[22m[0m
+[0m  [2m415:13[22m  [33mwarning[39m  Unexpected any. Specify a different type                                                                       [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m415:16[22m  [31merror[39m    Missing trailing comma                                                                                         [2mcomma-dangle[22m[0m
+[0m  [2m420:29[22m  [31merror[39m    Missing trailing comma                                                                                         [2mcomma-dangle[22m[0m
+[0m  [2m432:48[22m  [31merror[39m    Missing trailing comma                                                                                         [2mcomma-dangle[22m[0m
+[0m  [2m438:42[22m  [31merror[39m    'window' is not defined                                                                                        [2mno-undef[22m[0m
+[0m  [2m442:9[22m   [33mwarning[39m  Unexpected console statement                                                                                   [2mno-console[22m[0m
+[0m  [2m459:54[22m  [31merror[39m    'proof' is defined but never used. Allowed unused args must match /^_/u                                        [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m459:54[22m  [31merror[39m    'proof' is defined but never used                                                                              [2mno-unused-vars[22m[0m
+[0m  [2m462:5[22m   [33mwarning[39m  Unexpected console statement                                                                                   [2mno-console[22m[0m
+[0m  [2m474:6[22m   [31merror[39m    Missing trailing comma                                                                                         [2mcomma-dangle[22m[0m
+[0m  [2m480:5[22m   [33mwarning[39m  Unexpected console statement                                                                                   [2mno-console[22m[0m
+[0m  [2m483:34[22m  [33mwarning[39m  Unexpected any. Specify a different type                                                                       [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m484:20[22m  [33mwarning[39m  Unexpected any. Specify a different type                                                                       [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m489:26[22m  [31merror[39m    Statement inside of curly braces should be on next line                                                        [2mbrace-style[22m[0m
+[0m  [2m489:49[22m  [31merror[39m    Closing curly brace should be on the same line as opening curly brace or on the line after the previous block  [2mbrace-style[22m[0m
+[0m  [2m489:51[22m  [31merror[39m    Missing trailing comma                                                                                         [2mcomma-dangle[22m[0m
+[0m  [2m496:26[22m  [31merror[39m    Statement inside of curly braces should be on next line                                                        [2mbrace-style[22m[0m
+[0m  [2m496:57[22m  [31merror[39m    Closing curly brace should be on the same line as opening curly brace or on the line after the previous block  [2mbrace-style[22m[0m
+[0m  [2m496:59[22m  [31merror[39m    Missing trailing comma                                                                                         [2mcomma-dangle[22m[0m
+[0m  [2m503:26[22m  [31merror[39m    Statement inside of curly braces should be on next line                                                        [2mbrace-style[22m[0m
+[0m  [2m503:56[22m  [31merror[39m    Closing curly brace should be on the same line as opening curly brace or on the line after the previous block  [2mbrace-style[22m[0m
+[0m  [2m503:58[22m  [31merror[39m    Missing trailing comma                                                                                         [2mcomma-dangle[22m[0m
+[0m  [2m510:5[22m   [33mwarning[39m  Unexpected console statement                                                                                   [2mno-console[22m[0m
+[0m  [2m534:1[22m   [31merror[39m    Expected indentation of 4 spaces but found 2                                                                   [2mindent[22m[0m
+[0m  [2m547:22[22m  [31merror[39m    Missing trailing comma                                                                                         [2mcomma-dangle[22m[0m
+[0m  [2m550:2[22m   [31merror[39m    Newline required at end of file but not found                                                                  [2meol-last[22m[0m
+[0m[0m
+[0m[4m/Users/shaurya/Documents/Solstice/solstice-sdk/src/proofs/ProofGenerator.ts[24m[0m
+[0m    [2m1:9[22m   [31merror[39m    Trailing spaces not allowed                                              [2mno-trailing-spaces[22m[0m
+[0m    [2m2:13[22m  [31merror[39m    Trailing spaces not allowed                                              [2mno-trailing-spaces[22m[0m
+[0m    [2m3:18[22m  [31merror[39m    Trailing spaces not allowed                                              [2mno-trailing-spaces[22m[0m
+[0m    [2m4:26[22m  [31merror[39m    Trailing spaces not allowed                                              [2mno-trailing-spaces[22m[0m
+[0m    [2m7:14[22m  [31merror[39m    Missing trailing comma                                                   [2mcomma-dangle[22m[0m
+[0m    [2m9:9[22m   [31merror[39m    Trailing spaces not allowed                                              [2mno-trailing-spaces[22m[0m
+[0m   [2m10:24[22m  [31merror[39m    Trailing spaces not allowed                                              [2mno-trailing-spaces[22m[0m
+[0m   [2m12:25[22m  [31merror[39m    Trailing spaces not allowed                                              [2mno-trailing-spaces[22m[0m
+[0m   [2m12:25[22m  [31merror[39m    Missing trailing comma                                                   [2mcomma-dangle[22m[0m
+[0m   [2m14:9[22m   [31merror[39m    Trailing spaces not allowed                                              [2mno-trailing-spaces[22m[0m
+[0m   [2m15:25[22m  [31merror[39m    Trailing spaces not allowed                                              [2mno-trailing-spaces[22m[0m
+[0m   [2m17:22[22m  [31merror[39m    Trailing spaces not allowed                                              [2mno-trailing-spaces[22m[0m
+[0m   [2m17:22[22m  [31merror[39m    Missing trailing comma                                                   [2mcomma-dangle[22m[0m
+[0m   [2m19:9[22m   [31merror[39m    Trailing spaces not allowed                                              [2mno-trailing-spaces[22m[0m
+[0m   [2m25:15[22m  [31merror[39m    Missing trailing comma                                                   [2mcomma-dangle[22m[0m
+[0m   [2m32:33[22m  [33mwarning[39m  Unexpected any. Specify a different type                                 [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m   [2m33:21[22m  [33mwarning[39m  Unexpected any. Specify a different type                                 [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m   [2m40:72[22m  [31merror[39m    Missing trailing comma                                                   [2mcomma-dangle[22m[0m
+[0m   [2m51:1[22m   [31merror[39m    Trailing spaces not allowed                                              [2mno-trailing-spaces[22m[0m
+[0m   [2m56:39[22m  [31merror[39m    Missing trailing comma                                                   [2mcomma-dangle[22m[0m
+[0m   [2m59:7[22m   [33mwarning[39m  Unexpected console statement                                             [2mno-console[22m[0m
+[0m   [2m68:32[22m  [33mwarning[39m  Unexpected any. Specify a different type                                 [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m   [2m68:40[22m  [33mwarning[39m  Unexpected any. Specify a different type                                 [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m   [2m69:20[22m  [31merror[39m    Require statement not part of import statement                           [2m@typescript-eslint/no-var-requires[22m[0m
+[0m   [2m70:1[22m   [31merror[39m    Trailing spaces not allowed                                              [2mno-trailing-spaces[22m[0m
+[0m   [2m72:44[22m  [31merror[39m    Trailing spaces not allowed                                              [2mno-trailing-spaces[22m[0m
+[0m   [2m73:72[22m  [31merror[39m    Missing trailing comma                                                   [2mcomma-dangle[22m[0m
+[0m   [2m75:1[22m   [31merror[39m    Trailing spaces not allowed                                              [2mno-trailing-spaces[22m[0m
+[0m   [2m78:1[22m   [31merror[39m    Trailing spaces not allowed                                              [2mno-trailing-spaces[22m[0m
+[0m   [2m80:13[22m  [31merror[39m    Trailing spaces not allowed                                              [2mno-trailing-spaces[22m[0m
+[0m   [2m82:58[22m  [31merror[39m    Missing trailing comma                                                   [2mcomma-dangle[22m[0m
+[0m   [2m91:27[22m  [31merror[39m    Missing trailing comma                                                   [2mcomma-dangle[22m[0m
+[0m   [2m95:5[22m   [33mwarning[39m  Unexpected console statement                                             [2mno-console[22m[0m
+[0m   [2m96:1[22m   [31merror[39m    Trailing spaces not allowed                                              [2mno-trailing-spaces[22m[0m
+[0m  [2m100:1[22m   [31merror[39m    Trailing spaces not allowed                                              [2mno-trailing-spaces[22m[0m
+[0m  [2m111:32[22m  [31merror[39m    Missing trailing comma                                                   [2mcomma-dangle[22m[0m
+[0m  [2m115:21[22m  [33mwarning[39m  Unexpected any. Specify a different type                                 [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m120:68[22m  [31merror[39m    Missing trailing comma                                                   [2mcomma-dangle[22m[0m
+[0m  [2m127:27[22m  [31merror[39m    Missing trailing comma                                                   [2mcomma-dangle[22m[0m
+[0m  [2m130:7[22m   [33mwarning[39m  Unexpected console statement                                             [2mno-console[22m[0m
+[0m  [2m138:32[22m  [31merror[39m    Missing trailing comma                                                   [2mcomma-dangle[22m[0m
+[0m  [2m139:10[22m  [31merror[39m    Missing trailing comma                                                   [2mcomma-dangle[22m[0m
+[0m  [2m152:35[22m  [31merror[39m    Missing trailing comma                                                   [2mcomma-dangle[22m[0m
+[0m  [2m156:5[22m   [33mwarning[39m  Unexpected console statement                                             [2mno-console[22m[0m
+[0m  [2m161:1[22m   [31merror[39m    Trailing spaces not allowed                                              [2mno-trailing-spaces[22m[0m
+[0m  [2m164:1[22m   [31merror[39m    Trailing spaces not allowed                                              [2mno-trailing-spaces[22m[0m
+[0m  [2m174:32[22m  [31merror[39m    Missing trailing comma                                                   [2mcomma-dangle[22m[0m
+[0m  [2m178:21[22m  [33mwarning[39m  Unexpected any. Specify a different type                                 [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m182:95[22m  [31merror[39m    Missing trailing comma                                                   [2mcomma-dangle[22m[0m
+[0m  [2m189:35[22m  [31merror[39m    Missing trailing comma                                                   [2mcomma-dangle[22m[0m
+[0m  [2m192:7[22m   [33mwarning[39m  Unexpected console statement                                             [2mno-console[22m[0m
+[0m  [2m200:32[22m  [31merror[39m    Missing trailing comma                                                   [2mcomma-dangle[22m[0m
+[0m  [2m201:10[22m  [31merror[39m    Missing trailing comma                                                   [2mcomma-dangle[22m[0m
+[0m  [2m214:34[22m  [31merror[39m    Missing trailing comma                                                   [2mcomma-dangle[22m[0m
+[0m  [2m218:5[22m   [33mwarning[39m  Unexpected console statement                                             [2mno-console[22m[0m
+[0m  [2m229:16[22m  [31merror[39m    Missing trailing comma                                                   [2mcomma-dangle[22m[0m
+[0m  [2m236:32[22m  [31merror[39m    Missing trailing comma                                                   [2mcomma-dangle[22m[0m
+[0m  [2m240:21[22m  [33mwarning[39m  Unexpected any. Specify a different type                                 [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m246:49[22m  [31merror[39m    Missing trailing comma                                                   [2mcomma-dangle[22m[0m
+[0m  [2m253:34[22m  [31merror[39m    Missing trailing comma                                                   [2mcomma-dangle[22m[0m
+[0m  [2m256:7[22m   [33mwarning[39m  Unexpected console statement                                             [2mno-console[22m[0m
+[0m  [2m265:32[22m  [31merror[39m    Missing trailing comma                                                   [2mcomma-dangle[22m[0m
+[0m  [2m266:10[22m  [31merror[39m    Missing trailing comma                                                   [2mcomma-dangle[22m[0m
+[0m  [2m280:7[22m   [33mwarning[39m  Unexpected console statement                                             [2mno-console[22m[0m
+[0m  [2m282:1[22m   [31merror[39m    Trailing spaces not allowed                                              [2mno-trailing-spaces[22m[0m
+[0m  [2m284:22[22m  [31merror[39m    Require statement not part of import statement                           [2m@typescript-eslint/no-var-requires[22m[0m
+[0m  [2m288:1[22m   [31merror[39m    Trailing spaces not allowed                                              [2mno-trailing-spaces[22m[0m
+[0m  [2m290:32[22m  [31merror[39m    Trailing spaces not allowed                                              [2mno-trailing-spaces[22m[0m
+[0m  [2m291:37[22m  [31merror[39m    Trailing spaces not allowed                                              [2mno-trailing-spaces[22m[0m
+[0m  [2m292:37[22m  [31merror[39m    Trailing spaces not allowed                                              [2mno-trailing-spaces[22m[0m
+[0m  [2m297:7[22m   [33mwarning[39m  Unexpected console statement                                             [2mno-console[22m[0m
+[0m  [2m322:26[22m  [31merror[39m    Missing trailing comma                                                   [2mcomma-dangle[22m[0m
+[0m  [2m324:1[22m   [31merror[39m    Trailing spaces not allowed                                              [2mno-trailing-spaces[22m[0m
+[0m  [2m329:22[22m  [31merror[39m    Require statement not part of import statement                           [2m@typescript-eslint/no-var-requires[22m[0m
+[0m  [2m330:24[22m  [31merror[39m    Require statement not part of import statement                           [2m@typescript-eslint/no-var-requires[22m[0m
+[0m  [2m334:11[22m  [33mwarning[39m  Unexpected console statement                                             [2mno-console[22m[0m
+[0m  [2m339:7[22m   [33mwarning[39m  Unexpected console statement                                             [2mno-console[22m[0m
+[0m  [2m348:58[22m  [33mwarning[39m  Unexpected any. Specify a different type                                 [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m354:1[22m   [31merror[39m    Trailing spaces not allowed                                              [2mno-trailing-spaces[22m[0m
+[0m  [2m358:1[22m   [31merror[39m    Trailing spaces not allowed                                              [2mno-trailing-spaces[22m[0m
+[0m  [2m366:14[22m  [33mwarning[39m  Unexpected any. Specify a different type                                 [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m367:13[22m  [33mwarning[39m  Unexpected any. Specify a different type                                 [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m368:22[22m  [31merror[39m    Missing trailing comma                                                   [2mcomma-dangle[22m[0m
+[0m  [2m369:23[22m  [33mwarning[39m  Unexpected any. Specify a different type                                 [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m391:44[22m  [33mwarning[39m  Unexpected any. Specify a different type                                 [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m391:57[22m  [33mwarning[39m  Unexpected any. Specify a different type                                 [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m391:80[22m  [33mwarning[39m  Unexpected any. Specify a different type                                 [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m392:20[22m  [31merror[39m    Require statement not part of import statement                           [2m@typescript-eslint/no-var-requires[22m[0m
+[0m  [2m393:1[22m   [31merror[39m    Trailing spaces not allowed                                              [2mno-trailing-spaces[22m[0m
+[0m  [2m400:1[22m   [31merror[39m    Trailing spaces not allowed                                              [2mno-trailing-spaces[22m[0m
+[0m  [2m405:10[22m  [31merror[39m    Missing trailing comma                                                   [2mcomma-dangle[22m[0m
+[0m  [2m407:1[22m   [31merror[39m    Trailing spaces not allowed                                              [2mno-trailing-spaces[22m[0m
+[0m  [2m411:77[22m  [31merror[39m    Missing trailing comma                                                   [2mcomma-dangle[22m[0m
+[0m  [2m415:75[22m  [31merror[39m    Missing trailing comma                                                   [2mcomma-dangle[22m[0m
+[0m  [2m417:17[22m  [31merror[39m    Missing trailing comma                                                   [2mcomma-dangle[22m[0m
+[0m  [2m419:1[22m   [31merror[39m    Trailing spaces not allowed                                              [2mno-trailing-spaces[22m[0m
+[0m  [2m423:10[22m  [31merror[39m    Missing trailing comma                                                   [2mcomma-dangle[22m[0m
+[0m  [2m430:85[22m  [31merror[39m    Missing trailing comma                                                   [2mcomma-dangle[22m[0m
+[0m  [2m435:20[22m  [31merror[39m    Missing trailing comma                                                   [2mcomma-dangle[22m[0m
+[0m  [2m442:26[22m  [31merror[39m    'state' is defined but never used. Allowed unused args must match /^_/u  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m442:26[22m  [31merror[39m    'state' is defined but never used                                        [2mno-unused-vars[22m[0m
+[0m  [2m450:62[22m  [33mwarning[39m  Unexpected any. Specify a different type                                 [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m[0m
+[0m[4m/Users/shaurya/Documents/Solstice/solstice-sdk/src/solana/SolanaClient.ts[24m[0m
+[0m    [2m5:3[22m   [31merror[39m    'TransactionInstruction' is defined but never used  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m    [2m5:3[22m   [31merror[39m    'TransactionInstruction' is defined but never used  [2mno-unused-vars[22m[0m
+[0m    [2m9:3[22m   [31merror[39m    'Keypair' is defined but never used                 [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m    [2m9:3[22m   [31merror[39m    'Keypair' is defined but never used                 [2mno-unused-vars[22m[0m
+[0m    [2m9:10[22m  [31merror[39m    Missing trailing comma                              [2mcomma-dangle[22m[0m
+[0m   [2m17:21[22m  [31merror[39m    Missing trailing comma                              [2mcomma-dangle[22m[0m
+[0m   [2m23:15[22m  [31merror[39m    Missing trailing comma                              [2mcomma-dangle[22m[0m
+[0m   [2m55:17[22m  [33mwarning[39m  Unexpected any. Specify a different type            [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m   [2m56:34[22m  [31merror[39m    Missing trailing comma                              [2mcomma-dangle[22m[0m
+[0m   [2m63:5[22m   [33mwarning[39m  Unexpected console statement                        [2mno-console[22m[0m
+[0m   [2m72:5[22m   [33mwarning[39m  Unexpected console statement                        [2mno-console[22m[0m
+[0m   [2m80:23[22m  [31merror[39m    Missing trailing comma                              [2mcomma-dangle[22m[0m
+[0m   [2m91:43[22m  [31merror[39m    Missing trailing comma                              [2mcomma-dangle[22m[0m
+[0m   [2m93:23[22m  [31merror[39m    Missing trailing comma                              [2mcomma-dangle[22m[0m
+[0m   [2m99:23[22m  [31merror[39m    Missing trailing comma                              [2mcomma-dangle[22m[0m
+[0m  [2m105:53[22m  [31merror[39m    Missing trailing comma                              [2mcomma-dangle[22m[0m
+[0m  [2m112:35[22m  [31merror[39m    Missing trailing comma                              [2mcomma-dangle[22m[0m
+[0m  [2m116:7[22m   [33mwarning[39m  Unexpected console statement                        [2mno-console[22m[0m
+[0m  [2m140:43[22m  [31merror[39m    Missing trailing comma                              [2mcomma-dangle[22m[0m
+[0m  [2m142:23[22m  [31merror[39m    Missing trailing comma                              [2mcomma-dangle[22m[0m
+[0m  [2m152:24[22m  [31merror[39m    Missing trailing comma                              [2mcomma-dangle[22m[0m
+[0m  [2m157:37[22m  [31merror[39m    Missing trailing comma                              [2mcomma-dangle[22m[0m
+[0m  [2m161:7[22m   [33mwarning[39m  Unexpected console statement                        [2mno-console[22m[0m
+[0m  [2m166:30[22m  [31merror[39m    Missing trailing comma                              [2mcomma-dangle[22m[0m
+[0m  [2m170:7[22m   [33mwarning[39m  Unexpected console statement                        [2mno-console[22m[0m
+[0m  [2m174:30[22m  [31merror[39m    Missing trailing comma                              [2mcomma-dangle[22m[0m
+[0m  [2m192:43[22m  [31merror[39m    Missing trailing comma                              [2mcomma-dangle[22m[0m
+[0m  [2m194:23[22m  [31merror[39m    Missing trailing comma                              [2mcomma-dangle[22m[0m
+[0m  [2m197:89[22m  [33mwarning[39m  Unexpected any. Specify a different type            [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m206:88[22m  [31merror[39m    Missing trailing comma                              [2mcomma-dangle[22m[0m
+[0m  [2m218:35[22m  [31merror[39m    Missing trailing comma                              [2mcomma-dangle[22m[0m
+[0m  [2m239:40[22m  [31merror[39m    Missing trailing comma                              [2mcomma-dangle[22m[0m
+[0m  [2m241:23[22m  [31merror[39m    Missing trailing comma                              [2mcomma-dangle[22m[0m
+[0m  [2m248:43[22m  [31merror[39m    Missing trailing comma                              [2mcomma-dangle[22m[0m
+[0m  [2m250:23[22m  [31merror[39m    Missing trailing comma                              [2mcomma-dangle[22m[0m
+[0m  [2m258:34[22m  [31merror[39m    Missing trailing comma                              [2mcomma-dangle[22m[0m
+[0m  [2m265:37[22m  [31merror[39m    Missing trailing comma                              [2mcomma-dangle[22m[0m
+[0m  [2m269:7[22m   [33mwarning[39m  Unexpected console statement                        [2mno-console[22m[0m
+[0m  [2m276:23[22m  [31merror[39m    Missing trailing comma                              [2mcomma-dangle[22m[0m
+[0m  [2m298:40[22m  [31merror[39m    Missing trailing comma                              [2mcomma-dangle[22m[0m
+[0m  [2m300:23[22m  [31merror[39m    Missing trailing comma                              [2mcomma-dangle[22m[0m
+[0m  [2m307:38[22m  [31merror[39m    Missing trailing comma                              [2mcomma-dangle[22m[0m
+[0m  [2m311:7[22m   [33mwarning[39m  Unexpected console statement                        [2mno-console[22m[0m
+[0m  [2m324:26[22m  [31merror[39m    Missing trailing comma                              [2mcomma-dangle[22m[0m
+[0m  [2m335:43[22m  [31merror[39m    Missing trailing comma                              [2mcomma-dangle[22m[0m
+[0m  [2m337:23[22m  [31merror[39m    Missing trailing comma                              [2mcomma-dangle[22m[0m
+[0m  [2m343:56[22m  [31merror[39m    Missing trailing comma                              [2mcomma-dangle[22m[0m
+[0m  [2m347:38[22m  [31merror[39m    Missing trailing comma                              [2mcomma-dangle[22m[0m
+[0m  [2m351:7[22m   [33mwarning[39m  Unexpected console statement                        [2mno-console[22m[0m
+[0m  [2m378:45[22m  [31merror[39m    Missing trailing comma                              [2mcomma-dangle[22m[0m
+[0m  [2m380:25[22m  [31merror[39m    Missing trailing comma                              [2mcomma-dangle[22m[0m
+[0m  [2m387:26[22m  [31merror[39m    Missing trailing comma                              [2mcomma-dangle[22m[0m
+[0m  [2m392:39[22m  [31merror[39m    Missing trailing comma                              [2mcomma-dangle[22m[0m
+[0m  [2m400:7[22m   [33mwarning[39m  Unexpected console statement                        [2mno-console[22m[0m
+[0m  [2m463:1[22m   [31merror[39m    Expected indentation of 4 spaces but found 6        [2mindent[22m[0m
+[0m  [2m464:1[22m   [31merror[39m    Expected indentation of 6 spaces but found 8        [2mindent[22m[0m
+[0m  [2m465:1[22m   [31merror[39m    Expected indentation of 4 spaces but found 6        [2mindent[22m[0m
+[0m  [2m466:1[22m   [31merror[39m    Expected indentation of 6 spaces but found 8        [2mindent[22m[0m
+[0m  [2m467:1[22m   [31merror[39m    Expected indentation of 4 spaces but found 6        [2mindent[22m[0m
+[0m  [2m468:1[22m   [31merror[39m    Expected indentation of 6 spaces but found 8        [2mindent[22m[0m
+[0m  [2m469:1[22m   [31merror[39m    Expected indentation of 4 spaces but found 6        [2mindent[22m[0m
+[0m  [2m470:1[22m   [31merror[39m    Expected indentation of 6 spaces but found 8        [2mindent[22m[0m
+[0m  [2m477:43[22m  [33mwarning[39m  Unexpected any. Specify a different type            [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m481:16[22m  [31merror[39m    Strings must use singlequote                        [2mquotes[22m[0m
+[0m  [2m482:13[22m  [31merror[39m    Strings must use singlequote                        [2mquotes[22m[0m
+[0m  [2m485:17[22m  [31merror[39m    Strings must use singlequote                        [2mquotes[22m[0m
+[0m  [2m487:21[22m  [31merror[39m    Strings must use singlequote                        [2mquotes[22m[0m
+[0m  [2m488:21[22m  [31merror[39m    Strings must use singlequote                        [2mquotes[22m[0m
+[0m  [2m489:21[22m  [31merror[39m    Strings must use singlequote                        [2mquotes[22m[0m
+[0m  [2m489:69[22m  [31merror[39m    Missing trailing comma                              [2mcomma-dangle[22m[0m
+[0m  [2m491:19[22m  [31merror[39m    Missing trailing comma                              [2mcomma-dangle[22m[0m
+[0m  [2m494:17[22m  [31merror[39m    Strings must use singlequote                        [2mquotes[22m[0m
+[0m  [2m496:21[22m  [31merror[39m    Strings must use singlequote                        [2mquotes[22m[0m
+[0m  [2m497:21[22m  [31merror[39m    Strings must use singlequote                        [2mquotes[22m[0m
+[0m  [2m498:21[22m  [31merror[39m    Strings must use singlequote                        [2mquotes[22m[0m
+[0m  [2m499:21[22m  [31merror[39m    Strings must use singlequote                        [2mquotes[22m[0m
+[0m  [2m500:21[22m  [31merror[39m    Strings must use singlequote                        [2mquotes[22m[0m
+[0m  [2m500:60[22m  [31merror[39m    Missing trailing comma                              [2mcomma-dangle[22m[0m
+[0m  [2m503:21[22m  [31merror[39m    Strings must use singlequote                        [2mquotes[22m[0m
+[0m  [2m503:59[22m  [31merror[39m    Strings must use singlequote                        [2mquotes[22m[0m
+[0m  [2m504:21[22m  [31merror[39m    Strings must use singlequote                        [2mquotes[22m[0m
+[0m  [2m504:51[22m  [31merror[39m    Strings must use singlequote                        [2mquotes[22m[0m
+[0m  [2m504:64[22m  [31merror[39m    Missing trailing comma                              [2mcomma-dangle[22m[0m
+[0m  [2m505:12[22m  [31merror[39m    Missing trailing comma                              [2mcomma-dangle[22m[0m
+[0m  [2m508:17[22m  [31merror[39m    Strings must use singlequote                        [2mquotes[22m[0m
+[0m  [2m510:21[22m  [31merror[39m    Strings must use singlequote                        [2mquotes[22m[0m
+[0m  [2m511:21[22m  [31merror[39m    Strings must use singlequote                        [2mquotes[22m[0m
+[0m  [2m512:21[22m  [31merror[39m    Strings must use singlequote                        [2mquotes[22m[0m
+[0m  [2m512:61[22m  [31merror[39m    Missing trailing comma                              [2mcomma-dangle[22m[0m
+[0m  [2m515:21[22m  [31merror[39m    Strings must use singlequote                        [2mquotes[22m[0m
+[0m  [2m515:43[22m  [31merror[39m    Strings must use singlequote                        [2mquotes[22m[0m
+[0m  [2m516:21[22m  [31merror[39m    Strings must use singlequote                        [2mquotes[22m[0m
+[0m  [2m516:50[22m  [31merror[39m    Strings must use singlequote                        [2mquotes[22m[0m
+[0m  [2m517:21[22m  [31merror[39m    Strings must use singlequote                        [2mquotes[22m[0m
+[0m  [2m517:44[22m  [31merror[39m    Strings must use singlequote                        [2mquotes[22m[0m
+[0m  [2m517:50[22m  [31merror[39m    Missing trailing comma                              [2mcomma-dangle[22m[0m
+[0m  [2m518:12[22m  [31merror[39m    Missing trailing comma                              [2mcomma-dangle[22m[0m
+[0m  [2m519:10[22m  [31merror[39m    Missing trailing comma                              [2mcomma-dangle[22m[0m
+[0m  [2m523:17[22m  [31merror[39m    Strings must use singlequote                        [2mquotes[22m[0m
+[0m  [2m525:19[22m  [31merror[39m    Strings must use singlequote                        [2mquotes[22m[0m
+[0m  [2m527:23[22m  [31merror[39m    Strings must use singlequote                        [2mquotes[22m[0m
+[0m  [2m527:38[22m  [31merror[39m    Strings must use singlequote                        [2mquotes[22m[0m
+[0m  [2m528:23[22m  [31merror[39m    Strings must use singlequote                        [2mquotes[22m[0m
+[0m  [2m528:61[22m  [31merror[39m    Strings must use singlequote                        [2mquotes[22m[0m
+[0m  [2m529:23[22m  [31merror[39m    Strings must use singlequote                        [2mquotes[22m[0m
+[0m  [2m529:53[22m  [31merror[39m    Strings must use singlequote                        [2mquotes[22m[0m
+[0m  [2m530:23[22m  [31merror[39m    Strings must use singlequote                        [2mquotes[22m[0m
+[0m  [2m530:43[22m  [31merror[39m    Strings must use singlequote                        [2mquotes[22m[0m
+[0m  [2m531:23[22m  [31merror[39m    Strings must use singlequote                        [2mquotes[22m[0m
+[0m  [2m531:54[22m  [31merror[39m    Strings must use singlequote                        [2mquotes[22m[0m
+[0m  [2m532:23[22m  [31merror[39m    Strings must use singlequote                        [2mquotes[22m[0m
+[0m  [2m532:51[22m  [31merror[39m    Strings must use singlequote                        [2mquotes[22m[0m
+[0m  [2m533:23[22m  [31merror[39m    Strings must use singlequote                        [2mquotes[22m[0m
+[0m  [2m533:37[22m  [31merror[39m    Strings must use singlequote                        [2mquotes[22m[0m
+[0m  [2m533:43[22m  [31merror[39m    Missing trailing comma                              [2mcomma-dangle[22m[0m
+[0m  [2m534:14[22m  [31merror[39m    Missing trailing comma                              [2mcomma-dangle[22m[0m
+[0m  [2m535:12[22m  [31merror[39m    Missing trailing comma                              [2mcomma-dangle[22m[0m
+[0m  [2m536:10[22m  [31merror[39m    Missing trailing comma                              [2mcomma-dangle[22m[0m
+[0m  [2m537:8[22m   [31merror[39m    Missing trailing comma                              [2mcomma-dangle[22m[0m
+[0m  [2m540:2[22m   [31merror[39m    Newline required at end of file but not found       [2meol-last[22m[0m
+[0m[0m
+[0m[4m/Users/shaurya/Documents/Solstice/solstice-sdk/src/testing/index.ts[24m[0m
+[0m    [2m2:8[22m   [31merror[39m    'CryptoJS' is defined but never used                                                                           [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m    [2m2:8[22m   [31merror[39m    'CryptoJS' is defined but never used                                                                           [2mno-unused-vars[22m[0m
+[0m   [2m27:22[22m  [31merror[39m    Missing trailing comma                                                                                         [2mcomma-dangle[22m[0m
+[0m   [2m31:1[22m   [31merror[39m    Trailing spaces not allowed                                                                                    [2mno-trailing-spaces[22m[0m
+[0m   [2m35:1[22m   [31merror[39m    Trailing spaces not allowed                                                                                    [2mno-trailing-spaces[22m[0m
+[0m   [2m38:1[22m   [31merror[39m    Trailing spaces not allowed                                                                                    [2mno-trailing-spaces[22m[0m
+[0m   [2m79:22[22m  [31merror[39m    Missing trailing comma                                                                                         [2mcomma-dangle[22m[0m
+[0m   [2m83:1[22m   [31merror[39m    Trailing spaces not allowed                                                                                    [2mno-trailing-spaces[22m[0m
+[0m   [2m87:1[22m   [31merror[39m    Trailing spaces not allowed                                                                                    [2mno-trailing-spaces[22m[0m
+[0m   [2m90:1[22m   [31merror[39m    Trailing spaces not allowed                                                                                    [2mno-trailing-spaces[22m[0m
+[0m  [2m110:29[22m  [31merror[39m    Missing trailing comma                                                                                         [2mcomma-dangle[22m[0m
+[0m  [2m117:37[22m  [33mwarning[39m  Unexpected any. Specify a different type                                                                       [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m118:19[22m  [31merror[39m    Require statement not part of import statement                                                                 [2m@typescript-eslint/no-var-requires[22m[0m
+[0m  [2m119:1[22m   [31merror[39m    Trailing spaces not allowed                                                                                    [2mno-trailing-spaces[22m[0m
+[0m  [2m125:5[22m   [33mwarning[39m  Missing return type on function                                                                                [2m@typescript-eslint/explicit-function-return-type[22m[0m
+[0m  [2m125:42[22m  [33mwarning[39m  Unexpected any. Specify a different type                                                                       [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m129:55[22m  [31merror[39m    Missing trailing comma                                                                                         [2mcomma-dangle[22m[0m
+[0m  [2m132:5[22m   [33mwarning[39m  Missing return type on function                                                                                [2m@typescript-eslint/explicit-function-return-type[22m[0m
+[0m  [2m134:22[22m  [31merror[39m    Require statement not part of import statement                                                                 [2m@typescript-eslint/no-var-requires[22m[0m
+[0m  [2m138:6[22m   [31merror[39m    Missing trailing comma                                                                                         [2mcomma-dangle[22m[0m
+[0m  [2m151:9[22m   [31merror[39m    Missing trailing comma                                                                                         [2mcomma-dangle[22m[0m
+[0m  [2m159:21[22m  [31merror[39m    Missing trailing comma                                                                                         [2mcomma-dangle[22m[0m
+[0m  [2m165:28[22m  [31merror[39m    Missing trailing comma                                                                                         [2mcomma-dangle[22m[0m
+[0m  [2m166:6[22m   [31merror[39m    Missing trailing comma                                                                                         [2mcomma-dangle[22m[0m
+[0m  [2m173:41[22m  [33mwarning[39m  Unexpected any. Specify a different type                                                                       [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m174:26[22m  [31merror[39m    Require statement not part of import statement                                                                 [2m@typescript-eslint/no-var-requires[22m[0m
+[0m  [2m175:1[22m   [31merror[39m    Trailing spaces not allowed                                                                                    [2mno-trailing-spaces[22m[0m
+[0m  [2m190:1[22m   [31merror[39m    Trailing spaces not allowed                                                                                    [2mno-trailing-spaces[22m[0m
+[0m  [2m194:1[22m   [31merror[39m    Trailing spaces not allowed                                                                                    [2mno-trailing-spaces[22m[0m
+[0m  [2m200:67[22m  [31merror[39m    Missing trailing comma                                                                                         [2mcomma-dangle[22m[0m
+[0m  [2m202:1[22m   [31merror[39m    Trailing spaces not allowed                                                                                    [2mno-trailing-spaces[22m[0m
+[0m  [2m208:37[22m  [31merror[39m    Missing trailing comma                                                                                         [2mcomma-dangle[22m[0m
+[0m  [2m210:1[22m   [31merror[39m    Trailing spaces not allowed                                                                                    [2mno-trailing-spaces[22m[0m
+[0m  [2m215:23[22m  [31merror[39m    Missing trailing comma                                                                                         [2mcomma-dangle[22m[0m
+[0m  [2m218:1[22m   [31merror[39m    Trailing spaces not allowed                                                                                    [2mno-trailing-spaces[22m[0m
+[0m  [2m229:23[22m  [33mwarning[39m  Unexpected any. Specify a different type                                                                       [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m261:1[22m   [31merror[39m    Trailing spaces not allowed                                                                                    [2mno-trailing-spaces[22m[0m
+[0m  [2m264:4[22m   [31merror[39m    Missing trailing comma                                                                                         [2mcomma-dangle[22m[0m
+[0m  [2m275:14[22m  [31merror[39m    'operation' is defined but never used. Allowed unused args must match /^_/u                                    [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m275:14[22m  [31merror[39m    'operation' is defined but never used                                                                          [2mno-unused-vars[22m[0m
+[0m  [2m282:1[22m   [31merror[39m    Trailing spaces not allowed                                                                                    [2mno-trailing-spaces[22m[0m
+[0m  [2m287:1[22m   [31merror[39m    Trailing spaces not allowed                                                                                    [2mno-trailing-spaces[22m[0m
+[0m  [2m298:29[22m  [31merror[39m    Expected { after 'if' condition                                                                                [2mcurly[22m[0m
+[0m  [2m299:1[22m   [31merror[39m    Trailing spaces not allowed                                                                                    [2mno-trailing-spaces[22m[0m
+[0m  [2m302:1[22m   [31merror[39m    Trailing spaces not allowed                                                                                    [2mno-trailing-spaces[22m[0m
+[0m  [2m316:1[22m   [31merror[39m    Expected indentation of 4 spaces but found 2                                                                   [2mindent[22m[0m
+[0m  [2m317:19[22m  [33mwarning[39m  Unexpected any. Specify a different type                                                                       [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m318:1[22m   [31merror[39m    Trailing spaces not allowed                                                                                    [2mno-trailing-spaces[22m[0m
+[0m  [2m325:32[22m  [31merror[39m    Missing trailing comma                                                                                         [2mcomma-dangle[22m[0m
+[0m  [2m328:1[22m   [31merror[39m    Trailing spaces not allowed                                                                                    [2mno-trailing-spaces[22m[0m
+[0m  [2m367:1[22m   [31merror[39m    Trailing spaces not allowed                                                                                    [2mno-trailing-spaces[22m[0m
+[0m  [2m371:37[22m  [31merror[39m    Trailing spaces not allowed                                                                                    [2mno-trailing-spaces[22m[0m
+[0m  [2m372:78[22m  [31merror[39m    Missing trailing comma                                                                                         [2mcomma-dangle[22m[0m
+[0m  [2m373:12[22m  [31merror[39m    Missing trailing comma                                                                                         [2mcomma-dangle[22m[0m
+[0m  [2m375:1[22m   [31merror[39m    Trailing spaces not allowed                                                                                    [2mno-trailing-spaces[22m[0m
+[0m  [2m379:43[22m  [31merror[39m    Missing trailing comma                                                                                         [2mcomma-dangle[22m[0m
+[0m  [2m387:43[22m  [31merror[39m    Missing trailing comma                                                                                         [2mcomma-dangle[22m[0m
+[0m  [2m398:30[22m  [33mwarning[39m  Missing return type on function                                                                                [2m@typescript-eslint/explicit-function-return-type[22m[0m
+[0m  [2m400:41[22m  [31merror[39m    'window' is not defined                                                                                        [2mno-undef[22m[0m
+[0m  [2m402:27[22m  [31merror[39m    'window' is not defined                                                                                        [2mno-undef[22m[0m
+[0m  [2m405:50[22m  [31merror[39m    Statement inside of curly braces should be on next line                                                        [2mbrace-style[22m[0m
+[0m  [2m405:74[22m  [31merror[39m    Closing curly brace should be on the same line as opening curly brace or on the line after the previous block  [2mbrace-style[22m[0m
+[0m  [2m406:38[22m  [31merror[39m    Statement inside of curly braces should be on next line                                                        [2mbrace-style[22m[0m
+[0m  [2m406:61[22m  [31merror[39m    Closing curly brace should be on the same line as opening curly brace or on the line after the previous block  [2mbrace-style[22m[0m
+[0m  [2m407:22[22m  [31merror[39m    Statement inside of curly braces should be on next line                                                        [2mbrace-style[22m[0m
+[0m  [2m407:82[22m  [31merror[39m    Closing curly brace should be on the same line as opening curly brace or on the line after the previous block  [2mbrace-style[22m[0m
+[0m  [2m414:41[22m  [31merror[39m    'window' is not defined                                                                                        [2mno-undef[22m[0m
+[0m  [2m416:40[22m  [33mwarning[39m  Unexpected any. Specify a different type                                                                       [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m417:1[22m   [31merror[39m    Trailing spaces not allowed                                                                                    [2mno-trailing-spaces[22m[0m
+[0m  [2m418:27[22m  [31merror[39m    'window' is not defined                                                                                        [2mno-undef[22m[0m
+[0m  [2m426:39[22m  [31merror[39m    Expected { after 'if' condition                                                                                [2mcurly[22m[0m
+[0m  [2m427:50[22m  [31merror[39m    Expected { after 'if' condition                                                                                [2mcurly[22m[0m
+[0m  [2m430:19[22m  [33mwarning[39m  Missing return type on function                                                                                [2m@typescript-eslint/explicit-function-return-type[22m[0m
+[0m  [2m430:32[22m  [33mwarning[39m  Unexpected any. Specify a different type                                                                       [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m435:19[22m  [33mwarning[39m  Missing return type on function                                                                                [2m@typescript-eslint/explicit-function-return-type[22m[0m
+[0m  [2m438:19[22m  [33mwarning[39m  Missing return type on function                                                                                [2m@typescript-eslint/explicit-function-return-type[22m[0m
+[0m  [2m438:32[22m  [33mwarning[39m  Unexpected any. Specify a different type                                                                       [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m442:19[22m  [33mwarning[39m  Missing return type on function                                                                                [2m@typescript-eslint/explicit-function-return-type[22m[0m
+[0m  [2m445:20[22m  [31merror[39m    Missing trailing comma                                                                                         [2mcomma-dangle[22m[0m
+[0m  [2m448:29[22m  [31merror[39m    'storeNames' is defined but never used. Allowed unused args must match /^_/u                                   [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m448:29[22m  [31merror[39m    'storeNames' is defined but never used                                                                         [2mno-unused-vars[22m[0m
+[0m  [2m448:51[22m  [31merror[39m    'mode' is defined but never used. Allowed unused args must match /^_/u                                         [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m448:51[22m  [31merror[39m    'mode' is defined but never used                                                                               [2mno-unused-vars[22m[0m
+[0m  [2m449:17[22m  [33mwarning[39m  Missing return type on function                                                                                [2m@typescript-eslint/explicit-function-return-type[22m[0m
+[0m  [2m450:19[22m  [33mwarning[39m  Missing return type on function                                                                                [2m@typescript-eslint/explicit-function-return-type[22m[0m
+[0m  [2m450:32[22m  [33mwarning[39m  Unexpected any. Specify a different type                                                                       [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m452:43[22m  [31merror[39m    Expected { after 'if' condition                                                                                [2mcurly[22m[0m
+[0m  [2m453:54[22m  [31merror[39m    Expected { after 'if' condition                                                                                [2mcurly[22m[0m
+[0m  [2m457:19[22m  [33mwarning[39m  Missing return type on function                                                                                [2m@typescript-eslint/explicit-function-return-type[22m[0m
+[0m  [2m458:74[22m  [31merror[39m    Expected { after 'if' condition                                                                                [2mcurly[22m[0m
+[0m  [2m461:19[22m  [33mwarning[39m  Missing return type on function                                                                                [2m@typescript-eslint/explicit-function-return-type[22m[0m
+[0m  [2m461:32[22m  [33mwarning[39m  Unexpected any. Specify a different type                                                                       [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m462:43[22m  [31merror[39m    Expected { after 'if' condition                                                                                [2mcurly[22m[0m
+[0m  [2m463:54[22m  [31merror[39m    Expected { after 'if' condition                                                                                [2mcurly[22m[0m
+[0m  [2m467:19[22m  [33mwarning[39m  Missing return type on function                                                                                [2m@typescript-eslint/explicit-function-return-type[22m[0m
+[0m  [2m472:20[22m  [31merror[39m    Missing trailing comma                                                                                         [2mcomma-dangle[22m[0m
+[0m  [2m473:19[22m  [31merror[39m    Missing trailing comma                                                                                         [2mcomma-dangle[22m[0m
+[0m  [2m474:17[22m  [31merror[39m    Missing trailing comma                                                                                         [2mcomma-dangle[22m[0m
+[0m  [2m475:14[22m  [31merror[39m    Missing trailing comma                                                                                         [2mcomma-dangle[22m[0m
+[0m  [2m477:10[22m  [31merror[39m    Missing trailing comma                                                                                         [2mcomma-dangle[22m[0m
+[0m  [2m485:20[22m  [31merror[39m    Require statement not part of import statement                                                                 [2m@typescript-eslint/no-var-requires[22m[0m
+[0m  [2m488:32[22m  [33mwarning[39m  Unexpected any. Specify a different type                                                                       [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m500:12[22m  [31merror[39m    Missing trailing comma                                                                                         [2mcomma-dangle[22m[0m
+[0m  [2m501:10[22m  [31merror[39m    Missing trailing comma                                                                                         [2mcomma-dangle[22m[0m
+[0m  [2m506:3[22m   [31merror[39m    Newline required at end of file but not found                                                                  [2meol-last[22m[0m
+[0m[0m
+[0m[4m/Users/shaurya/Documents/Solstice/solstice-sdk/src/types/challenge.ts[24m[0m
+[0m  [2m27:30[22m  [31merror[39m  Trailing spaces not allowed  [2mno-trailing-spaces[22m[0m
+[0m[0m
+[0m[4m/Users/shaurya/Documents/Solstice/solstice-sdk/src/types/index.ts[24m[0m
+[0m    [2m2:10[22m  [31merror[39m    'WalletAdapter' is defined but never used      [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m    [2m2:10[22m  [31merror[39m    'WalletAdapter' is defined but never used      [2mno-unused-vars[22m[0m
+[0m   [2m52:10[22m  [33mwarning[39m  Unexpected any. Specify a different type       [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m129:29[22m  [33mwarning[39m  Unexpected any. Specify a different type       [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m187:11[22m  [33mwarning[39m  Unexpected any. Specify a different type       [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m200:29[22m  [31merror[39m    Newline required at end of file but not found  [2meol-last[22m[0m
+[0m[0m
+[0m[4m/Users/shaurya/Documents/Solstice/solstice-sdk/src/utils/QRProcessor.ts[24m[0m
+[0m   [2m19:23[22m  [31merror[39m    Missing trailing comma                                                        [2mcomma-dangle[22m[0m
+[0m   [2m34:1[22m   [31merror[39m    Trailing spaces not allowed                                                   [2mno-trailing-spaces[22m[0m
+[0m   [2m37:1[22m   [31merror[39m    Trailing spaces not allowed                                                   [2mno-trailing-spaces[22m[0m
+[0m   [2m40:1[22m   [31merror[39m    Trailing spaces not allowed                                                   [2mno-trailing-spaces[22m[0m
+[0m   [2m43:1[22m   [31merror[39m    Trailing spaces not allowed                                                   [2mno-trailing-spaces[22m[0m
+[0m   [2m47:29[22m  [31merror[39m    Missing trailing comma                                                        [2mcomma-dangle[22m[0m
+[0m   [2m71:1[22m   [31merror[39m    Trailing spaces not allowed                                                   [2mno-trailing-spaces[22m[0m
+[0m   [2m73:42[22m  [31merror[39m    Trailing spaces not allowed                                                   [2mno-trailing-spaces[22m[0m
+[0m   [2m98:42[22m  [33mwarning[39m  Unexpected any. Specify a different type                                      [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m115:47[22m  [33mwarning[39m  Unexpected any. Specify a different type                                      [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m116:23[22m  [33mwarning[39m  Unexpected any. Specify a different type                                      [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m117:1[22m   [31merror[39m    Trailing spaces not allowed                                                   [2mno-trailing-spaces[22m[0m
+[0m  [2m121:1[22m   [31merror[39m    Trailing spaces not allowed                                                   [2mno-trailing-spaces[22m[0m
+[0m  [2m125:1[22m   [31merror[39m    Trailing spaces not allowed                                                   [2mno-trailing-spaces[22m[0m
+[0m  [2m142:32[22m  [31merror[39m    Missing trailing comma                                                        [2mcomma-dangle[22m[0m
+[0m  [2m143:8[22m   [31merror[39m    Missing trailing comma                                                        [2mcomma-dangle[22m[0m
+[0m  [2m150:42[22m  [33mwarning[39m  Unexpected any. Specify a different type                                      [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m152:1[22m   [31merror[39m    Trailing spaces not allowed                                                   [2mno-trailing-spaces[22m[0m
+[0m  [2m160:24[22m  [31merror[39m    Trailing spaces not allowed                                                   [2mno-trailing-spaces[22m[0m
+[0m  [2m167:19[22m  [31merror[39m    Missing trailing comma                                                        [2mcomma-dangle[22m[0m
+[0m  [2m189:37[22m  [31merror[39m    Missing trailing comma                                                        [2mcomma-dangle[22m[0m
+[0m  [2m197:19[22m  [31merror[39m    Expected { after 'if' condition                                               [2mcurly[22m[0m
+[0m  [2m198:1[22m   [31merror[39m    Trailing spaces not allowed                                                   [2mno-trailing-spaces[22m[0m
+[0m  [2m201:32[22m  [31merror[39m    Unnecessary escape character: \/                                              [2mno-useless-escape[22m[0m
+[0m  [2m201:34[22m  [31merror[39m    Unnecessary escape character: \-                                              [2mno-useless-escape[22m[0m
+[0m  [2m201:45[22m  [31merror[39m    Unnecessary escape character: \/                                              [2mno-useless-escape[22m[0m
+[0m  [2m201:47[22m  [31merror[39m    Unnecessary escape character: \-                                              [2mno-useless-escape[22m[0m
+[0m  [2m202:32[22m  [31merror[39m    Unnecessary escape character: \/                                              [2mno-useless-escape[22m[0m
+[0m  [2m202:34[22m  [31merror[39m    Unnecessary escape character: \-                                              [2mno-useless-escape[22m[0m
+[0m  [2m202:45[22m  [31merror[39m    Unnecessary escape character: \/                                              [2mno-useless-escape[22m[0m
+[0m  [2m202:47[22m  [31merror[39m    Unnecessary escape character: \-                                              [2mno-useless-escape[22m[0m
+[0m  [2m203:1[22m   [31merror[39m    Trailing spaces not allowed                                                   [2mno-trailing-spaces[22m[0m
+[0m  [2m209:1[22m   [31merror[39m    Trailing spaces not allowed                                                   [2mno-trailing-spaces[22m[0m
+[0m  [2m215:1[22m   [31merror[39m    Trailing spaces not allowed                                                   [2mno-trailing-spaces[22m[0m
+[0m  [2m223:41[22m  [33mwarning[39m  Unexpected any. Specify a different type                                      [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m223:46[22m  [31merror[39m    'originalQR' is defined but never used. Allowed unused args must match /^_/u  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m223:46[22m  [31merror[39m    'originalQR' is defined but never used                                        [2mno-unused-vars[22m[0m
+[0m  [2m226:1[22m   [31merror[39m    Trailing spaces not allowed                                                   [2mno-trailing-spaces[22m[0m
+[0m  [2m229:1[22m   [31merror[39m    Trailing spaces not allowed                                                   [2mno-trailing-spaces[22m[0m
+[0m  [2m234:22[22m  [31merror[39m    Trailing spaces not allowed                                                   [2mno-trailing-spaces[22m[0m
+[0m  [2m238:1[22m   [31merror[39m    Trailing spaces not allowed                                                   [2mno-trailing-spaces[22m[0m
+[0m  [2m239:5[22m   [33mwarning[39m  Unexpected console statement                                                  [2mno-console[22m[0m
+[0m  [2m247:5[22m   [33mwarning[39m  Unexpected console statement                                                  [2mno-console[22m[0m
+[0m  [2m248:1[22m   [31merror[39m    Trailing spaces not allowed                                                   [2mno-trailing-spaces[22m[0m
+[0m  [2m250:48[22m  [31merror[39m    Missing trailing comma                                                        [2mcomma-dangle[22m[0m
+[0m  [2m252:1[22m   [31merror[39m    Trailing spaces not allowed                                                   [2mno-trailing-spaces[22m[0m
+[0m  [2m255:1[22m   [31merror[39m    Trailing spaces not allowed                                                   [2mno-trailing-spaces[22m[0m
+[0m  [2m263:1[22m   [31merror[39m    Trailing spaces not allowed                                                   [2mno-trailing-spaces[22m[0m
+[0m  [2m265:7[22m   [33mwarning[39m  Unexpected console statement                                                  [2mno-console[22m[0m
+[0m  [2m267:1[22m   [31merror[39m    Trailing spaces not allowed                                                   [2mno-trailing-spaces[22m[0m
+[0m  [2m268:5[22m   [33mwarning[39m  Unexpected console statement                                                  [2mno-console[22m[0m
+[0m  [2m280:26[22m  [31merror[39m    Missing trailing comma                                                        [2mcomma-dangle[22m[0m
+[0m  [2m282:1[22m   [31merror[39m    Trailing spaces not allowed                                                   [2mno-trailing-spaces[22m[0m
+[0m  [2m293:26[22m  [31merror[39m    Missing trailing comma                                                        [2mcomma-dangle[22m[0m
+[0m  [2m295:1[22m   [31merror[39m    Trailing spaces not allowed                                                   [2mno-trailing-spaces[22m[0m
+[0m  [2m309:1[22m   [31merror[39m    Trailing spaces not allowed                                                   [2mno-trailing-spaces[22m[0m
+[0m  [2m310:59[22m  [31merror[39m    Trailing spaces not allowed                                                   [2mno-trailing-spaces[22m[0m
+[0m  [2m311:47[22m  [31merror[39m    Missing trailing comma                                                        [2mcomma-dangle[22m[0m
+[0m  [2m313:1[22m   [31merror[39m    Trailing spaces not allowed                                                   [2mno-trailing-spaces[22m[0m
+[0m  [2m314:59[22m  [31merror[39m    Trailing spaces not allowed                                                   [2mno-trailing-spaces[22m[0m
+[0m  [2m315:46[22m  [31merror[39m    Missing trailing comma                                                        [2mcomma-dangle[22m[0m
+[0m  [2m317:1[22m   [31merror[39m    Trailing spaces not allowed                                                   [2mno-trailing-spaces[22m[0m
+[0m  [2m320:1[22m   [31merror[39m    Trailing spaces not allowed                                                   [2mno-trailing-spaces[22m[0m
+[0m  [2m324:37[22m  [31merror[39m    Missing trailing comma                                                        [2mcomma-dangle[22m[0m
+[0m  [2m327:2[22m   [31merror[39m    Newline required at end of file but not found                                 [2meol-last[22m[0m
+[0m[0m
+[0m[4m/Users/shaurya/Documents/Solstice/solstice-sdk/src/utils/constants.ts[24m[0m
+[0m  [2m14:44[22m  [31merror[39m  Missing trailing comma                         [2mcomma-dangle[22m[0m
+[0m  [2m24:58[22m  [31merror[39m  Missing trailing comma                         [2mcomma-dangle[22m[0m
+[0m  [2m29:66[22m  [31merror[39m  Missing trailing comma                         [2mcomma-dangle[22m[0m
+[0m  [2m34:65[22m  [31merror[39m  Missing trailing comma                         [2mcomma-dangle[22m[0m
+[0m  [2m35:4[22m   [31merror[39m  Missing trailing comma                         [2mcomma-dangle[22m[0m
+[0m  [2m44:16[22m  [31merror[39m  Missing trailing comma                         [2mcomma-dangle[22m[0m
+[0m  [2m53:20[22m  [31merror[39m  Missing trailing comma                         [2mcomma-dangle[22m[0m
+[0m  [2m62:25[22m  [31merror[39m  Missing trailing comma                         [2mcomma-dangle[22m[0m
+[0m  [2m72:61[22m  [31merror[39m  Missing trailing comma                         [2mcomma-dangle[22m[0m
+[0m  [2m89:47[22m  [31merror[39m  Missing trailing comma                         [2mcomma-dangle[22m[0m
+[0m  [2m90:12[22m  [31merror[39m  Newline required at end of file but not found  [2meol-last[22m[0m
+[0m[0m
+[0m[4m/Users/shaurya/Documents/Solstice/solstice-sdk/src/utils/errors.ts[24m[0m
+[0m  [2m106:2[22m  [31merror[39m  Newline required at end of file but not found  [2meol-last[22m[0m
+[0m[0m
+[0m[4m/Users/shaurya/Documents/Solstice/solstice-sdk/src/utils/helpers.ts[24m[0m
+[0m   [2m48:31[22m  [31merror[39m    Missing trailing comma                    [2mcomma-dangle[22m[0m
+[0m   [2m65:22[22m  [31merror[39m    Missing trailing comma                    [2mcomma-dangle[22m[0m
+[0m   [2m80:1[22m   [31merror[39m    Trailing spaces not allowed               [2mno-trailing-spaces[22m[0m
+[0m  [2m107:55[22m  [31merror[39m    Trailing spaces not allowed               [2mno-trailing-spaces[22m[0m
+[0m  [2m108:46[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m108:50[22m  [31merror[39m    Missing trailing comma                    [2mcomma-dangle[22m[0m
+[0m  [2m113:62[22m  [31merror[39m    Missing trailing comma                    [2mcomma-dangle[22m[0m
+[0m  [2m142:57[22m  [31merror[39m    Trailing spaces not allowed               [2mno-trailing-spaces[22m[0m
+[0m  [2m184:27[22m  [31merror[39m    Missing trailing comma                    [2mcomma-dangle[22m[0m
+[0m  [2m193:1[22m   [31merror[39m    Trailing spaces not allowed               [2mno-trailing-spaces[22m[0m
+[0m  [2m209:36[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m217:1[22m   [31merror[39m    Trailing spaces not allowed               [2mno-trailing-spaces[22m[0m
+[0m[0m
+[0m[31m[1m✖ 655 problems (519 errors, 136 warnings)[22m[39m[0m
+[0m[31m[1m[22m[39m[31m[1m  455 errors and 0 warnings potentially fixable with the `--fix` option.[22m[39m[0m
+[0m[31m[1m[22m[39m[0m

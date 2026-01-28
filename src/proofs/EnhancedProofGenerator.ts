@@ -1,34 +1,34 @@
 import * as snarkjs from 'snarkjs';
 import { buildPoseidon } from 'circomlibjs';
-import { 
-  ProofData, 
-  AgeProofParams, 
-  NationalityProofParams, 
+import {
+  ProofData,
+  AgeProofParams,
+  NationalityProofParams,
   UniquenessProofParams,
   CircuitConfig,
   AadhaarData,
   CircuitArtifacts,
-  ProofCache
+  ProofCache,
 } from '../types';
-import { 
-  ProofGenerationError, 
+import {
+  ProofGenerationError,
   CircuitLoadError,
-  InvalidParametersError 
+  InvalidParametersError,
 } from '../utils/errors';
-import { 
-  DEFAULT_CIRCUIT_PATHS, 
+import {
+  DEFAULT_CIRCUIT_PATHS,
   PROOF_TIMEOUTS,
   SUPPORTED_COUNTRIES,
-  CIRCUIT_CACHE_TTL 
+  CIRCUIT_CACHE_TTL,
 } from '../utils/constants';
-import { 
+import {
   validateAgeThreshold,
   validateNationalityParams,
   validateDaoId,
   generateNonce,
   dateToTimestamp,
   calculateAge,
-  hashInputs
+  hashInputs,
 } from '../utils/helpers';
 
 /**
@@ -46,7 +46,7 @@ export class EnhancedProofGenerator {
     this.config = {
       age: config.age || DEFAULT_CIRCUIT_PATHS.age,
       nationality: config.nationality || DEFAULT_CIRCUIT_PATHS.nationality,
-      uniqueness: config.uniqueness || DEFAULT_CIRCUIT_PATHS.uniqueness
+      uniqueness: config.uniqueness || DEFAULT_CIRCUIT_PATHS.uniqueness,
     };
   }
 
@@ -55,43 +55,51 @@ export class EnhancedProofGenerator {
    */
   async initialize(): Promise<void> {
     try {
-      console.log('🔧 Initializing Enhanced ProofGenerator...');
-      
+      console.log(' Initializing Enhanced ProofGenerator...');
+
       // Initialize Poseidon hash function
       this.poseidon = await buildPoseidon();
       console.log(' Poseidon hash function loaded');
-      
+
       // Preload all circuits in parallel
-      const circuitPromises = Object.keys(this.config).map(async (circuitName) => {
-        return this.loadCircuitArtifacts(circuitName as keyof CircuitConfig);
-      });
-      
+      const circuitPromises = Object.keys(this.config).map(
+        async (circuitName) => {
+          return this.loadCircuitArtifacts(circuitName as keyof CircuitConfig);
+        }
+      );
+
       await Promise.all(circuitPromises);
       console.log(' All circuits loaded successfully');
-      
+
       // Initialize proof cache from IndexedDB if available
       if (typeof window !== 'undefined' && window.indexedDB) {
         await this.initializeProofCache();
       }
-      
+
       console.log(' Enhanced ProofGenerator initialized');
     } catch (error) {
-      throw new CircuitLoadError(`Failed to initialize Enhanced ProofGenerator: ${error}`);
+      throw new CircuitLoadError(
+        `Failed to initialize Enhanced ProofGenerator: ${error}`
+      );
     }
   }
 
   /**
    * Load circuit artifacts (WASM and zkey files)
    */
-  private async loadCircuitArtifacts(circuitName: keyof CircuitConfig): Promise<void> {
+  private async loadCircuitArtifacts(
+    circuitName: keyof CircuitConfig
+  ): Promise<void> {
     const artifacts = this.config[circuitName];
     if (!artifacts) {
-      throw new CircuitLoadError(`Circuit configuration not found: ${circuitName}`);
+      throw new CircuitLoadError(
+        `Circuit configuration not found: ${circuitName}`
+      );
     }
 
     try {
-      console.log(`📦 Loading ${circuitName} circuit artifacts...`);
-      
+      console.log(` Loading ${circuitName} circuit artifacts...`);
+
       // Load WASM file
       const wasmResponse = await fetch(artifacts.wasmPath);
       if (!wasmResponse.ok) {
@@ -99,7 +107,7 @@ export class EnhancedProofGenerator {
       }
       const wasmBuffer = await wasmResponse.arrayBuffer();
       this.wasmCache.set(circuitName, wasmBuffer);
-      
+
       // Load zkey file
       const zkeyResponse = await fetch(artifacts.zkeyPath);
       if (!zkeyResponse.ok) {
@@ -107,10 +115,12 @@ export class EnhancedProofGenerator {
       }
       const zkeyBuffer = await zkeyResponse.arrayBuffer();
       this.zkeyCache.set(circuitName, zkeyBuffer);
-      
+
       console.log(` ${circuitName} circuit loaded successfully`);
     } catch (error) {
-      throw new CircuitLoadError(`Failed to load ${circuitName} circuit: ${error}`);
+      throw new CircuitLoadError(
+        `Failed to load ${circuitName} circuit: ${error}`
+      );
     }
   }
 
@@ -150,14 +160,16 @@ export class EnhancedProofGenerator {
     }
 
     console.log(' Generating age proof with snarkjs...');
-    
+
     try {
       const nonce = params.nonce || generateNonce();
-      
+
       // Calculate age
       const age = calculateAge(aadhaarData.dateOfBirth);
       if (age < params.threshold) {
-        throw new InvalidParametersError(`User age (${age}) does not meet threshold (${params.threshold})`);
+        throw new InvalidParametersError(
+          `User age (${age}) does not meet threshold (${params.threshold})`
+        );
       }
 
       // Generate identity commitment using Poseidon
@@ -165,7 +177,7 @@ export class EnhancedProofGenerator {
         aadhaarData.referenceId,
         aadhaarData.name,
         aadhaarData.dateOfBirth,
-        nonce
+        nonce,
       ]);
 
       // Prepare circuit inputs
@@ -174,7 +186,7 @@ export class EnhancedProofGenerator {
         isAboveAge: '1', // Boolean: 1 if above age
         commitmentHash: this.poseidon.F.toString(identityCommitment),
         age: age.toString(),
-        identitySecret: nonce
+        identitySecret: nonce,
       };
 
       // Generate proof with timeout
@@ -191,8 +203,8 @@ export class EnhancedProofGenerator {
         metadata: {
           threshold: params.threshold,
           timestamp: Date.now(),
-          identityCommitment: this.poseidon.F.toString(identityCommitment)
-        }
+          identityCommitment: this.poseidon.F.toString(identityCommitment),
+        },
       };
 
       // Cache the proof
@@ -200,9 +212,11 @@ export class EnhancedProofGenerator {
 
       console.log(' Age proof generated and cached successfully');
       return proofData;
-
     } catch (error) {
-      throw new ProofGenerationError(`Age proof generation failed: ${error}`, 'age');
+      throw new ProofGenerationError(
+        `Age proof generation failed: ${error}`,
+        'age'
+      );
     }
   }
 
@@ -227,16 +241,19 @@ export class EnhancedProofGenerator {
 
     try {
       const nonce = params.nonce || generateNonce();
-      
+
       // Extract country from state/address (simplified for India = 91)
       const countryCode = 91; // India country code
-      
+
       // Check if country is allowed
-      const isAllowed = params.allowedCountries.includes('IN') || 
-                       params.allowedCountries.includes('91');
-      
+      const isAllowed =
+        params.allowedCountries.includes('IN') ||
+        params.allowedCountries.includes('91');
+
       if (!isAllowed) {
-        throw new InvalidParametersError(`Country not in allowed list: ${countryCode}`);
+        throw new InvalidParametersError(
+          `Country not in allowed list: ${countryCode}`
+        );
       }
 
       // Generate identity commitment
@@ -244,7 +261,7 @@ export class EnhancedProofGenerator {
         aadhaarData.referenceId,
         aadhaarData.address,
         countryCode,
-        nonce
+        nonce,
       ]);
 
       // Prepare circuit inputs
@@ -253,7 +270,7 @@ export class EnhancedProofGenerator {
         isFromCountry: '1', // Boolean: 1 if from allowed country
         commitmentHash: this.poseidon.F.toString(identityCommitment),
         countryCode: countryCode.toString(),
-        identitySecret: nonce
+        identitySecret: nonce,
       };
 
       // Generate proof
@@ -270,8 +287,8 @@ export class EnhancedProofGenerator {
         metadata: {
           countries: params.allowedCountries,
           timestamp: Date.now(),
-          identityCommitment: this.poseidon.F.toString(identityCommitment)
-        }
+          identityCommitment: this.poseidon.F.toString(identityCommitment),
+        },
       };
 
       // Cache the proof
@@ -279,9 +296,11 @@ export class EnhancedProofGenerator {
 
       console.log(' Nationality proof generated and cached successfully');
       return proofData;
-
     } catch (error) {
-      throw new ProofGenerationError(`Nationality proof generation failed: ${error}`, 'nationality');
+      throw new ProofGenerationError(
+        `Nationality proof generation failed: ${error}`,
+        'nationality'
+      );
     }
   }
 
@@ -300,22 +319,22 @@ export class EnhancedProofGenerator {
       return cachedProof.proofData;
     }
 
-    console.log('🔑 Generating uniqueness proof with snarkjs...');
+    console.log(' Generating uniqueness proof with snarkjs...');
 
     try {
       const nonce = params.nonce || generateNonce();
-      
+
       // Generate nullifier for Sybil resistance
       const nullifier = this.poseidon([
         aadhaarData.referenceId, // Unique Aadhaar reference
         params.daoId || 'global', // DAO/App specific identifier
-        params.epochId || '1' // Epoch for time-based uniqueness
+        params.epochId || '1', // Epoch for time-based uniqueness
       ]);
 
       // Generate identity commitment
       const identityCommitment = this.poseidon([
         aadhaarData.referenceId,
-        nonce
+        nonce,
       ]);
 
       // Generate Aadhaar hash (without revealing actual number)
@@ -329,7 +348,7 @@ export class EnhancedProofGenerator {
         nullifier: this.poseidon.F.toString(nullifier),
         merkleRoot: this.poseidon.F.toString(merkleRoot),
         identitySecret: nonce,
-        aadhaarHash: this.poseidon.F.toString(aadhaarHash)
+        aadhaarHash: this.poseidon.F.toString(aadhaarHash),
       };
 
       // Generate proof
@@ -348,8 +367,8 @@ export class EnhancedProofGenerator {
           epochId: params.epochId,
           timestamp: Date.now(),
           nullifier: this.poseidon.F.toString(nullifier),
-          identityCommitment: this.poseidon.F.toString(identityCommitment)
-        }
+          identityCommitment: this.poseidon.F.toString(identityCommitment),
+        },
       };
 
       // Cache the proof
@@ -357,9 +376,11 @@ export class EnhancedProofGenerator {
 
       console.log(' Uniqueness proof generated and cached successfully');
       return proofData;
-
     } catch (error) {
-      throw new ProofGenerationError(`Uniqueness proof generation failed: ${error}`, 'uniqueness');
+      throw new ProofGenerationError(
+        `Uniqueness proof generation failed: ${error}`,
+        'uniqueness'
+      );
     }
   }
 
@@ -373,7 +394,11 @@ export class EnhancedProofGenerator {
   ): Promise<{ proof: any; publicSignals: string[] }> {
     return new Promise(async (resolve, reject) => {
       const timeoutId = setTimeout(() => {
-        reject(new Error(`Proof generation timeout (${timeout}ms) for ${circuitName}`));
+        reject(
+          new Error(
+            `Proof generation timeout (${timeout}ms) for ${circuitName}`
+          )
+        );
       }, timeout);
 
       try {
@@ -395,7 +420,9 @@ export class EnhancedProofGenerator {
         );
 
         const endTime = Date.now();
-        console.log(` ${circuitName} proof generated in ${endTime - startTime}ms`);
+        console.log(
+          ` ${circuitName} proof generated in ${endTime - startTime}ms`
+        );
 
         clearTimeout(timeoutId);
         resolve({ proof, publicSignals });
@@ -417,7 +444,7 @@ export class EnhancedProofGenerator {
     const dataHash = hashInputs([
       aadhaarData.referenceId,
       proofType,
-      JSON.stringify(params)
+      JSON.stringify(params),
     ]);
     return `${proofType}_${dataHash}`;
   }
@@ -429,7 +456,7 @@ export class EnhancedProofGenerator {
     const cacheEntry: ProofCache = {
       proofData,
       createdAt: Date.now(),
-      expiresAt: Date.now() + CIRCUIT_CACHE_TTL
+      expiresAt: Date.now() + CIRCUIT_CACHE_TTL,
     };
 
     this.proofCache.set(key, cacheEntry);
@@ -456,7 +483,10 @@ export class EnhancedProofGenerator {
   /**
    * Persist proof to IndexedDB for offline access
    */
-  private async persistProofToIndexedDB(key: string, proof: ProofCache): Promise<void> {
+  private async persistProofToIndexedDB(
+    key: string,
+    proof: ProofCache
+  ): Promise<void> {
     // Implementation would use IndexedDB to store proofs
     // This is a placeholder for the actual implementation
     console.log(`💾 Persisting proof ${key} to IndexedDB`);
@@ -477,7 +507,7 @@ export class EnhancedProofGenerator {
     nationality?: ProofData;
     uniqueness?: ProofData;
   }> {
-    console.log('🔄 Generating batch proofs...');
+    console.log(' Generating batch proofs...');
     const startTime = Date.now();
 
     const proofPromises: Promise<any>[] = [];
@@ -485,22 +515,29 @@ export class EnhancedProofGenerator {
 
     if (requests.age) {
       proofPromises.push(
-        this.generateAgeProof(aadhaarData, requests.age)
-          .then(proof => { results.age = proof; })
+        this.generateAgeProof(aadhaarData, requests.age).then((proof) => {
+          results.age = proof;
+        })
       );
     }
 
     if (requests.nationality) {
       proofPromises.push(
-        this.generateNationalityProof(aadhaarData, requests.nationality)
-          .then(proof => { results.nationality = proof; })
+        this.generateNationalityProof(aadhaarData, requests.nationality).then(
+          (proof) => {
+            results.nationality = proof;
+          }
+        )
       );
     }
 
     if (requests.uniqueness) {
       proofPromises.push(
-        this.generateUniquenessProof(aadhaarData, requests.uniqueness)
-          .then(proof => { results.uniqueness = proof; })
+        this.generateUniquenessProof(aadhaarData, requests.uniqueness).then(
+          (proof) => {
+            results.uniqueness = proof;
+          }
+        )
       );
     }
 
@@ -534,7 +571,7 @@ export class EnhancedProofGenerator {
   } {
     const now = Date.now();
     let expired = 0;
-    
+
     for (const proof of this.proofCache.values()) {
       if (proof.expiresAt <= now) {
         expired++;
@@ -544,7 +581,7 @@ export class EnhancedProofGenerator {
     return {
       totalProofs: this.proofCache.size,
       expiredProofs: expired,
-      cacheHitRate: 0 // Would track this in real implementation
+      cacheHitRate: 0, // Would track this in real implementation
     };
   }
 }

@@ -20,10 +20,12 @@ if (typeof window !== 'undefined') {
       },
       subtle: crypto.webcrypto?.subtle || {
         digest: async (algorithm: string, data: ArrayBuffer) => {
-          const hash = crypto.createHash(algorithm.replace('-', '').toLowerCase());
+          const hash = crypto.createHash(
+            algorithm.replace('-', '').toLowerCase()
+          );
           hash.update(Buffer.from(data));
           return hash.digest().buffer;
-        }
+        },
       },
     },
   });
@@ -35,9 +37,15 @@ if (typeof window !== 'undefined') {
   Object.defineProperty(window, 'localStorage', {
     value: {
       getItem: (key: string) => storage[key] || null,
-      setItem: (key: string, value: string) => { storage[key] = value; },
-      removeItem: (key: string) => { delete storage[key]; },
-      clear: () => { Object.keys(storage).forEach(key => delete storage[key]); },
+      setItem: (key: string, value: string) => {
+        storage[key] = value;
+      },
+      removeItem: (key: string) => {
+        delete storage[key];
+      },
+      clear: () => {
+        Object.keys(storage).forEach((key) => delete storage[key]);
+      },
     },
   });
 }

@@ -2,7 +2,7 @@
 
 Technical architecture and design decisions for the Solstice SDK.
 
-## 🏗️ High-Level Architecture
+##  High-Level Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -29,7 +29,7 @@ Technical architecture and design decisions for the Solstice SDK.
 └─────────────────────────────────────────────────────────────┘
 ```
 
-## 🔧 Core Components
+##  Core Components
 
 ### 1. EnhancedSolsticeSDK
 
@@ -145,7 +145,7 @@ Blockchain interaction layer for Solana operations.
 - **Outputs**: Nullifier hash, commitment
 - **Use Cases**: Voting systems, airdrop eligibility
 
-## 🗄️ Data Architecture
+##  Data Architecture
 
 ### Aadhaar Data Structure
 
@@ -200,7 +200,7 @@ interface ProofData {
 }
 ```
 
-## 📦 Package Architecture
+##  Package Architecture
 
 ### Build System
 
@@ -352,7 +352,7 @@ const DEFAULT_CONFIGS = {
 - **HTTPS Only**: Encrypted communication
 - **CORS Protection**: Browser security
 
-## 🔄 Workflow Architecture
+##  Workflow Architecture
 
 ### Complete Verification Flow
 

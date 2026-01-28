@@ -1,6 +1,6 @@
 /**
  * Solstice SDK - Zero-Knowledge Identity Verification for Solana
- * 
+ *
  * Main entry point for the SDK
  */
 
@@ -24,7 +24,7 @@ export type {
   CircuitConfig,
   VerificationResult,
   AadhaarData,
-  ProofCache
+  ProofCache,
 } from './types';
 
 // Error exports
@@ -34,19 +34,19 @@ export {
   WalletNotConnectedError,
   VerificationError,
   CircuitLoadError,
-  InvalidQRDataError
+  InvalidQRDataError,
 } from './utils/errors';
 
 // Constants
 export { SOLSTICE_PROGRAM_ID, DEFAULT_RPC_ENDPOINTS } from './utils/constants';
 
 // Utility functions
-export { 
+export {
   validateQRData,
   parseAadhaarQR,
   formatProofForVerification,
   calculateAge,
-  hashInputs
+  hashInputs,
 } from './utils/helpers';
 
 // Testing utilities (separate export for optional inclusion)

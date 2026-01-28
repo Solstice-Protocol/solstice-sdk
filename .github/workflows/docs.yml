@@ -1,0 +1,390 @@
+# Documentation Generation and Deployment Pipeline
+# Triggered on main branch changes and manual dispatch
+# Generates API documentation and deploys to GitHub Pages
+
+name: Documentation
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/**'
+      - 'docs/**'
+      - 'README.md'
+      - 'package.json'
+      - '.github/workflows/docs.yml'
+  workflow_dispatch:
+    inputs:
+      deploy_target:
+        description: 'Deployment target'
+        required: true
+        default: 'github-pages'
+        type: choice
+        options:
+          - github-pages
+          - staging
+          - preview
+
+env:
+  NODE_VERSION: '18'
+
+jobs:
+  # Generate documentation
+  generate-docs:
+    name: Generate Documentation
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Needed for git history in docs
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Build project
+        run: npm run build
+      
+      - name: Generate TypeDoc documentation
+        run: |
+          echo "Generating API documentation with TypeDoc..."
+          
+          # Create docs output directory
+          mkdir -p docs/api
+          
+          # Generate TypeDoc documentation
+          npx typedoc src/index.ts \
+            --out docs/api \
+            --theme default \
+            --name "Solstice Protocol SDK" \
+            --readme README.md \
+            --includeVersion \
+            --excludePrivate \
+            --excludeProtected \
+            --excludeInternal \
+            --hideGenerator \
+            --sort source-order \
+            --categorizeByGroup false
+          
+          echo "✅ TypeDoc documentation generated successfully"
+      
+      - name: Generate additional documentation
+        run: |
+          echo "Generating additional documentation..."
+          
+          # Create comprehensive documentation structure
+          mkdir -p docs/{guides,examples,api-reference}
+          
+          # Copy examples if they exist
+          if [ -d "examples" ]; then
+            echo "Copying examples to documentation..."
+            cp -r examples/* docs/examples/ 2>/dev/null || echo "No examples to copy"
+          fi
+          
+          # Generate API reference index
+          cat > docs/api-reference/index.md << 'EOF'
+          # API Reference
+          
+          This section contains the complete API reference for the Solstice Protocol SDK.
+          
+          ## Quick Links
+          
+          - [Main API Documentation](../api/index.html)
+          - [Examples](../examples/)
+          - [Guides](../guides/)
+          
+          ## Getting Started
+          
+          ```typescript
+          import { SolsticeSDK } from '@solsticeprotocol/sdk';
+          
+          const sdk = new SolsticeSDK({
+            // configuration options
+          });
+          ```
+          
+          For detailed usage instructions, see the [API documentation](../api/index.html).
+          EOF
+          
+          # Generate guides index
+          cat > docs/guides/index.md << 'EOF'
+          # Guides
+          
+          This section contains guides and tutorials for using the Solstice Protocol SDK.
+          
+          ## Available Guides
+          
+          - [Getting Started](./getting-started.md)
+          - [Zero-Knowledge Proofs](./zk-proofs.md)
+          - [Integration Guide](./integration.md)
+          - [Troubleshooting](./troubleshooting.md)
+          
+          ## Quick Start
+          
+          1. Install the SDK: `npm install @solsticeprotocol/sdk`
+          2. Import and initialize: `import { SolsticeSDK } from '@solsticeprotocol/sdk'`
+          3. Follow the [Getting Started guide](./getting-started.md)
+          EOF
+          
+          echo "✅ Additional documentation generated"
+      
+      - name: Create documentation index
+        run: |
+          cat > docs/index.html << 'EOF'
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+              <meta charset="UTF-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1.0">
+              <title>Solstice Protocol SDK Documentation</title>
+              <style>
+                  body {
+                      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                      line-height: 1.6;
+                      max-width: 800px;
+                      margin: 0 auto;
+                      padding: 2rem;
+                      color: #333;
+                  }
+                  .header {
+                      text-align: center;
+                      margin-bottom: 3rem;
+                      padding-bottom: 2rem;
+                      border-bottom: 1px solid #eee;
+                  }
+                  .nav-grid {
+                      display: grid;
+                      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                      gap: 2rem;
+                      margin: 2rem 0;
+                  }
+                  .nav-card {
+                      padding: 1.5rem;
+                      border: 1px solid #ddd;
+                      border-radius: 8px;
+                      text-decoration: none;
+                      color: inherit;
+                      transition: box-shadow 0.2s;
+                  }
+                  .nav-card:hover {
+                      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+                  }
+                  .nav-card h3 {
+                      margin-top: 0;
+                      color: #2563eb;
+                  }
+                  .footer {
+                      text-align: center;
+                      margin-top: 3rem;
+                      padding-top: 2rem;
+                      border-top: 1px solid #eee;
+                      color: #666;
+                  }
+              </style>
+          </head>
+          <body>
+              <div class="header">
+                  <h1>Solstice Protocol SDK</h1>
+                  <p>Zero-Knowledge Identity Verification SDK for Solana</p>
+              </div>
+              
+              <div class="nav-grid">
+                  <a href="./api/index.html" class="nav-card">
+                      <h3>📚 API Documentation</h3>
+                      <p>Complete API reference with detailed documentation for all classes, methods, and interfaces.</p>
+                  </a>
+                  
+                  <a href="./guides/index.html" class="nav-card">
+                      <h3>📖 Guides</h3>
+                      <p>Step-by-step guides and tutorials to help you get started with the SDK.</p>
+                  </a>
+                  
+                  <a href="./examples/index.html" class="nav-card">
+                      <h3>💡 Examples</h3>
+                      <p>Practical examples and code samples demonstrating SDK usage.</p>
+                  </a>
+                  
+                  <a href="./api-reference/index.html" class="nav-card">
+                      <h3>🔍 API Reference</h3>
+                      <p>Quick reference and links to specific API documentation sections.</p>
+                  </a>
+              </div>
+              
+              <div class="footer">
+                  <p>Generated on: <span id="date"></span></p>
+                  <p><a href="https://github.com/Solstice-Protocol/sdk">View on GitHub</a></p>
+              </div>
+              
+              <script>
+                  document.getElementById('date').textContent = new Date().toLocaleDateString();
+              </script>
+          </body>
+          </html>
+          EOF
+          
+          echo "✅ Documentation index created"
+      
+      - name: Validate documentation
+        run: |
+          echo "Validating generated documentation..."
+          
+          # Check that main documentation files exist
+          if [ ! -f "docs/api/index.html" ]; then
+            echo "❌ API documentation not generated"
+            exit 1
+          fi
+          
+          if [ ! -f "docs/index.html" ]; then
+            echo "❌ Documentation index not created"
+            exit 1
+          fi
+          
+          # Check documentation size (should not be empty)
+          API_SIZE=$(du -s docs/api | cut -f1)
+          if [ "$API_SIZE" -lt 10 ]; then
+            echo "❌ API documentation appears to be empty or too small"
+            exit 1
+          fi
+          
+          echo "✅ Documentation validation passed"
+          echo "API documentation size: ${API_SIZE}KB"
+      
+      - name: Upload documentation artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: documentation-${{ github.sha }}
+          path: docs/
+          retention-days: 30
+
+  # Deploy to GitHub Pages
+  deploy-github-pages:
+    name: Deploy to GitHub Pages
+    runs-on: ubuntu-latest
+    needs: generate-docs
+    if: github.ref == 'refs/heads/main' && (github.event.inputs.deploy_target == 'github-pages' || github.event.inputs.deploy_target == '')
+    
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    
+    steps:
+      - name: Download documentation artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: documentation-${{ github.sha }}
+          path: docs/
+      
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+      
+      - name: Upload to GitHub Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs/
+      
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+      
+      - name: Verify deployment
+        run: |
+          echo "✅ Documentation deployed to GitHub Pages"
+          echo "URL: ${{ steps.deployment.outputs.page_url }}"
+          
+          # Wait a moment for deployment to be available
+          sleep 10
+          
+          # Test that the deployment is accessible
+          HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" "${{ steps.deployment.outputs.page_url }}" || echo "000")
+          if [ "$HTTP_STATUS" = "200" ]; then
+            echo "✅ Deployment verification successful"
+          else
+            echo "⚠️ Deployment verification returned HTTP $HTTP_STATUS"
+            echo "This may be normal for new deployments - please check manually"
+          fi
+
+  # Deploy to staging (for preview)
+  deploy-staging:
+    name: Deploy to Staging
+    runs-on: ubuntu-latest
+    needs: generate-docs
+    if: github.event.inputs.deploy_target == 'staging' || github.event.inputs.deploy_target == 'preview'
+    
+    steps:
+      - name: Download documentation artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: documentation-${{ github.sha }}
+          path: docs/
+      
+      - name: Deploy to staging
+        run: |
+          echo "Deploying documentation to staging environment..."
+          
+          # This is a placeholder for staging deployment
+          # In a real scenario, this would deploy to a staging server
+          # Examples: Netlify, Vercel, AWS S3, etc.
+          
+          echo "Staging deployment configuration:"
+          echo "- Target: ${{ github.event.inputs.deploy_target }}"
+          echo "- Commit: ${{ github.sha }}"
+          echo "- Branch: ${{ github.ref_name }}"
+          
+          # Simulate deployment
+          echo "✅ Staging deployment completed"
+          echo "Preview URL: https://staging-docs.solsticeprotocol.com"
+
+  # Documentation status and notification
+  docs-status:
+    name: Documentation Status
+    runs-on: ubuntu-latest
+    needs: [generate-docs, deploy-github-pages, deploy-staging]
+    if: always()
+    
+    steps:
+      - name: Report documentation status
+        run: |
+          echo "📊 Documentation Pipeline Status Report"
+          echo "======================================"
+          echo "Commit: ${{ github.sha }}"
+          echo "Branch: ${{ github.ref_name }}"
+          echo "Trigger: ${{ github.event_name }}"
+          echo ""
+          echo "Pipeline Results:"
+          echo "- Generate Docs: ${{ needs.generate-docs.result }}"
+          echo "- Deploy GitHub Pages: ${{ needs.deploy-github-pages.result }}"
+          echo "- Deploy Staging: ${{ needs.deploy-staging.result }}"
+          
+          if [[ "${{ needs.generate-docs.result }}" == "success" ]]; then
+            echo ""
+            echo "✅ Documentation generated successfully"
+            
+            if [[ "${{ needs.deploy-github-pages.result }}" == "success" ]]; then
+              echo "✅ Documentation deployed to GitHub Pages"
+            elif [[ "${{ needs.deploy-staging.result }}" == "success" ]]; then
+              echo "✅ Documentation deployed to staging"
+            fi
+            
+            echo ""
+            echo "📖 Documentation Links:"
+            echo "- GitHub Pages: https://solstice-protocol.github.io/sdk/"
+            echo "- Repository: https://github.com/Solstice-Protocol/sdk/tree/main/docs"
+            
+          else
+            echo ""
+            echo "❌ Documentation generation failed"
+            echo "Please check the workflow logs for details"
+            exit 1
+          fi

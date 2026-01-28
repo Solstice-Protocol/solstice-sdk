@@ -128,7 +128,7 @@ describe('Solstice SDK - Comprehensive Functionality Tests', () => {
 
   beforeAll(() => {
     performanceTracker = new PerformanceTracker();
-    console.log('🚀 Starting Comprehensive Solstice SDK Tests');
+    console.log(' Starting Comprehensive Solstice SDK Tests');
     console.log('📈 Performance tracking enabled');
   });
 
@@ -690,7 +690,7 @@ describe('Solstice SDK - Comprehensive Functionality Tests', () => {
       console.log(`   Performance Rating: ${performanceRating}`);
     }
     
-    console.log('\n✅ All comprehensive tests completed successfully!');
+    console.log('\n All comprehensive tests completed successfully!');
     console.log('🎯 SDK is ready for production deployment');
     console.log('='.repeat(80) + '\n');
   });

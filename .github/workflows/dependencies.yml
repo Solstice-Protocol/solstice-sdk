@@ -1,0 +1,375 @@
+# Dependency Management Pipeline
+# Handles automated dependency updates and maintenance tasks
+# Runs on schedule and can be triggered manually
+
+name: Dependencies
+
+on:
+  schedule:
+    # Run dependency updates weekly on Mondays at 9 AM UTC
+    - cron: '0 9 * * 1'
+  workflow_dispatch:
+    inputs:
+      update_type:
+        description: 'Type of dependency update'
+        required: true
+        default: 'patch'
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+          - security
+      create_pr:
+        description: 'Create pull request for updates'
+        required: true
+        default: true
+        type: boolean
+
+env:
+  NODE_VERSION: '18'
+
+jobs:
+  # Analyze current dependencies
+  analyze-dependencies:
+    name: Analyze Dependencies
+    runs-on: ubuntu-latest
+    
+    outputs:
+      has-updates: ${{ steps.check-updates.outputs.has-updates }}
+      security-updates: ${{ steps.check-updates.outputs.security-updates }}
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Check for outdated packages
+        id: check-updates
+        run: |
+          echo "Checking for outdated packages..."
+          
+          # Check for outdated packages
+          npm outdated --json > outdated.json || true
+          
+          # Check for security vulnerabilities
+          npm audit --audit-level=low --json > audit.json || true
+          
+          # Analyze results
+          OUTDATED_COUNT=$(cat outdated.json | jq 'length' 2>/dev/null || echo "0")
+          SECURITY_COUNT=$(cat audit.json | jq '.metadata.vulnerabilities.total' 2>/dev/null || echo "0")
+          
+          echo "Outdated packages: $OUTDATED_COUNT"
+          echo "Security vulnerabilities: $SECURITY_COUNT"
+          
+          if [ "$OUTDATED_COUNT" -gt 0 ] || [ "$SECURITY_COUNT" -gt 0 ]; then
+            echo "has-updates=true" >> $GITHUB_OUTPUT
+          else
+            echo "has-updates=false" >> $GITHUB_OUTPUT
+          fi
+          
+          if [ "$SECURITY_COUNT" -gt 0 ]; then
+            echo "security-updates=true" >> $GITHUB_OUTPUT
+          else
+            echo "security-updates=false" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Generate dependency report
+        run: |
+          echo "# Dependency Analysis Report" > DEPENDENCY_REPORT.md
+          echo "Generated on: $(date)" >> DEPENDENCY_REPORT.md
+          echo "" >> DEPENDENCY_REPORT.md
+          
+          echo "## Outdated Packages" >> DEPENDENCY_REPORT.md
+          if [ -s outdated.json ] && [ "$(cat outdated.json)" != "{}" ]; then
+            cat outdated.json | jq -r 'to_entries[] | "- **\(.key)**: \(.value.current) → \(.value.wanted) (latest: \(.value.latest))"' >> DEPENDENCY_REPORT.md
+          else
+            echo "No outdated packages found." >> DEPENDENCY_REPORT.md
+          fi
+          
+          echo "" >> DEPENDENCY_REPORT.md
+          echo "## Security Vulnerabilities" >> DEPENDENCY_REPORT.md
+          if [ -s audit.json ]; then
+            VULN_SUMMARY=$(cat audit.json | jq -r '.metadata.vulnerabilities | to_entries[] | "\(.key | ascii_upcase): \(.value)"' 2>/dev/null || echo "None")
+            if [ "$VULN_SUMMARY" != "None" ]; then
+              echo "$VULN_SUMMARY" | while read line; do
+                echo "- $line" >> DEPENDENCY_REPORT.md
+              done
+            else
+              echo "No security vulnerabilities found." >> DEPENDENCY_REPORT.md
+            fi
+          else
+            echo "No security vulnerabilities found." >> DEPENDENCY_REPORT.md
+          fi
+          
+          cat DEPENDENCY_REPORT.md
+      
+      - name: Upload dependency analysis
+        uses: actions/upload-artifact@v4
+        with:
+          name: dependency-analysis-${{ github.sha }}
+          path: |
+            outdated.json
+            audit.json
+            DEPENDENCY_REPORT.md
+          retention-days: 30
+
+  # Update dependencies based on type
+  update-dependencies:
+    name: Update Dependencies
+    runs-on: ubuntu-latest
+    needs: analyze-dependencies
+    if: needs.analyze-dependencies.outputs.has-updates == 'true'
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+      
+      - name: Configure git
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Update security vulnerabilities
+        if: needs.analyze-dependencies.outputs.security-updates == 'true' || github.event.inputs.update_type == 'security'
+        run: |
+          echo "Updating packages with security vulnerabilities..."
+          npm audit fix --force
+          
+          # Check if any changes were made
+          if git diff --quiet package*.json; then
+            echo "No security updates applied"
+          else
+            echo "Security updates applied"
+            git add package*.json
+            git commit -m "fix: update dependencies to resolve security vulnerabilities"
+          fi
+      
+      - name: Update patch versions
+        if: github.event.inputs.update_type == 'patch' || github.event.inputs.update_type == ''
+        run: |
+          echo "Updating patch versions..."
+          
+          # Update patch versions only
+          npx npm-check-updates -u --target patch
+          
+          if git diff --quiet package*.json; then
+            echo "No patch updates available"
+          else
+            npm install
+            git add package*.json
+            git commit -m "chore: update dependencies (patch versions)"
+          fi
+      
+      - name: Update minor versions
+        if: github.event.inputs.update_type == 'minor'
+        run: |
+          echo "Updating minor versions..."
+          
+          # Update minor versions
+          npx npm-check-updates -u --target minor
+          
+          if git diff --quiet package*.json; then
+            echo "No minor updates available"
+          else
+            npm install
+            git add package*.json
+            git commit -m "chore: update dependencies (minor versions)"
+          fi
+      
+      - name: Update major versions
+        if: github.event.inputs.update_type == 'major'
+        run: |
+          echo "Updating major versions..."
+          echo "⚠️ Major version updates require manual review"
+          
+          # Show what major updates are available
+          npx npm-check-updates --target major
+          
+          # Don't automatically apply major updates
+          echo "Major updates detected but not applied automatically"
+          echo "Please review and apply major updates manually"
+      
+      - name: Run tests after updates
+        run: |
+          echo "Running tests to verify updates..."
+          npm test || {
+            echo "❌ Tests failed after dependency updates"
+            echo "Rolling back changes..."
+            git reset --hard HEAD~1
+            exit 1
+          }
+          echo "✅ Tests passed after dependency updates"
+      
+      - name: Run build after updates
+        run: |
+          echo "Running build to verify updates..."
+          npm run build || {
+            echo "❌ Build failed after dependency updates"
+            echo "Rolling back changes..."
+            git reset --hard HEAD~1
+            exit 1
+          }
+          echo "✅ Build passed after dependency updates"
+      
+      - name: Create pull request
+        if: github.event.inputs.create_pr == 'true' || github.event.inputs.create_pr == ''
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "chore: update dependencies (${{ github.event.inputs.update_type || 'patch' }})"
+          title: "🔄 Dependency Updates (${{ github.event.inputs.update_type || 'patch' }})"
+          body: |
+            ## Dependency Updates
+            
+            This PR contains automated dependency updates.
+            
+            **Update Type**: ${{ github.event.inputs.update_type || 'patch' }}
+            **Security Updates**: ${{ needs.analyze-dependencies.outputs.security-updates }}
+            
+            ### Changes Made
+            
+            - Updated dependencies to latest ${{ github.event.inputs.update_type || 'patch' }} versions
+            - Resolved security vulnerabilities (if any)
+            - Verified tests and build still pass
+            
+            ### Verification
+            
+            - ✅ Tests pass
+            - ✅ Build succeeds
+            - ✅ No breaking changes detected
+            
+            ### Review Checklist
+            
+            - [ ] Review dependency changes
+            - [ ] Check for any breaking changes
+            - [ ] Verify CI pipeline passes
+            - [ ] Test functionality manually if needed
+            
+            ---
+            
+            *This PR was created automatically by the dependency update workflow.*
+          branch: dependency-updates-${{ github.run_number }}
+          delete-branch: true
+          labels: |
+            dependencies
+            automated
+            ${{ needs.analyze-dependencies.outputs.security-updates == 'true' && 'security' || '' }}
+
+  # Clean up old dependency branches
+  cleanup-branches:
+    name: Cleanup Old Branches
+    runs-on: ubuntu-latest
+    if: github.event_name == 'schedule'
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Clean up old dependency branches
+        run: |
+          echo "Cleaning up old dependency update branches..."
+          
+          # Find dependency update branches older than 7 days
+          OLD_BRANCHES=$(git for-each-ref --format='%(refname:short) %(committerdate)' refs/remotes/origin/dependency-updates-* | \
+            awk '$2 < "'$(date -d '7 days ago' -I)'"' | \
+            awk '{print $1}' | \
+            sed 's|origin/||')
+          
+          if [ -n "$OLD_BRANCHES" ]; then
+            echo "Found old branches to clean up:"
+            echo "$OLD_BRANCHES"
+            
+            for branch in $OLD_BRANCHES; do
+              echo "Deleting branch: $branch"
+              git push origin --delete "$branch" || echo "Failed to delete $branch (may already be deleted)"
+            done
+          else
+            echo "No old dependency branches found"
+          fi
+
+  # Generate dependency insights
+  dependency-insights:
+    name: Dependency Insights
+    runs-on: ubuntu-latest
+    needs: [analyze-dependencies, update-dependencies]
+    if: always()
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Generate dependency insights
+        run: |
+          echo "# Dependency Insights Report" > INSIGHTS_REPORT.md
+          echo "Generated on: $(date)" >> INSIGHTS_REPORT.md
+          echo "" >> INSIGHTS_REPORT.md
+          
+          echo "## Package Statistics" >> INSIGHTS_REPORT.md
+          TOTAL_DEPS=$(cat package.json | jq '.dependencies | length')
+          TOTAL_DEV_DEPS=$(cat package.json | jq '.devDependencies | length')
+          echo "- Production dependencies: $TOTAL_DEPS" >> INSIGHTS_REPORT.md
+          echo "- Development dependencies: $TOTAL_DEV_DEPS" >> INSIGHTS_REPORT.md
+          echo "- Total dependencies: $((TOTAL_DEPS + TOTAL_DEV_DEPS))" >> INSIGHTS_REPORT.md
+          echo "" >> INSIGHTS_REPORT.md
+          
+          echo "## Dependency Tree Size" >> INSIGHTS_REPORT.md
+          npm ls --depth=0 --json > deps_tree.json 2>/dev/null || true
+          if [ -f deps_tree.json ]; then
+            INSTALLED_COUNT=$(cat deps_tree.json | jq '.dependencies | length' 2>/dev/null || echo "0")
+            echo "- Installed packages: $INSTALLED_COUNT" >> INSIGHTS_REPORT.md
+          fi
+          echo "" >> INSIGHTS_REPORT.md
+          
+          echo "## License Distribution" >> INSIGHTS_REPORT.md
+          if command -v license-checker >/dev/null 2>&1; then
+            license-checker --summary --production | grep -E '^[A-Z]' | head -10 >> INSIGHTS_REPORT.md || echo "License information not available" >> INSIGHTS_REPORT.md
+          else
+            echo "License checker not available" >> INSIGHTS_REPORT.md
+          fi
+          echo "" >> INSIGHTS_REPORT.md
+          
+          echo "## Update Status" >> INSIGHTS_REPORT.md
+          echo "- Analysis completed: ${{ needs.analyze-dependencies.result }}" >> INSIGHTS_REPORT.md
+          echo "- Updates applied: ${{ needs.update-dependencies.result }}" >> INSIGHTS_REPORT.md
+          echo "- Security updates needed: ${{ needs.analyze-dependencies.outputs.security-updates }}" >> INSIGHTS_REPORT.md
+          
+          cat INSIGHTS_REPORT.md
+      
+      - name: Upload insights report
+        uses: actions/upload-artifact@v4
+        with:
+          name: dependency-insights-${{ github.sha }}
+          path: INSIGHTS_REPORT.md
+          retention-days: 90

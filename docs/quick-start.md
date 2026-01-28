@@ -2,13 +2,13 @@
 
 Get up and running with the Solstice SDK in just a few minutes.
 
-## 📦 Installation
+##  Installation
 
 ```bash
 npm install @solsticeprotocol/sdk
 ```
 
-## 🔧 Basic Setup
+##  Basic Setup
 
 ### 1. Import the SDK
 

@@ -23,7 +23,7 @@ describe('Solstice SDK - Real Implementation Tests', () => {
       console.log(`📁 Checking src folder: ${srcPath}`);
       
       if (fs.existsSync(distPath)) {
-        console.log('✅ Using built distribution');
+        console.log(' Using built distribution');
         // const sdkModule = require('../dist/index.js');
         // SolsticeSDK = sdkModule.SolsticeSDK;
         // EnhancedSolsticeSDK = sdkModule.EnhancedSolsticeSDK;
@@ -328,7 +328,7 @@ describe('Solstice SDK - Real Implementation Tests', () => {
       expect(verificationResult.allChecksPass).toBe(true);
       expect(verificationResult.userCommitment).toHaveLength(64);
       
-      console.log('✅ Full verification workflow completed successfully');
+      console.log(' Full verification workflow completed successfully');
     });
 
     test('should handle edge cases and error conditions', () => {
@@ -356,13 +356,13 @@ describe('Solstice SDK - Real Implementation Tests', () => {
 
   afterAll(() => {
     console.log('\n' + '='.repeat(60));
-    console.log('🎉 REAL SDK INTEGRATION TESTS COMPLETED');
+    console.log(' REAL SDK INTEGRATION TESTS COMPLETED');
     console.log('='.repeat(60));
-    console.log('✅ All core functionality validated');
-    console.log('✅ Cryptographic operations working');
-    console.log('✅ Performance benchmarks passed');
-    console.log('✅ Integration workflows functional');
-    console.log('🚀 SDK ready for production use!');
+    console.log(' All core functionality validated');
+    console.log(' Cryptographic operations working');
+    console.log(' Performance benchmarks passed');
+    console.log(' Integration workflows functional');
+    console.log(' SDK ready for production use!');
     console.log('='.repeat(60) + '\n');
   });
 });

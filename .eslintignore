@@ -1,0 +1,26 @@
+# Build outputs
+dist/
+build/
+coverage/
+
+# Dependencies
+node_modules/
+
+# Generated files
+*.d.ts
+
+# Circuit files
+circuits/
+
+# Documentation
+docs/
+
+# Configuration files that don't need strict linting
+rollup.config.js
+jest.config.js
+
+# Test setup files that may have special requirements
+setupTests.ts
+
+# Examples that may have different standards
+examples/

@@ -99,7 +99,7 @@ export async function onboardUserToDeFi(
     };
 
   } catch (error) {
-    console.error('❌ DeFi onboarding failed:', error);
+    console.error(' DeFi onboarding failed:', error);
     return {
       success: false,
       error: error instanceof Error ? error.message : 'Unknown error occurred'
@@ -176,7 +176,7 @@ export async function batchOnboardUsers(
     totalTime: number;
   };
 }> {
-  console.log(`📦 Starting batch onboarding for ${userQRCodes.length} users...`);
+  console.log(` Starting batch onboarding for ${userQRCodes.length} users...`);
   const startTime = Date.now();
 
   await sdk.initialize();

@@ -24,7 +24,7 @@ export interface VerificationChallenge {
   createdAt: number;
 }
 
-export type ChallengeParams = 
+export type ChallengeParams =
   | { type: 'age'; threshold: number }
   | { type: 'nationality'; allowedCountries: string[] }
   | { type: 'uniqueness'; scope: string };

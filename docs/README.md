@@ -35,6 +35,6 @@ await sdk.initialize();
 - [GitHub Repository](https://github.com/Shaurya2k06/SolsticeProtocol)
 - [Live Examples](../examples/)
 
-## 🆘 Support
+##  Support
 
 For questions and support, please open an issue on our [GitHub repository](https://github.com/Shaurya2k06/SolsticeProtocol/issues).

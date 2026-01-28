@@ -52,7 +52,7 @@ const proof = await sdk.generateAgeProof(aadhaarData, { threshold: 18 });```bash
 
 # or
 
-## ✨ Featuresyarn add @solsticeprotocol/sdk
+##  Featuresyarn add @solsticeprotocol/sdk
 
 ```
 
@@ -66,21 +66,21 @@ const proof = await sdk.generateAgeProof(aadhaarData, { threshold: 18 });```bash
 
 - **🛡️ Security First**: No sensitive data storage, cryptographic commitments only- A Solana wallet (Phantom, Solflare, etc.)
 
-- **📦 TypeScript**: Full type support with comprehensive interfaces- mAadhaar QR code for identity verification
+- ** TypeScript**: Full type support with comprehensive interfaces- mAadhaar QR code for identity verification
 
 
 
-## 📚 Documentation## ⚡ Quick Start
+##  Documentation## ⚡ Quick Start
 
 
 
 - [📖 Quick Start Guide](./docs/quick-start.md) - Get started in 5 minutes### Basic Setup
 
-- [🔧 API Reference](./docs/api-reference.md) - Complete API documentation
+- [ API Reference](./docs/api-reference.md) - Complete API documentation
 
 - [💡 Examples](./docs/examples.md) - Real-world integration examples```typescript
 
-- [🏗️ Architecture](./docs/architecture.md) - Technical architecture overviewimport { SolsticeSDK } from '@solsticeprotocol/sdk';
+- [ Architecture](./docs/architecture.md) - Technical architecture overviewimport { SolsticeSDK } from '@solsticeprotocol/sdk';
 
 - [🔗 Integration Guide](./docs/integration.md) - Production deployment guideimport { PublicKey } from '@solana/web3.js';
 
@@ -198,7 +198,7 @@ const uniquenessProof = await sdk.generateUniquenessProof(aadhaarData, {```
 
   sessionId: 'voting-session-2024',
 
-  nonce: 'unique-session-id'## 📚 API Reference
+  nonce: 'unique-session-id'##  API Reference
 
 });
 
@@ -254,7 +254,7 @@ const isValid = Testing.validateQRFormat(qrCodeData);- `qrData`: mAadhaar QR cod
 
 - `params.includeNationality?`: Include nationality in proof
 
-## 🔒 Security- `params.nonce?`: Custom nonce for uniqueness
+##  Security- `params.nonce?`: Custom nonce for uniqueness
 
 
 
@@ -298,7 +298,7 @@ const isValid = Testing.validateQRFormat(qrCodeData);- `qrData`: mAadhaar QR cod
 
 ##### `verifyIdentity(proof: ProofData): Promise<VerificationResult>`
 
-## 🆘 SupportVerify proof on Solana blockchain.
+##  SupportVerify proof on Solana blockchain.
 
 
 
@@ -315,7 +315,7 @@ MIT License - see [LICENSE](./LICENSE) for details.Get current identity status f
 ##### `batchGenerate(qrData: string, requests: BatchProofRequest[]): Promise<BatchProofResult>`
 Generate multiple proofs in parallel.
 
-## 🔧 Configuration
+##  Configuration
 
 ### SolsticeConfig
 

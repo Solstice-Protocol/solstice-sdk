@@ -12,7 +12,7 @@ export function validateQRData(qrData: string): boolean {
 
   // Basic validation for mAadhaar QR format
   const requiredTags = ['uid', 'name', 'dob'];
-  return requiredTags.every(tag => qrData.includes(tag));
+  return requiredTags.every((tag) => qrData.includes(tag));
 }
 
 /**
@@ -45,8 +45,10 @@ export function parseAadhaarQR(qrData: string): AadhaarData {
         extractAttribute('subdist'),
         extractAttribute('dist'),
         extractAttribute('state'),
-        extractAttribute('pc')
-      ].filter(Boolean).join(', '),
+        extractAttribute('pc'),
+      ]
+        .filter(Boolean)
+        .join(', '),
       careOf: extractAttribute('co'),
       district: extractAttribute('dist'),
       landmark: extractAttribute('lm'),
@@ -62,7 +64,7 @@ export function parseAadhaarQR(qrData: string): AadhaarData {
       mobileHash: extractAttribute('mobileHash'),
       emailHash: extractAttribute('emailHash'),
       signature: qrData,
-      xmlData: qrData
+      xmlData: qrData,
     };
   } catch (error) {
     throw new InvalidQRDataError(`Failed to parse QR data: ${error}`);
@@ -72,12 +74,15 @@ export function parseAadhaarQR(qrData: string): AadhaarData {
 /**
  * Formats proof data for blockchain verification
  */
-export function formatProofForVerification(proofData: ProofData): { proof: Uint8Array; publicInputs: Uint8Array } {
+export function formatProofForVerification(proofData: ProofData): {
+  proof: Uint8Array;
+  publicInputs: Uint8Array;
+} {
   try {
     // Simple conversion for now - in real implementation, this would properly format Groth16 proofs
     const proofStr = JSON.stringify(proofData.proof);
     const proof = new TextEncoder().encode(proofStr);
-    
+
     const publicInputsStr = JSON.stringify(proofData.publicSignals);
     const publicInputs = new TextEncoder().encode(publicInputsStr);
 
@@ -92,7 +97,9 @@ export function formatProofForVerification(proofData: ProofData): { proof: Uint8
  */
 export function validateAgeThreshold(threshold: number): void {
   if (!Number.isInteger(threshold) || threshold < 0 || threshold > 150) {
-    throw new InvalidParametersError('Age threshold must be an integer between 0 and 150');
+    throw new InvalidParametersError(
+      'Age threshold must be an integer between 0 and 150'
+    );
   }
 }
 
@@ -104,8 +111,8 @@ export function validateNationalityParams(countries: string[]): void {
     throw new InvalidParametersError('Countries array cannot be empty');
   }
 
-  const invalidCountries = countries.filter(country => 
-    !SUPPORTED_COUNTRIES.includes(country as any)
+  const invalidCountries = countries.filter(
+    (country) => !SUPPORTED_COUNTRIES.includes(country as any)
   );
 
   if (invalidCountries.length > 0) {
@@ -119,13 +126,22 @@ export function validateNationalityParams(countries: string[]): void {
  * Validates DAO ID parameter
  */
 export function validateDaoId(daoId: string): void {
-  if (!daoId || typeof daoId !== 'string' || daoId.length < 3 || daoId.length > 50) {
-    throw new InvalidParametersError('DAO ID must be a string between 3 and 50 characters');
+  if (
+    !daoId ||
+    typeof daoId !== 'string' ||
+    daoId.length < 3 ||
+    daoId.length > 50
+  ) {
+    throw new InvalidParametersError(
+      'DAO ID must be a string between 3 and 50 characters'
+    );
   }
 
   // Allow alphanumeric characters, hyphens, and underscores
   if (!/^[a-zA-Z0-9_-]+$/.test(daoId)) {
-    throw new InvalidParametersError('DAO ID can only contain alphanumeric characters, hyphens, and underscores');
+    throw new InvalidParametersError(
+      'DAO ID can only contain alphanumeric characters, hyphens, and underscores'
+    );
   }
 }
 
@@ -135,12 +151,14 @@ export function validateDaoId(daoId: string): void {
 export function generateNonce(): string {
   if (typeof crypto !== 'undefined' && crypto.getRandomValues) {
     return Array.from(crypto.getRandomValues(new Uint8Array(16)))
-      .map(b => b.toString(16).padStart(2, '0'))
+      .map((b) => b.toString(16).padStart(2, '0'))
       .join('');
   } else {
     // Fallback for environments without crypto.getRandomValues
-    return Math.random().toString(36).substring(2, 15) + 
-           Math.random().toString(36).substring(2, 15);
+    return (
+      Math.random().toString(36).substring(2, 15) +
+      Math.random().toString(36).substring(2, 15)
+    );
   }
 }
 
@@ -172,7 +190,7 @@ export function calculateAge(dateOfBirth: string): number {
  * Delays execution for specified milliseconds
  */
 export function delay(ms: number): Promise<void> {
-  return new Promise(resolve => setTimeout(resolve, ms));
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 /**
@@ -190,7 +208,7 @@ export async function retry<T>(
       return await operation();
     } catch (error) {
       lastError = error as Error;
-      
+
       if (attempt === maxAttempts) {
         throw lastError;
       }
@@ -214,13 +232,13 @@ export function hashInputs(inputs: any[]): string {
     const data = encoder.encode(combined);
     return Array.from(data).join('');
   }
-  
+
   // Fallback simple hash for environments without crypto
   let hash = 0;
   const combined = inputs.join('|');
   for (let i = 0; i < combined.length; i++) {
     const char = combined.charCodeAt(i);
-    hash = ((hash << 5) - hash) + char;
+    hash = (hash << 5) - hash + char;
     hash = hash & hash; // Convert to 32-bit integer
   }
   return hash.toString();
