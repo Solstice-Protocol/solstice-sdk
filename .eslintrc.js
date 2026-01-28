@@ -54,7 +54,7 @@ module.exports = {
     },
     {
       // Relaxed rules for configuration files
-      files: ['*.config.js', '*.config.ts', 'rollup.config.js', 'jest.config.js'],
+      files: ['*.config.js', '*.config.ts', '*.config.mjs', 'rollup.config.mjs', 'jest.config.js'],
       rules: {
         '@typescript-eslint/no-var-requires': 'off',
         '@typescript-eslint/explicit-function-return-type': 'off',
