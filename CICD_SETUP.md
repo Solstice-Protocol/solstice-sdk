@@ -1,6 +1,6 @@
 # CI/CD Pipeline Setup Guide
 
-## 🚀 Production-Ready CI/CD Pipeline
+##  Production-Ready CI/CD Pipeline
 
 This repository now includes a comprehensive CI/CD pipeline built with GitHub Actions. The pipeline enforces code quality, security, and automated deployment.
 
@@ -46,29 +46,29 @@ NODE_VERSION_MATRIX=[16, 18, 20]
 ## 🔧 Pipeline Features
 
 ### Quality Gates
-- ✅ TypeScript type checking (strict mode)
-- ✅ ESLint code quality checks
-- ✅ Prettier formatting verification
-- ✅ Code coverage validation (80% threshold)
-- ✅ Dependency vulnerability scanning
+-  TypeScript type checking (strict mode)
+-  ESLint code quality checks
+-  Prettier formatting verification
+-  Code coverage validation (80% threshold)
+-  Dependency vulnerability scanning
 
 ### Multi-Environment Testing
-- ✅ Node.js versions: 16, 18, 20
-- ✅ Platforms: Ubuntu, macOS, Windows
-- ✅ ZK circuit validation
-- ✅ Integration testing
+-  Node.js versions: 16, 18, 20
+-  Platforms: Ubuntu, macOS, Windows
+-  ZK circuit validation
+-  Integration testing
 
 ### Security & Compliance
-- ✅ Daily security scans
-- ✅ License compliance checking
-- ✅ CodeQL static analysis
-- ✅ Dependency vulnerability monitoring
+-  Daily security scans
+-  License compliance checking
+-  CodeQL static analysis
+-  Dependency vulnerability monitoring
 
 ### Automated Deployment
-- ✅ NPM package publishing on version tags
-- ✅ GitHub releases with changelogs
-- ✅ Documentation deployment
-- ✅ Staging/production environments
+-  NPM package publishing on version tags
+-  GitHub releases with changelogs
+-  Documentation deployment
+-  Staging/production environments
 
 ## 🚦 Current Status
 
@@ -125,7 +125,7 @@ git push origin v1.2.0
 ./.github/scripts/setup-pipeline.sh validate
 ```
 
-## 📊 Pipeline Workflows
+##  Pipeline Workflows
 
 1. **CI Pipeline** (`ci.yml`) - Runs on push/PR
 2. **Release Pipeline** (`release.yml`) - Runs on version tags
@@ -140,7 +140,7 @@ git push origin v1.2.0
 - **Security Alerts**: Automated vulnerability notifications
 - **Release Notes**: Auto-generated changelogs
 
-## 🆘 Troubleshooting
+##  Troubleshooting
 
 ### Pipeline Failures
 1. Check the Actions tab for detailed logs
@@ -154,7 +154,7 @@ git push origin v1.2.0
 - **Security Scan Fails**: Review and fix vulnerabilities
 - **Coverage Fails**: Add tests to meet 80% threshold
 
-## 📚 Documentation
+##  Documentation
 
 - **Pipeline Details**: `.github/README.md`
 - **Setup Script**: `.github/scripts/setup-pipeline.sh`

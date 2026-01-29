@@ -17,7 +17,7 @@ This directory contains the complete CI/CD pipeline configuration for the Solsti
 └── README.md          # This documentation file
 ```
 
-## 🚀 Pipeline Overview
+##  Pipeline Overview
 
 ### Main CI Pipeline (`ci.yml`)
 **Triggers**: Push and PR to `main` and `develop` branches
@@ -210,7 +210,7 @@ npm run docs
 4. **Review Documentation**: Check this README and inline workflow comments
 5. **Create Issues**: Report bugs or request features in the repository
 
-## 📊 Pipeline Metrics
+##  Pipeline Metrics
 
 The pipeline tracks various metrics for monitoring and optimization:
 
@@ -221,7 +221,7 @@ The pipeline tracks various metrics for monitoring and optimization:
 - **Dependency Health**: Outdated packages and update frequency
 - **Build Artifact Size**: Distribution bundle size tracking
 
-## 🔄 Continuous Improvement
+##  Continuous Improvement
 
 The pipeline is designed for continuous improvement:
 
@@ -241,7 +241,7 @@ When modifying the pipeline:
 4. **Security Review**: Ensure changes don't introduce security risks
 5. **Performance Impact**: Consider impact on pipeline execution time
 
-## 📚 Additional Resources
+##  Additional Resources
 
 - [GitHub Actions Documentation](https://docs.github.com/en/actions)
 - [TypeScript CI/CD Best Practices](https://typescript-eslint.io/docs/linting/ci)

@@ -657,7 +657,7 @@ describe('Solstice SDK - Comprehensive Functionality Tests', () => {
     console.log('='.repeat(80));
     
     if (Object.keys(report).length > 0) {
-      console.log('\n📊 PERFORMANCE METRICS:');
+      console.log('\n PERFORMANCE METRICS:');
       
       let totalOperations = 0;
       let totalTime = 0;

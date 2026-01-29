@@ -73,7 +73,7 @@ jobs:
             --sort source-order \
             --categorizeByGroup false
           
-          echo "✅ TypeDoc documentation generated successfully"
+          echo " TypeDoc documentation generated successfully"
       
       - name: Generate additional documentation
         run: |
@@ -133,7 +133,7 @@ jobs:
           3. Follow the [Getting Started guide](./getting-started.md)
           EOF
           
-          echo "✅ Additional documentation generated"
+          echo " Additional documentation generated"
       
       - name: Create documentation index
         run: |
@@ -197,7 +197,7 @@ jobs:
               
               <div class="nav-grid">
                   <a href="./api/index.html" class="nav-card">
-                      <h3>📚 API Documentation</h3>
+                      <h3> API Documentation</h3>
                       <p>Complete API reference with detailed documentation for all classes, methods, and interfaces.</p>
                   </a>
                   
@@ -229,7 +229,7 @@ jobs:
           </html>
           EOF
           
-          echo "✅ Documentation index created"
+          echo " Documentation index created"
       
       - name: Validate documentation
         run: |
@@ -237,23 +237,23 @@ jobs:
           
           # Check that main documentation files exist
           if [ ! -f "docs/api/index.html" ]; then
-            echo "❌ API documentation not generated"
+            echo " API documentation not generated"
             exit 1
           fi
           
           if [ ! -f "docs/index.html" ]; then
-            echo "❌ Documentation index not created"
+            echo " Documentation index not created"
             exit 1
           fi
           
           # Check documentation size (should not be empty)
           API_SIZE=$(du -s docs/api | cut -f1)
           if [ "$API_SIZE" -lt 10 ]; then
-            echo "❌ API documentation appears to be empty or too small"
+            echo " API documentation appears to be empty or too small"
             exit 1
           fi
           
-          echo "✅ Documentation validation passed"
+          echo " Documentation validation passed"
           echo "API documentation size: ${API_SIZE}KB"
       
       - name: Upload documentation artifacts
@@ -288,6 +288,8 @@ jobs:
       
       - name: Setup Pages
         uses: actions/configure-pages@v4
+        with:
+          enablement: true
       
       - name: Upload to GitHub Pages
         uses: actions/upload-pages-artifact@v3
@@ -300,7 +302,7 @@ jobs:
       
       - name: Verify deployment
         run: |
-          echo "✅ Documentation deployed to GitHub Pages"
+          echo " Documentation deployed to GitHub Pages"
           echo "URL: ${{ steps.deployment.outputs.page_url }}"
           
           # Wait a moment for deployment to be available
@@ -309,7 +311,7 @@ jobs:
           # Test that the deployment is accessible
           HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" "${{ steps.deployment.outputs.page_url }}" || echo "000")
           if [ "$HTTP_STATUS" = "200" ]; then
-            echo "✅ Deployment verification successful"
+            echo " Deployment verification successful"
           else
             echo "⚠️ Deployment verification returned HTTP $HTTP_STATUS"
             echo "This may be normal for new deployments - please check manually"
@@ -343,7 +345,7 @@ jobs:
           echo "- Branch: ${{ github.ref_name }}"
           
           # Simulate deployment
-          echo "✅ Staging deployment completed"
+          echo " Staging deployment completed"
           echo "Preview URL: https://staging-docs.solsticeprotocol.com"
 
   # Documentation status and notification
@@ -356,7 +358,7 @@ jobs:
     steps:
       - name: Report documentation status
         run: |
-          echo "📊 Documentation Pipeline Status Report"
+          echo " Documentation Pipeline Status Report"
           echo "======================================"
           echo "Commit: ${{ github.sha }}"
           echo "Branch: ${{ github.ref_name }}"
@@ -369,12 +371,12 @@ jobs:
           
           if [[ "${{ needs.generate-docs.result }}" == "success" ]]; then
             echo ""
-            echo "✅ Documentation generated successfully"
+            echo " Documentation generated successfully"
             
             if [[ "${{ needs.deploy-github-pages.result }}" == "success" ]]; then
-              echo "✅ Documentation deployed to GitHub Pages"
+              echo " Documentation deployed to GitHub Pages"
             elif [[ "${{ needs.deploy-staging.result }}" == "success" ]]; then
-              echo "✅ Documentation deployed to staging"
+              echo " Documentation deployed to staging"
             fi
             
             echo ""
@@ -384,7 +386,7 @@ jobs:
             
           else
             echo ""
-            echo "❌ Documentation generation failed"
+            echo " Documentation generation failed"
             echo "Please check the workflow logs for details"
             exit 1
           fi

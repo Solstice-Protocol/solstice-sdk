@@ -164,5 +164,5 @@ if (typeof global.fetch === 'undefined') {
 
 // Test environment info
 console.log('🧪 Comprehensive Solstice SDK Test Environment Initialized');
-console.log('📊 Features: Real implementations, Full functionality, Performance tracking');
+console.log(' Features: Real implementations, Full functionality, Performance tracking');
 console.log('⏱️  Timeout: 3 minutes per test');

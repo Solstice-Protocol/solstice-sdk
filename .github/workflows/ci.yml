@@ -41,84 +41,84 @@ jobs:
       - name: Run TypeScript type checking
         if: matrix.check == 'typecheck'
         run: |
-          echo "🔍 Running TypeScript type checking..."
+          echo "Running TypeScript type checking..."
           echo "TypeScript version: $(npx tsc --version)"
           
           # Validate TypeScript configuration exists and is valid
-          echo "🔧 Validating TypeScript configuration..."
+          echo "Validating TypeScript configuration..."
           if [ ! -f "tsconfig.json" ]; then
-            echo "❌ ERROR: tsconfig.json not found - TypeScript configuration is required"
+            echo "ERROR: tsconfig.json not found - TypeScript configuration is required"
             exit 1
           fi
           
           # Verify strict mode is enabled for maximum type safety
           if ! grep -q '"strict": true' tsconfig.json; then
-            echo "❌ ERROR: TypeScript strict mode is not enabled - strict type checking is required"
+            echo "ERROR: TypeScript strict mode is not enabled - strict type checking is required"
             echo "Please enable strict mode in tsconfig.json for maximum type safety"
             exit 1
           fi
-          echo "✅ TypeScript strict mode is enabled"
+          echo "TypeScript strict mode is enabled"
           
           # Validate TypeScript configuration is parseable
-          echo "🔧 Validating TypeScript configuration syntax..."
+          echo "Validating TypeScript configuration syntax..."
           if ! npx tsc --showConfig > /dev/null 2>&1; then
-            echo "❌ ERROR: Invalid TypeScript configuration detected"
+            echo "ERROR: Invalid TypeScript configuration detected"
             npx tsc --showConfig
             exit 1
           fi
-          echo "✅ TypeScript configuration is valid"
+          echo "TypeScript configuration is valid"
           
           # Show configuration summary for debugging
-          echo "📋 TypeScript configuration summary:"
+          echo "TypeScript configuration summary:"
           npx tsc --showConfig | grep -E '"target"|"module"|"strict"|"noEmit"|"rootDir"|"outDir"' | head -10
           echo ""
           
           # Count TypeScript files to be checked
           TS_FILE_COUNT=$(find src -name '*.ts' -o -name '*.tsx' | wc -l)
-          echo "📊 Found $TS_FILE_COUNT TypeScript files to check"
+          echo "Found $TS_FILE_COUNT TypeScript files to check"
           
           # Run comprehensive type checking with detailed error reporting
-          echo "🔍 Running comprehensive type check on all TypeScript files..."
+          echo "Running comprehensive type check on all TypeScript files..."
           echo "This will fail the build if ANY compilation errors are found"
           
           # Capture both stdout and stderr for comprehensive error reporting
           if ! npm run type-check 2>&1; then
             echo ""
-            echo "❌ CRITICAL ERROR: TypeScript compilation failed!"
+            echo "CRITICAL ERROR: TypeScript compilation failed!"
             echo "The following compilation errors must be fixed before proceeding:"
             echo "=================================================="
             npm run type-check 2>&1 || true
             echo "=================================================="
             echo ""
-            echo "💡 To fix these errors locally, run: npm run type-check"
-            echo "💡 Ensure all TypeScript files compile without errors"
+            echo "To fix these errors locally, run: npm run type-check"
+            echo "Ensure all TypeScript files compile without errors"
             exit 1
           fi
           
           echo ""
-          echo "✅ SUCCESS: TypeScript type checking completed successfully"
-          echo "✅ All $TS_FILE_COUNT TypeScript files compiled without errors"
-          echo "✅ No type errors found - build can proceed safely"
+          echo "SUCCESS: TypeScript type checking completed successfully"
+          echo "All $TS_FILE_COUNT TypeScript files compiled without errors"
+          echo "No type errors found - build can proceed safely"
           
           # Additional validation: ensure no .d.ts files have issues
           echo ""
-          echo "🔍 Validating TypeScript declaration files..."
+          echo "Validating TypeScript declaration files..."
           if find src -name '*.d.ts' | head -1 | grep -q .; then
             DECLARATION_COUNT=$(find src -name '*.d.ts' | wc -l)
-            echo "📊 Found $DECLARATION_COUNT declaration files - validating..."
+            echo "Found $DECLARATION_COUNT declaration files - validating..."
             # Check declaration files specifically
             if ! npx tsc --noEmit --skipLibCheck false 2>&1; then
-              echo "❌ ERROR: Declaration file validation failed"
+              echo "ERROR: Declaration file validation failed"
               exit 1
             fi
-            echo "✅ All declaration files are valid"
+            echo "All declaration files are valid"
           else
-            echo "ℹ️  No declaration files found in src directory"
+            echo "No declaration files found in src directory"
           fi
           
           echo ""
-          echo "🎉 TypeScript type checking workflow completed successfully!"
-          echo "🔒 Code quality gate: PASSED - No compilation errors detected"
+          echo "TypeScript type checking workflow completed successfully!"
+          echo "Code quality gate: PASSED - No compilation errors detected"
       
       - name: Run ESLint
         if: matrix.check == 'lint'
@@ -140,7 +140,7 @@ jobs:
             npx eslint --print-config src/index.ts
             exit 1
           fi
-          echo "✅ ESLint configuration is valid"
+          echo " ESLint configuration is valid"
           
           # Show configuration summary for debugging
           echo "📋 ESLint configuration summary:"
@@ -150,7 +150,7 @@ jobs:
           
           # Count TypeScript files to be linted
           TS_FILE_COUNT=$(find src -name '*.ts' -o -name '*.tsx' | wc -l)
-          echo "📊 Found $TS_FILE_COUNT TypeScript files to lint"
+          echo " Found $TS_FILE_COUNT TypeScript files to lint"
           
           # Run ESLint with detailed error reporting
           echo "🔍 Running comprehensive ESLint checks on all TypeScript files..."
@@ -163,9 +163,9 @@ jobs:
           # Run ESLint and capture output
           if npm run lint -- --format=stylish --output-file="$ESLINT_OUTPUT_FILE" 2>&1; then
             echo ""
-            echo "✅ SUCCESS: ESLint completed successfully"
-            echo "✅ All $TS_FILE_COUNT TypeScript files passed linting checks"
-            echo "✅ No linting errors found - build can proceed safely"
+            echo " SUCCESS: ESLint completed successfully"
+            echo " All $TS_FILE_COUNT TypeScript files passed linting checks"
+            echo " No linting errors found - build can proceed safely"
             
             # Show any warnings if they exist
             if [ -f "$ESLINT_OUTPUT_FILE" ] && [ -s "$ESLINT_OUTPUT_FILE" ]; then
@@ -201,7 +201,7 @@ jobs:
               ERROR_COUNT=$(grep -c "error" "$ESLINT_OUTPUT_FILE" 2>/dev/null || echo "0")
               WARNING_COUNT=$(grep -c "warning" "$ESLINT_OUTPUT_FILE" 2>/dev/null || echo "0")
               echo ""
-              echo "📊 Summary: $ERROR_COUNT errors, $WARNING_COUNT warnings found"
+              echo " Summary: $ERROR_COUNT errors, $WARNING_COUNT warnings found"
               echo "🔒 Code quality gate: FAILED - Linting errors must be resolved"
             fi
             
@@ -235,7 +235,7 @@ jobs:
             node -e "require('./.prettierrc.js')" 2>&1 || true
             exit 1
           fi
-          echo "✅ Prettier configuration is valid"
+          echo " Prettier configuration is valid"
           
           # Show configuration summary for debugging
           echo "📋 Prettier configuration summary:"
@@ -247,12 +247,12 @@ jobs:
           
           # Count files to be formatted
           FILE_PATTERNS="src/**/*.{ts,tsx,js,jsx,json,md}"
-          echo "📊 Checking formatting for pattern: $FILE_PATTERNS"
+          echo " Checking formatting for pattern: $FILE_PATTERNS"
           
           # Get list of files that would be checked
           FILES_TO_CHECK=$(npx prettier --list-different "$FILE_PATTERNS" 2>/dev/null || echo "")
           TOTAL_FILES=$(find src -name '*.ts' -o -name '*.tsx' -o -name '*.js' -o -name '*.jsx' -o -name '*.json' -o -name '*.md' | wc -l)
-          echo "📊 Found $TOTAL_FILES files to check for formatting"
+          echo " Found $TOTAL_FILES files to check for formatting"
           
           # Run Prettier formatting check with detailed error reporting
           echo "🎨 Running comprehensive formatting check on all source files..."
@@ -264,9 +264,9 @@ jobs:
           # Run Prettier check and capture output
           if npx prettier --check "$FILE_PATTERNS" > "$PRETTIER_OUTPUT_FILE" 2>&1; then
             echo ""
-            echo "✅ SUCCESS: Prettier formatting check completed successfully"
-            echo "✅ All $TOTAL_FILES source files are properly formatted"
-            echo "✅ No formatting inconsistencies found - build can proceed safely"
+            echo " SUCCESS: Prettier formatting check completed successfully"
+            echo " All $TOTAL_FILES source files are properly formatted"
+            echo " No formatting inconsistencies found - build can proceed safely"
             
             # Show any additional info if available
             if [ -f "$PRETTIER_OUTPUT_FILE" ] && [ -s "$PRETTIER_OUTPUT_FILE" ]; then
@@ -302,7 +302,7 @@ jobs:
             
             # Count files with formatting issues
             UNFORMATTED_COUNT=$(npx prettier --list-different "$FILE_PATTERNS" 2>/dev/null | wc -l || echo "0")
-            echo "📊 Summary: $UNFORMATTED_COUNT out of $TOTAL_FILES files need formatting"
+            echo " Summary: $UNFORMATTED_COUNT out of $TOTAL_FILES files need formatting"
             echo "🔒 Code quality gate: FAILED - Formatting inconsistencies must be resolved"
             echo ""
             
@@ -330,7 +330,7 @@ jobs:
             find src -name '*.ts' -o -name '*.tsx' -o -name '*.js' -o -name '*.jsx' | xargs file | grep CRLF | head -5
             echo "💡 Consider configuring your editor to use LF line endings"
           else
-            echo "✅ All files use consistent LF line endings"
+            echo " All files use consistent LF line endings"
           fi
           
           # Check for trailing whitespace (Prettier should handle this, but double-check)
@@ -339,7 +339,7 @@ jobs:
             echo "⚠️  WARNING: Found files with trailing whitespace"
             find src -name '*.ts' -o -name '*.tsx' -o -name '*.js' -o -name '*.jsx' | xargs grep -l '[[:space:]]$' 2>/dev/null | head -5
           else
-            echo "✅ No trailing whitespace found"
+            echo " No trailing whitespace found"
           fi
           
           # Clean up temporary files
@@ -356,7 +356,7 @@ jobs:
       - name: Run code coverage validation
         if: matrix.check == 'coverage'
         run: |
-          echo "📊 Running comprehensive code coverage analysis..."
+          echo " Running comprehensive code coverage analysis..."
           echo "Jest version: $(npx jest --version)"
           
           # Validate Jest configuration exists and is valid
@@ -373,7 +373,7 @@ jobs:
             node -e "require('./jest.config.js')" 2>&1 || true
             exit 1
           fi
-          echo "✅ Jest configuration is valid"
+          echo " Jest configuration is valid"
           
           # Show coverage configuration
           echo "📋 Coverage configuration:"
@@ -384,7 +384,7 @@ jobs:
           # Count test files
           TEST_FILE_COUNT=$(find tests -name '*.test.ts' -o -name '*.test.js' -o -name '*.spec.ts' -o -name '*.spec.js' | wc -l)
           SOURCE_FILE_COUNT=$(find src -name '*.ts' -o -name '*.tsx' | grep -v '\.d\.ts$' | wc -l)
-          echo "📊 Found $TEST_FILE_COUNT test files covering $SOURCE_FILE_COUNT source files"
+          echo " Found $TEST_FILE_COUNT test files covering $SOURCE_FILE_COUNT source files"
           
           # Run tests with coverage
           echo "🧪 Running tests with comprehensive coverage analysis..."
@@ -396,12 +396,12 @@ jobs:
           # Run tests with coverage and capture output
           if npm test -- --coverage --coverageReporters=text --coverageReporters=lcov --coverageReporters=json-summary --passWithNoTests 2>&1; then
             echo ""
-            echo "✅ SUCCESS: Tests completed successfully"
+            echo " SUCCESS: Tests completed successfully"
             
             # Parse coverage results
             if [ -f "coverage/coverage-summary.json" ]; then
               echo ""
-              echo "📊 Coverage Summary:"
+              echo " Coverage Summary:"
               echo "=================================================="
               
               # Extract coverage percentages
@@ -452,8 +452,8 @@ jobs:
                 exit 1
               else
                 echo ""
-                echo "✅ All coverage metrics meet the $THRESHOLD% threshold"
-                echo "✅ Code coverage validation passed"
+                echo " All coverage metrics meet the $THRESHOLD% threshold"
+                echo " Code coverage validation passed"
               fi
             else
               echo "⚠️  Warning: Coverage summary not found - this may indicate test execution issues"
@@ -547,7 +547,7 @@ jobs:
             node -e "require('./jest.config.js')" 2>&1 || true
             exit 1
           fi
-          echo "✅ Jest configuration is valid"
+          echo " Jest configuration is valid"
           
           # Show Jest configuration summary for debugging
           echo "📋 Jest configuration summary:"
@@ -558,11 +558,11 @@ jobs:
           
           # Count test files to be executed
           TEST_FILE_COUNT=$(find tests -name '*.test.ts' -o -name '*.test.js' -o -name '*.spec.ts' -o -name '*.spec.js' 2>/dev/null | wc -l)
-          echo "📊 Found $TEST_FILE_COUNT test files to execute"
+          echo " Found $TEST_FILE_COUNT test files to execute"
           
           # Count source files for coverage analysis
           SOURCE_FILE_COUNT=$(find src -name '*.ts' -o -name '*.tsx' | grep -v '\.d\.ts$' | wc -l)
-          echo "📊 Found $SOURCE_FILE_COUNT source files for coverage analysis"
+          echo " Found $SOURCE_FILE_COUNT source files for coverage analysis"
           echo ""
           
           # Run comprehensive test suite with coverage
@@ -575,7 +575,7 @@ jobs:
           # Run tests with coverage - capture both stdout and stderr
           if npm run test:coverage-ci 2>&1 | tee coverage/test-output.log; then
             echo ""
-            echo "✅ Test suite execution completed successfully"
+            echo " Test suite execution completed successfully"
           else
             echo ""
             echo "❌ CRITICAL ERROR: Test suite execution failed!"
@@ -592,7 +592,7 @@ jobs:
       
       - name: Validate coverage threshold
         run: |
-          echo "📊 Validating code coverage against threshold..."
+          echo " Validating code coverage against threshold..."
           echo "Required coverage threshold: $COVERAGE_THRESHOLD%"
           echo ""
           
@@ -609,7 +609,7 @@ jobs:
           BRANCHES_COVERAGE=$(node -e "console.log(require('./coverage/coverage-summary.json').total.branches.pct)")
           STATEMENTS_COVERAGE=$(node -e "console.log(require('./coverage/coverage-summary.json').total.statements.pct)")
           
-          echo "📊 Coverage Summary:"
+          echo " Coverage Summary:"
           echo "   Lines:      $LINES_COVERAGE%"
           echo "   Functions:  $FUNCTIONS_COVERAGE%"
           echo "   Branches:   $BRANCHES_COVERAGE%"
@@ -624,7 +624,7 @@ jobs:
             echo "❌ Lines coverage ($LINES_COVERAGE%) is below threshold ($COVERAGE_THRESHOLD%)"
             COVERAGE_FAILED=true
           else
-            echo "✅ Lines coverage ($LINES_COVERAGE%) meets threshold ($COVERAGE_THRESHOLD%)"
+            echo " Lines coverage ($LINES_COVERAGE%) meets threshold ($COVERAGE_THRESHOLD%)"
           fi
           
           # Check functions coverage
@@ -632,7 +632,7 @@ jobs:
             echo "❌ Functions coverage ($FUNCTIONS_COVERAGE%) is below threshold ($COVERAGE_THRESHOLD%)"
             COVERAGE_FAILED=true
           else
-            echo "✅ Functions coverage ($FUNCTIONS_COVERAGE%) meets threshold ($COVERAGE_THRESHOLD%)"
+            echo " Functions coverage ($FUNCTIONS_COVERAGE%) meets threshold ($COVERAGE_THRESHOLD%)"
           fi
           
           # Check branches coverage
@@ -640,7 +640,7 @@ jobs:
             echo "❌ Branches coverage ($BRANCHES_COVERAGE%) is below threshold ($COVERAGE_THRESHOLD%)"
             COVERAGE_FAILED=true
           else
-            echo "✅ Branches coverage ($BRANCHES_COVERAGE%) meets threshold ($COVERAGE_THRESHOLD%)"
+            echo " Branches coverage ($BRANCHES_COVERAGE%) meets threshold ($COVERAGE_THRESHOLD%)"
           fi
           
           # Check statements coverage
@@ -648,7 +648,7 @@ jobs:
             echo "❌ Statements coverage ($STATEMENTS_COVERAGE%) is below threshold ($COVERAGE_THRESHOLD%)"
             COVERAGE_FAILED=true
           else
-            echo "✅ Statements coverage ($STATEMENTS_COVERAGE%) meets threshold ($COVERAGE_THRESHOLD%)"
+            echo " Statements coverage ($STATEMENTS_COVERAGE%) meets threshold ($COVERAGE_THRESHOLD%)"
           fi
           
           echo ""
@@ -673,11 +673,11 @@ jobs:
             echo ""
             exit 1
           else
-            echo "✅ SUCCESS: All coverage metrics meet the required threshold!"
+            echo " SUCCESS: All coverage metrics meet the required threshold!"
             echo "🔒 Quality gate: PASSED - Coverage requirements satisfied"
             echo ""
             echo "🎉 Code coverage validation completed successfully!"
-            echo "📊 Overall coverage quality: EXCELLENT"
+            echo " Overall coverage quality: EXCELLENT"
           fi
         env:
           NODE_ENV: test
@@ -710,32 +710,32 @@ jobs:
           # Create badge data file
           echo "{\"schemaVersion\": 1, \"label\": \"coverage\", \"message\": \"${COVERAGE_PERCENT}%\", \"color\": \"${BADGE_COLOR}\"}" > coverage/coverage-badge.json
           
-          echo "✅ Coverage badge data generated:"
+          echo " Coverage badge data generated:"
           echo "   Coverage: ${COVERAGE_PERCENT}%"
           echo "   Grade: ${COVERAGE_GRADE}"
           echo "   Color: ${BADGE_COLOR}"
           
           # Create coverage summary for artifacts
-          cat > coverage/coverage-summary.txt << EOF
+          cat > coverage/coverage-summary.txt << 'COVERAGE_EOF'
 Code Coverage Summary
 ====================
-Generated: $(date -u +"%Y-%m-%d %H:%M:%S UTC")
-Commit: ${{ github.sha }}
-Branch: ${{ github.ref_name }}
-
-Coverage Metrics:
-- Lines:      $(node -e "console.log(require('./coverage/coverage-summary.json').total.lines.pct)")%
-- Functions:  $(node -e "console.log(require('./coverage/coverage-summary.json').total.functions.pct)")%
-- Branches:   $(node -e "console.log(require('./coverage/coverage-summary.json').total.branches.pct)")%
-- Statements: $(node -e "console.log(require('./coverage/coverage-summary.json').total.statements.pct)")%
-
-Threshold: $COVERAGE_THRESHOLD%
-Status: $(if [ "$COVERAGE_PERCENT" -ge "$COVERAGE_THRESHOLD" ]; then echo "PASSED"; else echo "FAILED"; fi)
-Grade: ${COVERAGE_GRADE}
-EOF
+COVERAGE_EOF
+          echo "Generated: $(date -u +"%Y-%m-%d %H:%M:%S UTC")" >> coverage/coverage-summary.txt
+          echo "Commit: ${{ github.sha }}" >> coverage/coverage-summary.txt
+          echo "Branch: ${{ github.ref_name }}" >> coverage/coverage-summary.txt
+          echo "" >> coverage/coverage-summary.txt
+          echo "Coverage Metrics:" >> coverage/coverage-summary.txt
+          echo "- Lines:      $(node -e "console.log(require('./coverage/coverage-summary.json').total.lines.pct)")%" >> coverage/coverage-summary.txt
+          echo "- Functions:  $(node -e "console.log(require('./coverage/coverage-summary.json').total.functions.pct)")%" >> coverage/coverage-summary.txt
+          echo "- Branches:   $(node -e "console.log(require('./coverage/coverage-summary.json').total.branches.pct)")%" >> coverage/coverage-summary.txt
+          echo "- Statements: $(node -e "console.log(require('./coverage/coverage-summary.json').total.statements.pct)")%" >> coverage/coverage-summary.txt
+          echo "" >> coverage/coverage-summary.txt
+          echo "Threshold: $COVERAGE_THRESHOLD%" >> coverage/coverage-summary.txt
+          echo "Status: $(if [ "$COVERAGE_PERCENT" -ge "$COVERAGE_THRESHOLD" ]; then echo "PASSED"; else echo "FAILED"; fi)" >> coverage/coverage-summary.txt
+          echo "Grade: ${COVERAGE_GRADE}" >> coverage/coverage-summary.txt
           
           echo ""
-          echo "📄 Coverage summary created:"
+          echo "Coverage summary created:"
           cat coverage/coverage-summary.txt
       
       - name: Upload coverage reports as artifacts
@@ -769,17 +769,17 @@ EOF
             const total = coverageSummary.total;
             
             // Create coverage comment
-            const coverageComment = `## 📊 Code Coverage Report
+            const coverageComment = `##  Code Coverage Report
             
             | Metric | Coverage | Status |
             |--------|----------|--------|
-            | Lines | ${total.lines.pct}% | ${total.lines.pct >= process.env.COVERAGE_THRESHOLD ? '✅' : '❌'} |
-            | Functions | ${total.functions.pct}% | ${total.functions.pct >= process.env.COVERAGE_THRESHOLD ? '✅' : '❌'} |
-            | Branches | ${total.branches.pct}% | ${total.branches.pct >= process.env.COVERAGE_THRESHOLD ? '✅' : '❌'} |
-            | Statements | ${total.statements.pct}% | ${total.statements.pct >= process.env.COVERAGE_THRESHOLD ? '✅' : '❌'} |
+            | Lines | ${total.lines.pct}% | ${total.lines.pct >= process.env.COVERAGE_THRESHOLD ? '' : '❌'} |
+            | Functions | ${total.functions.pct}% | ${total.functions.pct >= process.env.COVERAGE_THRESHOLD ? '' : '❌'} |
+            | Branches | ${total.branches.pct}% | ${total.branches.pct >= process.env.COVERAGE_THRESHOLD ? '' : '❌'} |
+            | Statements | ${total.statements.pct}% | ${total.statements.pct >= process.env.COVERAGE_THRESHOLD ? '' : '❌'} |
             
             **Threshold:** ${process.env.COVERAGE_THRESHOLD}%
-            **Overall Status:** ${total.lines.pct >= process.env.COVERAGE_THRESHOLD ? '✅ PASSED' : '❌ FAILED'}
+            **Overall Status:** ${total.lines.pct >= process.env.COVERAGE_THRESHOLD ? ' PASSED' : '❌ FAILED'}
             
             📋 [View detailed coverage report](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
             `;
@@ -813,7 +813,7 @@ EOF
       
       - name: Run tests with coverage
         run: |
-          echo "📊 Running comprehensive test suite with coverage analysis..."
+          echo " Running comprehensive test suite with coverage analysis..."
           npm test -- --coverage --coverageReporters=text --coverageReporters=lcov --coverageReporters=json-summary --passWithNoTests
         env:
           NODE_ENV: test
@@ -829,7 +829,7 @@ EOF
             BRANCHES_PCT=$(node -e "console.log(require('./coverage/coverage-summary.json').total.branches.pct)")
             STATEMENTS_PCT=$(node -e "console.log(require('./coverage/coverage-summary.json').total.statements.pct)")
             
-            echo "📊 Coverage Results:"
+            echo " Coverage Results:"
             echo "Lines:      ${LINES_PCT}%"
             echo "Functions:  ${FUNCTIONS_PCT}%"
             echo "Branches:   ${BRANCHES_PCT}%"
@@ -864,7 +864,7 @@ EOF
               echo "❌ Coverage validation failed - minimum $THRESHOLD% required for all metrics"
               exit 1
             else
-              echo "✅ All coverage metrics meet the $THRESHOLD% threshold"
+              echo " All coverage metrics meet the $THRESHOLD% threshold"
             fi
           else
             echo "❌ Coverage summary not found"
@@ -1076,23 +1076,22 @@ EOF
     steps:
       - name: Check CI status
         run: |
-          if [[ "${{ needs.quality-gates.result }}" == "success" && 
-                "${{ needs.security-scan.result }}" == "success" && 
-                "${{ needs.test-matrix.result }}" == "success" && 
-                "${{ needs.code-coverage.result }}" == "success" && 
-                "${{ needs.build-and-validate.result }}" == "success" && 
-                ("${{ needs.circuit-validation.result }}" == "success" || "${{ needs.circuit-validation.result }}" == "skipped") && 
+          if [[ "${{ needs.quality-gates.result }}" == "success" && \
+                "${{ needs.security-scan.result }}" == "success" && \
+                "${{ needs.test-matrix.result }}" == "success" && \
+                "${{ needs.code-coverage.result }}" == "success" && \
+                "${{ needs.build-and-validate.result }}" == "success" && \
+                ("${{ needs.circuit-validation.result }}" == "success" || "${{ needs.circuit-validation.result }}" == "skipped") && \
                 ("${{ needs.integration-tests.result }}" == "success" || "${{ needs.integration-tests.result }}" == "skipped") ]]; then
-            echo "✅ All CI checks passed successfully"
-            exit 0
+            echo " All CI checks passed successfully"
+            STATUS_MSG=" CI passed for ${{ github.repository }}@${{ github.sha }} on ${{ github.ref_name }}"
+            COLOR=3066993
           else
             echo "❌ CI checks failed"
-            echo "Quality Gates: ${{ needs.quality-gates.result }}"
-            echo "Security Scan: ${{ needs.security-scan.result }}"
-            echo "Test Matrix: ${{ needs.test-matrix.result }}"
-            echo "Code Coverage: ${{ needs.code-coverage.result }}"
-            echo "Build and Validate: ${{ needs.build-and-validate.result }}"
-            echo "Circuit Validation: ${{ needs.circuit-validation.result }}"
-            echo "Integration Tests: ${{ needs.integration-tests.result }}"
-            exit 1
+            STATUS_MSG="❌ CI failed for ${{ github.repository }}@${{ github.sha }} on ${{ github.ref_name }}"
+            COLOR=15158332
           fi
+          PAYLOAD="{\"embeds\":[{\"title\":\"CI Status\",\"description\":\"$STATUS_MSG\",\"color\":$COLOR,\"url\":\"https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}\"}]}"
+          curl -H "Content-Type: application/json" -X POST -d "$PAYLOAD" ${{ secrets.DISCORD_WEBHOOK_URL }}
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}

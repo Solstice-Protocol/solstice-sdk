@@ -80,6 +80,9 @@ class RealTestConnection {
 const realQRData = `<?xml version="1.0" encoding="UTF-8"?>
 <uid uid="xxxx-xxxx-xxxx" name="Test User" dob="01/01/1990" gender="M" co="Father Name" dist="Test District" state="Test State" pc="123456" />`;
 
+// Alias for compatibility with test cases
+const mockQRData = realQRData;
+
 describe('SolsticeSDK Integration Tests', () => {
   let sdk: SolsticeSDK;
   let realWallet: RealTestWallet;

@@ -73,11 +73,11 @@ jobs:
           echo "High vulnerabilities: $HIGH_COUNT"
           
           if [ "$CRITICAL_COUNT" -gt 0 ] || [ "$HIGH_COUNT" -gt 0 ]; then
-            echo "❌ Critical or high severity vulnerabilities found in production dependencies"
+            echo " Critical or high severity vulnerabilities found in production dependencies"
             echo "Please review and fix these vulnerabilities before proceeding"
             exit 1
           else
-            echo "✅ No critical or high severity vulnerabilities found in production dependencies"
+            echo " No critical or high severity vulnerabilities found in production dependencies"
           fi
       
       - name: Upload audit results
@@ -159,14 +159,14 @@ jobs:
           
           # Only fail on the most restrictive licenses, allow GPL for transitive deps
           if license-checker --failOn 'AGPL-1.0;AGPL-3.0' --production 2>/dev/null; then
-            echo "✅ No highly restrictive licenses found in production dependencies"
+            echo " No highly restrictive licenses found in production dependencies"
           else
             echo "⚠️  Found some restrictive licenses, but continuing..."
             echo "Manual review recommended for:"
             license-checker --onlyAllow 'MIT;Apache-2.0;BSD-2-Clause;BSD-3-Clause;ISC;Unlicense;GPL-3.0' --production || true
           fi
           
-          echo "✅ License compliance check completed"
+          echo " License compliance check completed"
       
       - name: Generate license report
         run: |
@@ -219,7 +219,7 @@ jobs:
             
             # Check for proper circuit verification keys
             if find circuits -name "verification_key.json" | grep -q .; then
-              echo "✅ Verification keys found"
+              echo " Verification keys found"
             else
               echo "⚠️ No verification keys found - this may be expected for development"
             fi
@@ -227,7 +227,7 @@ jobs:
             # Validate circuit file sizes (detect potential issues)
             find circuits -name "*.zkey" -size +100M -exec echo "⚠️ Large zkey file detected: {}" \;
             
-            echo "✅ Circuit security validation completed"
+            echo " Circuit security validation completed"
           else
             echo "No circuits directory found - skipping circuit security validation"
           fi
@@ -274,11 +274,11 @@ jobs:
           if [[ "${{ needs.dependency-scan.result }}" == "success" && 
                 "${{ needs.code-security-scan.result }}" == "success" && 
                 "${{ needs.license-compliance.result }}" == "success" ]]; then
-            echo "✅ All security scans passed successfully" >> SECURITY_SUMMARY.md
+            echo " All security scans passed successfully" >> SECURITY_SUMMARY.md
             echo "- Continue with regular development" >> SECURITY_SUMMARY.md
             echo "- Monitor for new vulnerabilities" >> SECURITY_SUMMARY.md
           else
-            echo "❌ Some security scans failed" >> SECURITY_SUMMARY.md
+            echo " Some security scans failed" >> SECURITY_SUMMARY.md
             echo "- Review failed scans and address issues" >> SECURITY_SUMMARY.md
             echo "- Update dependencies with known vulnerabilities" >> SECURITY_SUMMARY.md
             echo "- Consider security review for code issues" >> SECURITY_SUMMARY.md

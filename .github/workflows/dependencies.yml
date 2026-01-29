@@ -213,23 +213,23 @@ jobs:
         run: |
           echo "Running tests to verify updates..."
           npm test || {
-            echo "❌ Tests failed after dependency updates"
+            echo " Tests failed after dependency updates"
             echo "Rolling back changes..."
             git reset --hard HEAD~1
             exit 1
           }
-          echo "✅ Tests passed after dependency updates"
+          echo " Tests passed after dependency updates"
       
       - name: Run build after updates
         run: |
           echo "Running build to verify updates..."
           npm run build || {
-            echo "❌ Build failed after dependency updates"
+            echo " Build failed after dependency updates"
             echo "Rolling back changes..."
             git reset --hard HEAD~1
             exit 1
           }
-          echo "✅ Build passed after dependency updates"
+          echo " Build passed after dependency updates"
       
       - name: Create pull request
         if: github.event.inputs.create_pr == 'true' || github.event.inputs.create_pr == ''
@@ -237,7 +237,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: "chore: update dependencies (${{ github.event.inputs.update_type || 'patch' }})"
-          title: "🔄 Dependency Updates (${{ github.event.inputs.update_type || 'patch' }})"
+          title: " Dependency Updates (${{ github.event.inputs.update_type || 'patch' }})"
           body: |
             ## Dependency Updates
             
@@ -254,9 +254,9 @@ jobs:
             
             ### Verification
             
-            - ✅ Tests pass
-            - ✅ Build succeeds
-            - ✅ No breaking changes detected
+            -  Tests pass
+            -  Build succeeds
+            -  No breaking changes detected
             
             ### Review Checklist
             

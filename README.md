@@ -98,7 +98,7 @@ const uniquenessProof = await sdk.generateUniquenessProofWithQR(qrData, {
 const result = await sdk.verifyIdentity(uniquenessProof);
 console.log('Unique voter:', result.verified);
 ```
-## 📚 API Reference
+##  API Reference
 
 ### SolsticeSDK
 
